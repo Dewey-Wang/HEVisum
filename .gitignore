@@ -3,3 +3,7 @@ elucidata_ai_challenge_data.h5
 test_dataset.pt
 train_dataset.pt
 garph+CNN+MLP/__pycache__/hevisum_dataset.cpython-39.pyc
+SML_train_dataset.pt
+test_slide_edge_indices.pt
+train_slide_edge_indices.pt
+SML_test_dataset.pt
