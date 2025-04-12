@@ -4,7 +4,7 @@ import json
 import numpy as np
 
 # 固定的 JSON 參數檔案路徑（請依需求修改）
-Z_SCORE_PARAMS_PATH = "/Users/deweywang/Desktop/GitHub/HEVisum/data cleaning/zscore_params.json"
+Z_SCORE_PARAMS_PATH = "/Users/deweywang/Desktop/GitHub/HEVisum/data preprocessing/spot data cleaning/zscore_params.json"
 
 
 def load_zscore_params(file_path=Z_SCORE_PARAMS_PATH):
