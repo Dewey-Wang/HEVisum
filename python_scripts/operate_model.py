@@ -80,10 +80,18 @@ def train_one_epoch(model, dataloader, optimizer, loss_fn, device, **kwargs):
     avg_epoch_loss = total_loss / len(dataloader.dataset)
     return avg_epoch_loss, spearman_avg
 
+from scipy.stats import spearmanr
+import numpy as np
+from tqdm import tqdm
+import torch
+
 def evaluate(model, dataloader, loss_fn, device, **kwargs):
     model.eval()
     total_loss = 0
     preds, targets = [], []
+    total_mse = torch.zeros(35).to(device)  # 👉 假設 35 個 cell types
+    n_samples = 0
+
     pbar = tqdm(dataloader, desc="Evaluating", leave=False)
     
     with torch.no_grad():
@@ -95,16 +103,26 @@ def evaluate(model, dataloader, loss_fn, device, **kwargs):
             total_loss += loss.item() * batch_size
             preds.append(out.cpu())
             targets.append(label.cpu())
+
+            # 👉 加總每個 cell type 的 MSE
+            loss_per_cell = ((out - label) ** 2).sum(dim=0)  # (35,)
+            total_mse += loss_per_cell
+            n_samples += batch_size
+
             pbar.set_postfix(loss=loss.item())
-    
+
     preds = torch.cat(preds).numpy()
     targets = torch.cat(targets).numpy()
+
+    # 👉 Per-cell-type average MSE
+    mse_per_cell = (total_mse / n_samples).cpu().numpy()
+
+    # 👉 Spearman per cell
+    spearman_per_cell = [spearmanr(preds[:, i], targets[:, i])[0] for i in range(preds.shape[1])]
+    spearman_avg = np.nanmean(spearman_per_cell)
     
-    # 計算每個 cell type (gene) 的 Spearman 相關
-    scores = [spearmanr(preds[:, i], targets[:, i])[0] for i in range(preds.shape[1])]
-    spearman_avg = np.nanmean(scores)
-    
-    return total_loss / len(dataloader.dataset), spearman_avg
+    return total_loss / n_samples, spearman_avg, mse_per_cell, spearman_per_cell
+
 
 def predict(model, dataloader, device, **kwargs):
     model.eval()
@@ -162,6 +180,52 @@ def plot_losses(train_losses, val_losses, ax=None, title="Training vs Validation
     ax.grid(True)
     ax.set_title(title)
 # 收集資料
+def plot_per_cell_metrics(mse_vals, spearman_vals, cell_names=None, top_k=5, ax_mse=None, ax_spearman=None):
+    """
+    繪製每個 cell type 的 MSE 和 Spearman 柱狀圖。
+    可指定兩個 axes，用於自訂排版（和 plot_losses 對齊）。
+
+    Params:
+        mse_vals: array-like, 每個 cell type 的 MSE
+        spearman_vals: array-like, 每個 cell type 的 Spearman
+        cell_names: list of str, cell type 名稱（預設為 C1 ~ C35）
+        top_k: int, 要標記的最佳/最差項目數量
+        ax_mse: matplotlib Axes，用來畫 MSE 圖
+        ax_spearman: matplotlib Axes，用來畫 Spearman 圖
+    """
+    if cell_names is None:
+        cell_names = [f"C{i+1}" for i in range(len(mse_vals))]
+
+    sorted_idx_mse = np.argsort(mse_vals)
+    sorted_idx_spearman = np.argsort(spearman_vals)
+
+    if ax_mse is None or ax_spearman is None:
+        fig, (ax_mse, ax_spearman) = plt.subplots(1, 2, figsize=(14, 4))
+
+    # Left: MSE per gene
+    ax_mse.clear()
+    ax_mse.bar(cell_names, mse_vals, color='skyblue')
+    ax_mse.set_title("Per-cell MSE")
+    ax_mse.tick_params(axis='x', rotation=45)
+    for i in sorted_idx_mse[:top_k]:
+        ax_mse.text(i, mse_vals[i] + 0.01, "↓", ha='center', color='red')
+    for i in sorted_idx_mse[-top_k:]:
+        ax_mse.text(i, mse_vals[i] + 0.01, "↑", ha='center', color='green')
+
+    # Right: Spearman per gene
+    ax_spearman.clear()
+    ax_spearman.bar(cell_names, spearman_vals, color='orange')
+    ax_spearman.set_title("Per-cell Spearman")
+    ax_spearman.tick_params(axis='x', rotation=45)
+    for i in sorted_idx_spearman[:top_k]:
+        ax_spearman.text(i, spearman_vals[i] + 0.01, "↓", ha='center', color='red')
+    for i in sorted_idx_spearman[-top_k:]:
+        ax_spearman.text(i, spearman_vals[i] + 0.01, "↑", ha='center', color='green')
+
+    if ax_mse is None or ax_spearman is None:
+        plt.tight_layout()
+        plt.show()
+
 
 
 __all__ = [
