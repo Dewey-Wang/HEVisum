@@ -103,6 +103,9 @@ def convert_item(item, is_image=False):
         if item.ndim == 3:
             if item.shape[-1] == 3:  # 若為 [H, W, 3] → permute to [3, H, W]
                 item = item.permute(2, 0, 1)
+        if item.ndim == 4:
+            if item.shape[-1] == 3:  # 若為 [H, W, 3] → permute to [3, H, W]
+               item = item.permute(0, 3, 1, 2)
     return item
 
 
