@@ -47,38 +47,53 @@ def plot_cell_expression_comparison(
     cmap="plasma"
 ):
     """
-    比較原始 vs 平滑後的細胞類型表達分佈
+    比較原始 vs 平滑後的細胞類型表達分佈（統一顏色區間），並印出 Spearman/Pearson。
     """
+    import h5py
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from scipy.stats import spearmanr, pearsonr
+
     with h5py.File(h5_path, "r") as f:
         image = np.array(f["images/Train"][slide_id])
-    
+
     x = original_df["x"].values
     y = original_df["y"].values
     z_orig = original_df[cell_type].values
     z_smooth = smoothed_df[cell_type].values
 
+    # 統一顏色範圍
     vmin = min(z_orig.min(), z_smooth.min())
     vmax = max(z_orig.max(), z_smooth.max())
+    norm = plt.Normalize(vmin=vmin, vmax=vmax)
 
-    plt.figure(figsize=(14, 6))
+    # 計算 correlation
+    spearman_corr = spearmanr(z_orig, z_smooth)
+    pearson_corr = pearsonr(z_orig, z_smooth)
 
-    plt.subplot(1, 2, 1)
-    plt.imshow(image)
-    sc1 = plt.scatter(x, y, c=z_orig, cmap=cmap, s=15, vmin=vmin, vmax=vmax)
-    plt.colorbar(sc1, label=cell_type)
-    plt.title(f"{slide_id} - Original Expression")  # 原始表達
-    plt.axis("off")
+    # 繪圖
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
 
-    plt.subplot(1, 2, 2)
-    plt.imshow(image)
-    sc2 = plt.scatter(x, y, c=z_smooth, cmap=cmap, s=15, vmin=vmin, vmax=vmax)
-    plt.colorbar(sc2, label=cell_type)
-    plt.title(f"{slide_id} - Smoothed Expression (r={radius})")  # 平滑後
-    plt.axis("off")
+    axes[0].imshow(image)
+    sc1 = axes[0].scatter(x, y, c=z_orig, cmap=cmap, s=15, norm=norm)
+    axes[0].set_title(f"{slide_id} - Original Expression")
+    axes[0].axis("off")
+    plt.colorbar(sc1, ax=axes[0], label=cell_type)
 
-    plt.suptitle(f"Cell type {cell_type} - Expression comparision", fontsize=16)
+    axes[1].imshow(image)
+    sc2 = axes[1].scatter(x, y, c=z_smooth, cmap=cmap, s=15, norm=norm)
+    axes[1].set_title(f"{slide_id} - Smoothed Expression (r={radius})")
+    axes[1].axis("off")
+    plt.colorbar(sc2, ax=axes[1], label=cell_type)
+
+    plt.suptitle(f"Cell type {cell_type} - Expression comparison", fontsize=16)
     plt.tight_layout()
     plt.show()
+
+    # 顯示 correlation 結果
+    print(f"▶️ Spearman ρ = {spearman_corr.statistic:.4f}, p = {spearman_corr.pvalue:.4g}")
+    print(f"▶️ Pearson  r = {pearson_corr.statistic:.4f}, p = {pearson_corr.pvalue:.4g}")
+
 
 import h5py
 import numpy as np
