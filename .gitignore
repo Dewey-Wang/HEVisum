@@ -22,3 +22,4 @@ spot data cleaning/__pycache__/operate_model.cpython-39.pyc
 train_dataset_sep_v2/labels.pt
 best_model.pt
 dataset/*
+images/*
