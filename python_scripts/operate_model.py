@@ -323,32 +323,106 @@ def spearman_corr_loss(pred, target, eps=1e-8):
     # 取 1 - 平均 corr 當作 loss
     return 1.0 - corr.mean()
 
-def hybrid_weighted_spearman_loss(pred, target, alpha=0.5, beta=1.0):
-    """
-    將 z-score weighted MSE 與 Spearman Loss 結合的 Hybrid Loss。
+
+
+def differentiable_spearman_like_loss(pred, target, alpha=0.5):
+    pred_rank = pred.argsort(dim=1).argsort(dim=1).float()
+    target_rank = target.argsort(dim=1).argsort(dim=1).float()
+
+    pred_centered = pred_rank - pred_rank.mean(dim=1, keepdim=True)
+    target_centered = target_rank - target_rank.mean(dim=1, keepdim=True)
+
+    spearman = (pred_centered * target_centered).sum(dim=1) / (
+        pred_centered.norm(dim=1) * target_centered.norm(dim=1) + 1e-8
+    )
+    spearman_loss = 1.0 - spearman.mean()
     
-    pred, target shape: (B, num_cells)
-    alpha: Spearman loss 的權重比例 (0~1 之間)
-    beta: 加權倍數，越大表示對高 z-score 區塊懲罰越強
+    mse = ((pred - target)**2).mean()
+    return (1 - alpha) * mse + alpha * spearman_loss
+
+# def weighted_mse_loss(pred: torch.Tensor,
+#                       target: torch.Tensor,
+#                       weights: torch.Tensor) -> torch.Tensor:
+#     """
+#     pred, target: [B, 35]
+#     weights:      [35]，每个 cell-type 的权重
+#     """
+#     # 广播到 [B,35]
+#     w = weights.unsqueeze(0)           # [1,35]
+#     diff2 = (pred - target).pow(2)      # [B,35]
+#     loss  = (diff2 * w).mean()         # 平均所有 batch & dim
+#     return loss
+
+def inv_rank_weighted_mse(pred: torch.Tensor,
+                          target: torch.Tensor,
+                          alpha: float = 1.0,
+                          eps: float = 1e-6) -> torch.Tensor:
     """
-    # 權重：讓 z-score 絕對值越大者 → 權重越大
-    weighting = 1.0 + beta * target.abs()
-    weighted_mse = weighting * (pred - target)**2
-    w_mse = weighted_mse.mean()
+    pred, target: [B, 35],  target 已经是 1~35 的排名
+    alpha: 幂指数，alpha>0 把低 rank 的那几维进一步抬高
+    """
+    # 1) 计算每个样本的权重矩阵：w[b,i] = (max_rank + 1 – target[b,i])^alpha
+    #    这里 max_rank=35，可以硬编码
+    max_rank = 35.0
+    w = ( (max_rank + 1.0 - target) ** alpha ).clamp(min=eps)  # [B,35]
 
-    # Spearman correlation loss
-    s_loss = spearman_corr_loss(pred, target)
+    # 2) 普通平方误差
+    diff2 = (pred - target).pow(2)                             # [B,35]
 
-    # 最終 Loss = (1 - alpha)*MSE + alpha*Spearman
-    loss = (1 - alpha) * w_mse + alpha * s_loss
-    return loss
+    # 3) 按样本归一化：先对每行按 w 加权求和，再除以该行总权重
+    numer = (diff2 * w).sum(dim=1)                             # [B]
+    denom = w.sum(dim=1).clamp(min=eps)                        # [B]
+    loss_per_sample = numer / denom                            # [B]
 
-# =======================
-# 改進版 train_one_epoch 與 evaluate
-# =======================
+    # 4) 最后平均 batch
+    return loss_per_sample.mean()
 
-def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
-                    initial_alpha=0.3, final_alpha=0.9, target_epoch=15, beta=1.0, method="linear"):
+import torch.nn as nn
+
+rank_criterion = nn.MarginRankingLoss(margin=0.0)
+
+def margin_ranking_loss_fast(pred, target, hard_idx):
+    B, C = pred.shape
+    device = pred.device
+    j_idx = target.argmax(dim=1)
+    H = len(hard_idx)
+    b_idx = torch.arange(B, device=device).unsqueeze(1).expand(B, H).reshape(-1)
+    i_idx = torch.tensor(hard_idx, device=device).unsqueeze(0).expand(B, H).reshape(-1)
+    j_idx = j_idx.unsqueeze(1).expand(B, H).reshape(-1)
+    x1 = pred[b_idx, j_idx]
+    x2 = pred[b_idx, i_idx]
+    y  = torch.ones_like(x1, device=device)
+    return rank_criterion(x1, x2, y)
+
+def hybrid_mse_loss(pred, target, alpha=3.0, lambda_inv=0.5):
+    """
+    Combines plain MSE and inv_rank_weighted_mse:
+      loss = (1-λ) * MSE(pred, target) + λ * inv_rank_weighted_mse(pred, target, alpha)
+    """
+    mse = torch.nn.functional.mse_loss(pred, target)  # 普通 MSE
+    invw = inv_rank_weighted_mse(pred, target, alpha=alpha)
+    return (1 - lambda_inv) * mse + lambda_inv * invw
+
+
+# def weighted_mse_loss(pred, target, weights):
+#     # weights: [35]
+#     w = weights.unsqueeze(0)          # [1,35]
+#     diff2 = (pred - target).pow(2)     # [B,35]
+#     numer = (diff2 * w).sum(dim=1)     # [B]
+#     denom = w.sum()                    # scalar
+#     return (numer / denom).mean()      # 平均 batch
+# # =======================
+# # 改進版 train_one_epoch 與 evaluate
+# # =======================
+from torchmetrics import SpearmanCorrCoef
+
+device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+print(f"✅ Using device: {device}")
+
+spearman_metric = SpearmanCorrCoef(num_outputs=35).to(device)
+
+def train_one_epoch(model, dataloader, optimizer, device, current_epoch,alpha, hard_idx,
+                    initial_alpha=0.3, final_alpha=0.9, target_epoch=10, method="linear"):
     """
     訓練一個 epoch，使用動態 alpha 計算 hybrid loss。
     僅保留必要參數：
@@ -360,79 +434,88 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
     """
     model.train()
     total_loss = 0.0
+    spearman_metric.reset()   # ★ 每个 epoch 重置
+    n_samples = 0
     all_preds, all_targets = [], []
-    pbar = tqdm(dataloader, desc="Training", leave=False)
+
+    pbar = tqdm(dataloader, desc=f"Train Epoch {current_epoch}", leave=False)
     
     # 根據當前 epoch 計算動態 alpha
-    alpha = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
+    alpha_2 = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
     
     for batch in pbar:
         inputs, label = make_input_to_device(model, batch, device)
         optimizer.zero_grad()
         out = model(**inputs)
-        loss = hybrid_weighted_spearman_loss(out, label, alpha=alpha, beta=beta)
+        # ① 混合 MSE
+        loss_hybrid = hybrid_mse_loss(out, label, alpha=alpha, lambda_inv=alpha_2)
+        # ② 也可以再加上 ranking loss
+        loss_rank   = margin_ranking_loss_fast(out, label, hard_idx)
+        loss = loss_hybrid + 0.5 * loss_rank
+        #loss = differentiable_spearman_like_loss(out, label, alpha=alpha)
         loss.backward()
         optimizer.step()
-        
         batch_size = label.size(0)
         total_loss += loss.item() * batch_size
-        
+        n_samples  += batch_size
+
+        # 更新 Spearman 计算
+        spearman_metric.update(out, label)
+
+        # update progress bar
         all_preds.append(out.cpu())
         all_targets.append(label.cpu())
         
         avg_loss = total_loss / ((pbar.n + 1) * dataloader.batch_size)
         pbar.set_postfix(loss=loss.item(), avg=avg_loss)
-    
-    all_preds = torch.cat(all_preds).detach().numpy()
-    all_targets = torch.cat(all_targets).detach().numpy()
-    
-    # 計算每個 cell type 的 Spearman 相關，取平均
-    scores = [spearmanr(all_preds[:, i], all_targets[:, i])[0] for i in range(all_preds.shape[1])]
-    spearman_avg = np.nanmean(scores)
-    
-    avg_epoch_loss = total_loss / len(dataloader.dataset)
-    return avg_epoch_loss, spearman_avg
+        
 
 
-def evaluate(model, dataloader, device, current_epoch,
-             initial_alpha=0.3, final_alpha=0.8, target_epoch=15, beta=1.0, method="linear"):
-    """
-    評估函數：使用與 train 一致的動態 alpha 計算 hybrid loss。
-    僅保留必要參數：
-    
-    :return: 平均 loss, 平均 Spearman, 每個 cell type 的 MSE 與 Spearman 值
-    """
+    avg_loss     = total_loss / n_samples
+    spearman_per_cell = spearman_metric.compute().cpu().numpy()
+    spearman_avg      = spearman_per_cell.mean().item()
+    return avg_loss, spearman_avg
+
+def evaluate(model, dataloader, device, alpha, current_epoch, hard_idx,
+                    initial_alpha=0.3, final_alpha=0.9, target_epoch=10, method="linear"):
     model.eval()
-    total_loss = 0.0
-    preds, targets = [], []
-    total_mse = torch.zeros(35).to(device)  # 假設有 35 個 cell types
-    n_samples = 0
-    
-    # 根據當前 epoch 計算動態 alpha
-    alpha = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
-    
+    total_loss   = 0.0
+    total_mse    = torch.zeros(35, device=device)
+    spearman_metric.reset()   # ★
+    n_samples    = 0
     pbar = tqdm(dataloader, desc="Evaluating", leave=False)
+
+    alpha_2 = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
     with torch.no_grad():
         for batch in pbar:
             inputs, label = make_input_to_device(model, batch, device)
             out = model(**inputs)
-            loss = hybrid_weighted_spearman_loss(out, label, alpha=alpha, beta=beta)
+
+            # 同样的组合 loss
+            # ① 混合 MSE
+            loss_hybrid = hybrid_mse_loss(out, label, alpha=alpha, lambda_inv=alpha_2)
+            # ② 也可以再加上 ranking loss
+            loss_rank   = margin_ranking_loss_fast(out, label, hard_idx)
+            loss = loss_hybrid + 0.5 * loss_rank
+
             batch_size = label.size(0)
             total_loss += loss.item() * batch_size
-            preds.append(out.cpu())
-            targets.append(label.cpu())
-            loss_per_cell = ((out - label) ** 2).sum(dim=0)  # (35,)
-            total_mse += loss_per_cell
-            n_samples += batch_size
+            n_samples  += batch_size
+
+            # 累加每‐cell MSE
+            total_mse += ((out - label)**2).sum(dim=0)
+
+            # 更新 Spearman
+            spearman_metric.update(out, label)
+
             pbar.set_postfix(loss=loss.item())
-    
-    preds = torch.cat(preds).numpy()
-    targets = torch.cat(targets).numpy()
-    mse_per_cell = (total_mse / n_samples).cpu().numpy()
-    spearman_per_cell = [spearmanr(preds[:, i], targets[:, i])[0] for i in range(preds.shape[1])]
-    spearman_avg = np.nanmean(spearman_per_cell)
-    
-    avg_epoch_loss = total_loss / n_samples
+
+
+
+    avg_epoch_loss     = total_loss / n_samples
+    mse_per_cell       = (total_mse / n_samples).cpu().numpy()    # ★ shape (35,)
+    spearman_per_cell = spearman_metric.compute().cpu().numpy()
+    spearman_avg      = spearman_per_cell.mean().item()
     return avg_epoch_loss, spearman_avg, mse_per_cell, spearman_per_cell
 
 
