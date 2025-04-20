@@ -80,33 +80,50 @@ if __name__ == "__main__":
 import torch
 from torch.utils.data import Dataset
 import inspect
+import numpy as np
 
 def convert_item(item, is_image=False):
     """
-    將 item 轉換成 torch.tensor，並確保圖片資料是 [C, H, W] 格式。
+    將任意 list / numpy.ndarray / Python scalar 轉成 torch.Tensor。
+    如果 is_image=True，並且 item 是 ndarray，就在 numpy 端做 H×W×3 → 3×H×W 的轉置，
+    然後直接轉成 Tensor；其餘情況都走到遞歸把純 Python 結構變成 Tensor。
     """
+    # 1) 如果是影像的 numpy array，直接在 numpy 端做 channel-last → channel-first
+    if is_image and isinstance(item, np.ndarray):
+        arr = item.astype(np.float32)
+        if arr.ndim == 3 and arr.shape[2] == 3:
+            # [H, W, 3] → [3, H, W]
+            arr = arr.transpose(2, 0, 1)
+        elif arr.ndim == 4 and arr.shape[-1] == 3:
+            # [B, H, W, 3] → [B, 3, H, W]
+            arr = arr.transpose(0, 3, 1, 2)
+        return torch.from_numpy(arr)
+
+    # 2) 所有其他 numpy array，先降成純 Python list
+    if isinstance(item, np.ndarray):
+        try:
+            item = item.tolist()
+        except Exception:
+            # 若 tolist() 失敗，先強制成 float32 再降 list
+            item = np.asarray(item, dtype=np.float32).tolist()
+
+    # 3) 如果是 list，遞歸 convert 然後 stack
     if isinstance(item, list):
+        converted = [convert_item(elem, is_image=is_image) for elem in item]
         try:
-            converted_list = [convert_item(elem, is_image=is_image) for elem in item]
-            return torch.stack(converted_list)
-        except Exception as e:
-            raise ValueError(f"轉換列表中的元素失敗，列表內容: {item}") from e
+            return torch.stack(converted)
+        except Exception:
+            raise ValueError(f"轉換列表中的元素失敗，列表內容: {item}")
 
-    if not isinstance(item, torch.Tensor):
-        try:
-            item = torch.tensor(item)
-        except Exception as e:
-            raise ValueError(f"無法轉換資料為 tensor，輸入資料: {item}") from e
+    # 4) 如果已經是 Tensor，直接返回
+    if isinstance(item, torch.Tensor):
+        return item
 
-    if is_image:
-        # 強制圖片轉為 [C, H, W] 格式
-        if item.ndim == 3:
-            if item.shape[-1] == 3:  # 若為 [H, W, 3] → permute to [3, H, W]
-                item = item.permute(2, 0, 1)
-        if item.ndim == 4:
-            if item.shape[-1] == 3:  # 若為 [H, W, 3] → permute to [3, H, W]
-               item = item.permute(0, 3, 1, 2)
-    return item
+    # 5) 剩下的都是 Python 標量（int/float/...），直接用 torch.tensor()
+    try:
+        return torch.tensor(item)
+    except Exception:
+        raise ValueError(f"無法轉換資料為 tensor，輸入資料: {item}")
 
 
 class importDataset(Dataset):
@@ -237,6 +254,61 @@ class importDataset(Dataset):
         print("✅ All checks passed!")
 
 
+import os
+import torch
+import random
+
+def load_all_tile_data(folder_path,
+                       model,
+                       fraction: float = 0.25,
+                       shuffle: bool = False):
+    """
+    Load a fraction of .pt files in a folder—but only keep the keys that
+    model.forward() actually needs, plus 'label'.
+
+    Args:
+      folder_path (str): 資料夾路徑
+      model: 要使用的 PyTorch 模型（會根據 forward() signature 自動挑欄位）
+      fraction (float): 要讀取的檔案比例 (0 < fraction <= 1)
+      shuffle (bool): 如果 True，先打亂再抽 sample
+
+    Returns:
+      dict of lists: 只包含 model.forward() 的參數名稱，以及 'label'。
+    """
+    # 先抓 signature
+    sig = get_model_inputs(model, print_sig=False)
+    forward_keys = list(sig.parameters.keys())
+    required_keys = set(forward_keys + ['label'])
+
+    # 列出所有 .pt
+    pt_files = sorted(f for f in os.listdir(folder_path) if f.endswith('.pt'))
+    N = len(pt_files)
+    keep_n = max(1, int(N * fraction))
+    if shuffle:
+        pt_files = random.sample(pt_files, keep_n)
+    else:
+        pt_files = pt_files[N-keep_n:]
+
+    # 先建一個完整的 dict，再只挑必要欄位
+    # 不過為了記憶體節省，也可以直接只初始化 required_keys
+    full_dict = {k: [] for k in required_keys.union({'source_idx'})}
+
+    for fname in pt_files:
+        path = os.path.join(folder_path, fname)
+        try:
+            d = torch.load(path, map_location='cpu')
+        except Exception as e:
+            print(f"❌ 無法讀 {fname}: {e}")
+            continue
+
+        # source_idx 幫你追原始檔名或 index
+        full_dict['source_idx'].append(fname)
+
+        # 只收 model 需要的參數 + label
+        for k in required_keys:
+            full_dict.setdefault(k, []).append(d.get(k, None))
+
+    return full_dict
 
 # ==============================================
 # 範例使用

@@ -99,15 +99,20 @@ import h5py
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-
-def smooth_all_slides_and_save(train_spot_tables, cell_type_cols, output_path, radius=80):
+def smooth_all_slides_and_save(train_spot_tables, cell_type_cols, output_path, save_group="Train", radius=80):
     with h5py.File(output_path, "w") as f:
-        group = f.create_group("spots/log2_Train")
-        
+        # 確保逐層建立 group
+        if "spots" not in f:
+            f.create_group("spots")
+        if save_group not in f["spots"]:
+            f["spots"].create_group(save_group)
+
+        group = f[f"spots/{save_group}"]
+
         for slide_id, df in tqdm(train_spot_tables.items(), desc="Processing slides"):
             smoothed_df = gaussian_spatial_smoothing(df, cell_type_cols, radius=radius)
             save_df = smoothed_df[["x", "y"] + cell_type_cols]
             rec_array = save_df.to_records(index=False)
             group.create_dataset(slide_id, data=rec_array)
-        
+
     print(f"✅ 所有 slide 都已平滑並存成 {output_path}，格式與 processed_train_spots.h5 相同！")
