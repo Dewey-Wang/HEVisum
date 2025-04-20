@@ -302,6 +302,8 @@ def get_alpha(epoch, initial_alpha=0.3, final_alpha=0.8, target_epoch=50, method
     else:
         raise ValueError(f"Unknown method: {method}")
 
+
+## Try different loss functions
 def spearman_corr_loss(pred, target, eps=1e-8):
     """
     計算 batch-wise Spearman correlation 損失。
