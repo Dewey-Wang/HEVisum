@@ -23,3 +23,5 @@ train_dataset_sep_v2/labels.pt
 best_model.pt
 dataset/*
 images/*
+__pycache__/*
+.vscode/*
