@@ -25,3 +25,5 @@ dataset/*
 images/*
 __pycache__/*
 .vscode/*
+*/submission_epoch*.csv
+*/model_epoch*.pt
