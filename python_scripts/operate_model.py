@@ -323,7 +323,7 @@ def spearman_corr_loss(pred, target, eps=1e-8):
     # 取 1 - 平均 corr 當作 loss
     return 1.0 - corr.mean()
 
-def hybrid_weighted_spearman_loss(pred, target, alpha=0.5, beta=1.0):
+def hybrid_weighted_spearman_loss(pred, target, alpha=0.5, beta=1.0, kappa=500):
     """
     將 z-score weighted MSE 與 Spearman Loss 結合的 Hybrid Loss。
     
@@ -333,22 +333,23 @@ def hybrid_weighted_spearman_loss(pred, target, alpha=0.5, beta=1.0):
     """
     # 權重：讓 z-score 絕對值越大者 → 權重越大
     weighting = 1.0 + beta * target.abs()
-    weighted_mse = weighting * (pred - target)**2
+    weighted_mse = (pred - target)**2
     w_mse = weighted_mse.mean()
 
     # Spearman correlation loss
     s_loss = spearman_corr_loss(pred, target)
 
     # 最終 Loss = (1 - alpha)*MSE + alpha*Spearman
-    loss = (1 - alpha) * w_mse + alpha * s_loss
+    loss = (1 - alpha) * w_mse + alpha * s_loss* kappa
     return loss
+
 
 # =======================
 # 改進版 train_one_epoch 與 evaluate
 # =======================
 
-def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
-                    initial_alpha=0.3, final_alpha=0.9, target_epoch=15, beta=1.0, method="linear"):
+def train_one_epoch(model, dataloader, optimizer, device, current_epoch,kappa,
+                    initial_alpha=0.3, final_alpha=0.9, target_epoch=15, method="linear"):
     """
     訓練一個 epoch，使用動態 alpha 計算 hybrid loss。
     僅保留必要參數：
@@ -370,7 +371,7 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
         inputs, label = make_input_to_device(model, batch, device)
         optimizer.zero_grad()
         out = model(**inputs)
-        loss = hybrid_weighted_spearman_loss(out, label, alpha=alpha, beta=beta)
+        loss = hybrid_weighted_spearman_loss(out, label, alpha=alpha, kappa=kappa)
         loss.backward()
         optimizer.step()
         
@@ -387,15 +388,20 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
     all_targets = torch.cat(all_targets).detach().numpy()
     
     # 計算每個 cell type 的 Spearman 相關，取平均
-    scores = [spearmanr(all_preds[:, i], all_targets[:, i])[0] for i in range(all_preds.shape[1])]
-    spearman_avg = np.nanmean(scores)
+    # 按 spot
+    spot_scores = [
+        spearmanr(all_preds[j], all_targets[j]).correlation
+        for j in range(all_preds.shape[0])
+    ]
+    spot_avg = np.nanmean(spot_scores)
     
     avg_epoch_loss = total_loss / len(dataloader.dataset)
-    return avg_epoch_loss, spearman_avg
+    return avg_epoch_loss, spot_avg
 
+from scipy.stats import rankdata
 
-def evaluate(model, dataloader, device, current_epoch,
-             initial_alpha=0.3, final_alpha=0.8, target_epoch=15, beta=1.0, method="linear"):
+def evaluate(model, dataloader, device, current_epoch,kappa,
+             initial_alpha=0.3, final_alpha=0.8, target_epoch=15, method="linear"):
     """
     評估函數：使用與 train 一致的動態 alpha 計算 hybrid loss。
     僅保留必要參數：
@@ -416,7 +422,7 @@ def evaluate(model, dataloader, device, current_epoch,
         for batch in pbar:
             inputs, label = make_input_to_device(model, batch, device)
             out = model(**inputs)
-            loss = hybrid_weighted_spearman_loss(out, label, alpha=alpha, beta=beta)
+            loss = hybrid_weighted_spearman_loss(out, label, alpha=alpha, kappa=kappa)
             batch_size = label.size(0)
             total_loss += loss.item() * batch_size
             preds.append(out.cpu())
@@ -429,11 +435,26 @@ def evaluate(model, dataloader, device, current_epoch,
     preds = torch.cat(preds).numpy()
     targets = torch.cat(targets).numpy()
     mse_per_cell = (total_mse / n_samples).cpu().numpy()
-    spearman_per_cell = [spearmanr(preds[:, i], targets[:, i])[0] for i in range(preds.shape[1])]
-    spearman_avg = np.nanmean(spearman_per_cell)
+
+    spot_scores = [
+            spearmanr(preds[j], targets[j]).correlation
+            for j in range(preds.shape[0])
+        ]
+    spearman_spot_avg = np.nanmean(spot_scores)
+    
+    # 先把矩阵按行（axis=1）做 spot 内 35 维的相对排序
+    preds_ranked   = np.apply_along_axis(lambda r: rankdata(r, method="ordinal"), 1, preds)
+    targets_ranked = np.apply_along_axis(lambda r: rankdata(r, method="ordinal"), 1, targets)
+
+    # 然后再对每一列（cell type j）做 Pearson → 等价于那一列的 Spearman
+    spearman_per_cell = []
+    for j in range(preds.shape[1]):
+        corr = np.corrcoef(preds_ranked[:,j], targets_ranked[:,j])[0,1]
+        spearman_per_cell.append(corr)
     
     avg_epoch_loss = total_loss / n_samples
-    return avg_epoch_loss, spearman_avg, mse_per_cell, spearman_per_cell
+    return avg_epoch_loss, spearman_spot_avg, mse_per_cell, spearman_per_cell
+
 
 __all__ = [
     "get_model_inputs",
