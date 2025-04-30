@@ -304,6 +304,7 @@ def get_alpha(epoch, initial_alpha=0.3, final_alpha=0.8, target_epoch=50, method
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 def pairwise_ranking_loss(pred: torch.Tensor,
                           target: torch.Tensor,
@@ -337,13 +338,44 @@ def pairwise_ranking_loss(pred: torch.Tensor,
     # 4) 平均
     return loss_pairs.mean()
 
-def hybrid_mse_rank_loss(pred, target, alpha=0.5, margin=1.0):
+def pearson_corr_loss(pred, target, eps=1e-8):
+    # center
+    p = pred - pred.mean(dim=1, keepdim=True)
+    t = target - target.mean(dim=1, keepdim=True)
+    # covariance / (σₚ·σₜ)
+    num = (p * t).sum(dim=1)
+    den = p.norm(dim=1) * t.norm(dim=1) + eps
+    corr = num / den
+    return 1.0 - corr.mean()
+
+
+def hybrid_loss(pred: torch.Tensor,
+                target: torch.Tensor,
+                alpha: float = 0.5,
+                loss_type: str = 'pearson',
+                margin: float = 1.0) -> torch.Tensor:
     """
-    L = (1-alpha)*MSE + alpha * RankLoss
+    A hybrid between MSE and a ranking-based loss.
+
+    Args:
+        pred, target: (B, C) Tensors.
+        alpha: weight on the ranking loss (0 <= alpha <= 1).
+        loss_type: 'pearson' or 'pairwise'.
+        margin: hinge margin for pairwise ranking loss.
+    Returns:
+        (1-alpha)*MSE + alpha*RankingLoss
     """
-    mse = nn.functional.mse_loss(pred, target)
-    rank = pairwise_ranking_loss(pred, target, margin=margin)
-    return (1 - alpha) * mse + alpha * rank
+    mse = F.mse_loss(pred, target)
+    if loss_type == 'pearson':
+        rank_loss = pearson_corr_loss(pred, target)
+        loss = mse * (1 - alpha + alpha * rank_loss)
+    elif loss_type == 'pairwise':
+        rank_loss = pairwise_ranking_loss(pred, target, margin=margin)
+        loss = (1 - alpha) * mse + alpha * rank_loss
+    else:
+        raise ValueError(f"Unsupported loss_type: {loss_type!r}")
+
+    return loss
 
 
 
@@ -352,7 +384,7 @@ def hybrid_mse_rank_loss(pred, target, alpha=0.5, margin=1.0):
 # =======================
 
 def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
-                    initial_alpha=0.3, final_alpha=0.9, target_epoch=15, method="linear"):
+                    initial_alpha=0.3, final_alpha=0.9, target_epoch=15, method="linear", loss_type = 'pearson'):
     """
     訓練一個 epoch，使用動態 alpha 計算 hybrid loss。
     僅保留必要參數：
@@ -375,7 +407,7 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
         optimizer.zero_grad()
         
         out = model(**inputs)
-        loss = hybrid_mse_rank_loss(out, label, alpha=alpha)
+        loss = hybrid_loss(out, label, alpha=alpha, loss_type=loss_type)
         loss.backward()
         optimizer.step()
         
@@ -405,7 +437,7 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
 from scipy.stats import rankdata
 
 def evaluate(model, dataloader, device, current_epoch,
-             initial_alpha=0.3, final_alpha=0.8, target_epoch=15, method="linear"):
+             initial_alpha=0.3, final_alpha=0.8, target_epoch=15, method="linear", loss_type = 'pearson'):
     """
     評估函數：使用與 train 一致的動態 alpha 計算 hybrid loss。
     僅保留必要參數：
@@ -426,7 +458,7 @@ def evaluate(model, dataloader, device, current_epoch,
         for batch in pbar:
             inputs, label = make_input_to_device(model, batch, device)
             out = model(**inputs)
-            loss = hybrid_mse_rank_loss(out, label, alpha=alpha)
+            loss = hybrid_loss(out, label, alpha=alpha, loss_type=loss_type)
             batch_size = label.size(0)
             total_loss += loss.item() * batch_size
             preds.append(out.cpu())
