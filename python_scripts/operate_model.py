@@ -302,53 +302,56 @@ def get_alpha(epoch, initial_alpha=0.3, final_alpha=0.8, target_epoch=50, method
     else:
         raise ValueError(f"Unknown method: {method}")
 
-def spearman_corr_loss(pred, target, eps=1e-8):
+import torch
+import torch.nn as nn
+
+def pairwise_ranking_loss(pred: torch.Tensor,
+                          target: torch.Tensor,
+                          margin: float = 1.0) -> torch.Tensor:
     """
-    計算 batch-wise Spearman correlation 損失。
-    Returns: 1 - mean_corr, corr 越高 → loss 越小
-    pred, target shape: (B, num_cells)
+    Pred/target: (B, C)  B=batch_size, C=cell types
+    对每个样本 i，枚举所有 j<k 对：
+      如果 target_ij > target_ik，那么希望 pred_ij + margin > pred_ik
+      否则 pred_ik + margin > pred_ij
+    loss = mean( max(0, margin - sign(target_j - target_k) * (pred_j - pred_k)) )
     """
-    # 取得各自的 rank，argsort 兩次可把數值變為 rank
-    pred_rank = pred.argsort(dim=1).argsort(dim=1).float()
-    target_rank = target.argsort(dim=1).argsort(dim=1).float()
+    B, C = pred.shape
 
-    # 每一筆資料都去中心化
-    pred_rank = pred_rank - pred_rank.mean(dim=1, keepdim=True)
-    target_rank = target_rank - target_rank.mean(dim=1, keepdim=True)
+    # 1) 构造所有对 (j,k) 的差分
+    #    pred_diff: (B, C, C) where pred_diff[:, j, k] = pred[:, j] - pred[:, k]
+    pred_diff = pred.unsqueeze(2) - pred.unsqueeze(1)      # B×C×C
+    targ_diff = target.unsqueeze(2) - target.unsqueeze(1)  # B×C×C
 
-    # 計算 batch 中每筆的 spearman correlation
-    corr = (pred_rank * target_rank).sum(dim=1) / (
-        pred_rank.norm(dim=1) * target_rank.norm(dim=1) + eps
-    )
-    # 取 1 - 平均 corr 當作 loss
-    return 1.0 - corr.mean()
+    # 2) 我们只取上三角 (j<k) 部分，避免重复&自反
+    idxs = torch.triu_indices(C, C, offset=1)
+    pd = pred_diff[:, idxs[0], idxs[1]]   # shape (B, M) M=C*(C-1)/2
+    td = targ_diff[:, idxs[0], idxs[1]]
 
-def hybrid_weighted_spearman_loss(pred, target, alpha=0.5, beta=1.0, kappa=500):
+    # 3) 计算 hinge loss：如果真实 td>0，就希望 pd>0，loss = max(0, margin - pd)
+    #                     如果真实 td<0，就希望 pd<0，loss = max(0, margin + pd)
+    sign = torch.sign(td)  # +1 or -1 or 0
+    # margin - sign * pd
+    raw = margin - sign * pd
+    loss_pairs = torch.clamp(raw, min=0.0)
+
+    # 4) 平均
+    return loss_pairs.mean()
+
+def hybrid_mse_rank_loss(pred, target, alpha=0.5, margin=1.0):
     """
-    將 z-score weighted MSE 與 Spearman Loss 結合的 Hybrid Loss。
-    
-    pred, target shape: (B, num_cells)
-    alpha: Spearman loss 的權重比例 (0~1 之間)
-    beta: 加權倍數，越大表示對高 z-score 區塊懲罰越強
+    L = (1-alpha)*MSE + alpha * RankLoss
     """
-    # 權重：讓 z-score 絕對值越大者 → 權重越大
-    weighting = 1.0 + beta * target.abs()
-    weighted_mse = (pred - target)**2
-    w_mse = weighted_mse.mean()
+    mse = nn.functional.mse_loss(pred, target)
+    rank = pairwise_ranking_loss(pred, target, margin=margin)
+    return (1 - alpha) * mse + alpha * rank
 
-    # Spearman correlation loss
-    s_loss = spearman_corr_loss(pred, target)
-
-    # 最終 Loss = (1 - alpha)*MSE + alpha*Spearman
-    loss = (1 - alpha) * w_mse + alpha * s_loss* kappa
-    return loss
 
 
 # =======================
 # 改進版 train_one_epoch 與 evaluate
 # =======================
 
-def train_one_epoch(model, dataloader, optimizer, device, current_epoch,kappa,
+def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
                     initial_alpha=0.3, final_alpha=0.9, target_epoch=15, method="linear"):
     """
     訓練一個 epoch，使用動態 alpha 計算 hybrid loss。
@@ -370,8 +373,9 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,kappa,
     for batch in pbar:
         inputs, label = make_input_to_device(model, batch, device)
         optimizer.zero_grad()
+        
         out = model(**inputs)
-        loss = hybrid_weighted_spearman_loss(out, label, alpha=alpha, kappa=kappa)
+        loss = hybrid_mse_rank_loss(out, label, alpha=alpha)
         loss.backward()
         optimizer.step()
         
@@ -400,7 +404,7 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,kappa,
 
 from scipy.stats import rankdata
 
-def evaluate(model, dataloader, device, current_epoch,kappa,
+def evaluate(model, dataloader, device, current_epoch,
              initial_alpha=0.3, final_alpha=0.8, target_epoch=15, method="linear"):
     """
     評估函數：使用與 train 一致的動態 alpha 計算 hybrid loss。
@@ -422,7 +426,7 @@ def evaluate(model, dataloader, device, current_epoch,kappa,
         for batch in pbar:
             inputs, label = make_input_to_device(model, batch, device)
             out = model(**inputs)
-            loss = hybrid_weighted_spearman_loss(out, label, alpha=alpha, kappa=kappa)
+            loss = hybrid_mse_rank_loss(out, label, alpha=alpha)
             batch_size = label.size(0)
             total_loss += loss.item() * batch_size
             preds.append(out.cpu())
