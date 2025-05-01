@@ -70,11 +70,16 @@ def oversample_and_augment_grouped_data_by_topk(
     keep_idx = []
     dup_idx  = []
     for combo, cnt in grp_sizes.items():
-        # 找到这一组所有行的索引
+        # 强制把 combo 变成 tuple，K>1 时本来就是 tuple，K=1 时变成 (scalar,)
+        if not isinstance(combo, tuple):
+            combo = (combo,)
+
+        # 下面的逻辑就不用改
         mask = np.ones(N, dtype=bool)
         for col, val in zip(label_cols, combo):
             mask &= (df[col].values == val)
         idxs = np.nonzero(mask)[0]
+
         if cnt < target:
             keep_idx.append(idxs)
             extra = rng.choice(idxs, target - cnt, replace=True)
@@ -82,6 +87,7 @@ def oversample_and_augment_grouped_data_by_topk(
         else:
             chosen = rng.choice(idxs, target, replace=False)
             keep_idx.append(chosen)
+
 
     keep_idx = np.concatenate(keep_idx)
     dup_idx  = np.concatenate(dup_idx) if dup_idx else np.array([], dtype=int)
@@ -95,6 +101,7 @@ def oversample_and_augment_grouped_data_by_topk(
         for k, lst in grouped_data.items():
             new_data[k].append(lst[int(i)])
 
+    print(f"Starting to augment {len(dup_idx)} duplicated samples...")
     # 7b) 对 dup_idx 增强
     for i in dup_idx:
         sample = {k: deepcopy(grouped_data[k][int(i)]) for k in grouped_data}
