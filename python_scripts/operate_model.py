@@ -348,6 +348,26 @@ def pearson_corr_loss(pred, target, eps=1e-8):
     corr = num / den
     return 1.0 - corr.mean()
 
+def pairwise_logistic_loss(pred: torch.Tensor,
+                           target: torch.Tensor) -> torch.Tensor:
+    """
+    RankNet style pairwise logistic loss.
+    pred/target: (B, C)
+    对每个样本 i，枚举所有 j<k 对：
+      如果 target[i,j] > target[i,k]，标签 y_{jk}=1；否则 y_{jk}=0。
+    计算 pd = pred_j - pred_k, 然后用 BCEwithLogits(pd, y).
+    """
+    B, C = pred.shape
+    # 所有 j<k 对的 idx
+    idxs = torch.triu_indices(C, C, offset=1)
+    # pred_j - pred_k, target_j - target_k  -> (B, M)
+    pd = (pred.unsqueeze(2) - pred.unsqueeze(1))[:, idxs[0], idxs[1]]
+    td = (target.unsqueeze(2) - target.unsqueeze(1))[:, idxs[0], idxs[1]]
+    # labels: 1 if td>0 else 0
+    labels = (td > 0).float()
+    # binary cross‐entropy with logits
+    loss = F.binary_cross_entropy_with_logits(pd, labels, reduction='mean')
+    return loss
 
 def hybrid_loss(pred: torch.Tensor,
                 target: torch.Tensor,
@@ -372,6 +392,10 @@ def hybrid_loss(pred: torch.Tensor,
     elif loss_type == 'pairwise':
         rank_loss = pairwise_ranking_loss(pred, target, margin=margin)
         loss = (1 - alpha) * mse + alpha * rank_loss
+        
+    elif loss_type == 'logistic':
+            rank_loss = pairwise_logistic_loss(pred, target)
+            loss = (1 - alpha) * mse + alpha * rank_loss
     else:
         raise ValueError(f"Unsupported loss_type: {loss_type!r}")
 
@@ -482,10 +506,10 @@ def evaluate(model, dataloader, device, current_epoch,
     preds_ranked   = np.apply_along_axis(lambda r: rankdata(r, method="ordinal"), 1, preds)
     targets_ranked = np.apply_along_axis(lambda r: rankdata(r, method="ordinal"), 1, targets)
 
-    # 然后再对每一列（cell type j）做 Pearson → 等价于那一列的 Spearman
+     # Cell-type-level Spearman（直接对每一列算 Spearman）
     spearman_per_cell = []
     for j in range(preds.shape[1]):
-        corr = np.corrcoef(preds_ranked[:,j], targets_ranked[:,j])[0,1]
+        corr = spearmanr(preds[:, j], targets[:, j]).correlation
         spearman_per_cell.append(corr)
     
     avg_epoch_loss = total_loss / n_samples
