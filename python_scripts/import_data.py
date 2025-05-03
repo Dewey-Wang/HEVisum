@@ -4,6 +4,7 @@ from .operate_model import get_model_inputs
 from torchvision import transforms
 from PIL import Image
 import torch
+import numpy as np
 
 def preprocess_data(data, image_keys, transform):
     """
