@@ -402,6 +402,7 @@ def hybrid_loss(pred: torch.Tensor,
     Returns:
         (1-alpha)*MSE + alpha*RankingLoss
     """
+
     mse = F.mse_loss(pred, target)
     if loss_type == 'pearson':
         rank_loss = pearson_corr_loss(pred, target)
@@ -413,6 +414,10 @@ def hybrid_loss(pred: torch.Tensor,
     elif loss_type == 'logistic':
             rank_loss = pairwise_logistic_loss(pred, target)
             loss = (1 - alpha) * mse + alpha * rank_loss
+    elif loss_type == 'weighted':
+        weighting = 1.0 + target.abs()
+        weighted_mse = weighting * mse
+        loss = weighted_mse.mean()
     else:
         raise ValueError(f"Unsupported loss_type: {loss_type!r}")
 
