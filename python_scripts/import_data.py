@@ -262,17 +262,17 @@ import random
 def load_all_tile_data(folder_path,
                        model,
                        fraction: float = 1.0,
-                       shuffle : bool   = False):
+                       shuffle : bool = False):
     """
-    回傳 dict，其中包含
+    回傳 dict，其中包含：
         - Model forward() 需要的欄位
         - 'label'
-        - 'slide_idx'    ← 讓 GroupKFold 用
-        - 'source_idx'   ← optional，追蹤檔名
+        - 'slide_idx'    ← for GroupKFold
+        - 'source_idx'   ← 從 .pt 檔案內部讀取
     """
     sig            = get_model_inputs(model, print_sig=False)
     fwd_keys       = list(sig.parameters.keys())
-    required_keys  = set(fwd_keys + ['label', 'slide_idx'])   # ★ 新增 slide_idx
+    required_keys  = set(fwd_keys + ['label', 'slide_idx'])   # include slide_idx
     keep_meta_keys = required_keys.union({'source_idx'})
 
     pt_files = sorted(f for f in os.listdir(folder_path) if f.endswith('.pt'))
@@ -281,18 +281,80 @@ def load_all_tile_data(folder_path,
     pt_files = random.sample(pt_files, keep_n) if shuffle else pt_files[-keep_n:]
 
     data_dict = {k: [] for k in keep_meta_keys}
+
     for fname in pt_files:
-        d = torch.load(os.path.join(folder_path, fname), map_location='cpu')
+        fpath = os.path.join(folder_path, fname)
+        d = torch.load(fpath, map_location='cpu')
 
-        # ➊ 檔名追蹤
-        data_dict['source_idx'].append(fname)
+        # ✅ 優先從檔案內部讀取 source_idx
+        if 'source_idx' in d:
+            data_dict['source_idx'].append(d['source_idx'])
+        else:
+            data_dict['source_idx'].append(fname)  # optional fallback
 
-        # ➋ 只挑需要的欄位，若缺則填 None
+        # ➋ 補入其他欄位
         for k in required_keys:
             data_dict[k].append(d.get(k, None))
 
     return data_dict
 
+
+
+
+def load_node_feature_data(pt_path: str, model, num_cells: int = 35) -> dict:
+    """
+    根據 model.forward 的參數，自動載入 .pt 檔案中所需欄位，
+    並自動補 'label'（若不存在）為 0 tensor。
+    支援自動讀取 'position' 和 'source_idx' 欄位（若 forward 有用到）。
+
+    返回：
+      dict: key 對應 forward 的參數名 + label, position, source_idx（如需）
+    """
+    import torch
+    import inspect
+
+    raw = torch.load(pt_path, map_location="cpu")
+
+    # 模型需要哪些參數？
+    sig = inspect.signature(model.forward)
+    param_names = [p for p in sig.parameters if p != "self"]
+
+    out = {}
+    for name in param_names:
+        # a) 直接同名
+        if name in raw:
+            out[name] = raw[name]
+            continue
+        # b) name + 's'（plural）
+        if name + "s" in raw:
+            out[name] = raw[name + "s"]
+            continue
+        # c) 模糊匹配
+        cands = [k for k in raw if name in k or k in name]
+        if len(cands) == 1:
+            out[name] = raw[cands[0]]
+            continue
+        raise KeyError(f"❌ 無法找到 '{name}'，raw keys: {list(raw.keys())}")
+
+    # 推斷 batch 大小
+    dataset_size = None
+    for v in out.values():
+        if hasattr(v, "__len__"):
+            dataset_size = len(v)
+            print(f"⚠️ 從 '{type(v)}' 推斷樣本數量: {dataset_size}")
+            break
+    if dataset_size is None:
+        raise RuntimeError("❌ 無法推斷樣本數量。")
+
+    # 預設補上 label
+    out["label"] = raw.get("label", torch.zeros((dataset_size, num_cells), dtype=torch.float32))
+
+    # ✅ 額外補上 position 和 source_idx（如有）
+    for meta_key in ["position", "source_idx"]:
+        if meta_key in raw:
+            out[meta_key] = raw[meta_key]
+
+    return out
 
 # ==============================================
 # 範例使用
