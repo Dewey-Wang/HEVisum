@@ -276,22 +276,28 @@ class AE_MaskedMAE(nn.Module):
         return self.ae_all(tile, masked)
 class PretrainedEncoderRegressor(nn.Module):
     """
-    加载任意一個 AE 模型（center, all, masked），提取 encoder 後加上回歸頭。
-    支援 DeepTileEncoder。
+    加载任意一個 AE 模型（center, all, masked），提取 encoder。
+    可選：輸出 cell type abundance（regression）或重建 tile（reconstruction）。
     """
     def __init__(
         self,
         ae_checkpoint: str,
-        ae_type: str = "all",       # "center","all","masked"
+        ae_type: str = "all",       # "center", "all", "masked"
         tile_dim: int = 64,
         center_dim: int = 64,
         neighbor_dim: int = 64,
         hidden_dim: int = 128,
         tile_size: int = 26,
         output_dim: int = 35,
-        freeze_encoder: bool = True
+        freeze_encoder: bool = True,
+        negative_slope: float = 0.01,
+        mode: str = "regression"   # or "reconstruction"
     ):
         super().__init__()
+        self.mode = mode
+        self.ae_type = ae_type
+        self.tile_size = tile_size
+
         # 加载對應的 AE 模型
         if ae_type == "center":
             ae = AE_Center(tile_dim, center_dim, neighbor_dim, hidden_dim, tile_size)
@@ -301,37 +307,55 @@ class PretrainedEncoderRegressor(nn.Module):
             ae = AE_MaskedMAE(tile_dim, center_dim, neighbor_dim, hidden_dim, tile_size)
         else:
             raise ValueError(f"Unknown ae_type: {ae_type}")
-
         ae.load_state_dict(torch.load(ae_checkpoint, map_location="cpu"))
 
         if freeze_encoder:
             for p in ae.parameters():
                 p.requires_grad = False
 
-        # 提取 encoder 模組
+        # 提取 encoder modules
         self.enc_center = ae.enc_center
         self.enc_neigh  = ae.enc_neigh
         self.enc_tile   = ae.enc_tile
 
-        # 計算輸入維度
         fusion_dim = center_dim + neighbor_dim + tile_dim
 
-        # 回歸頭
-        self.decoder = nn.Sequential(
-            nn.Linear(fusion_dim, hidden_dim),
-            nn.SiLU(),
-            nn.Dropout(0.1),
-            nn.Linear(hidden_dim, output_dim)
-        )
-
+        if mode == "regression":
+            # ❗️定義你自己的 regression decoder
+           self.decoder = nn.Sequential(
+                nn.Linear(fusion_dim, 256),
+                nn.LeakyReLU(negative_slope),
+                nn.Dropout(0.1),
+                nn.Linear(256, 128),
+                nn.LeakyReLU(negative_slope),
+                nn.Dropout(0.1),
+                nn.Linear(128, 64),
+                nn.LeakyReLU(negative_slope),
+                nn.Dropout(0.1),
+                nn.Linear(64, output_dim)
+            )
+        elif mode == "reconstruction":
+            # ✅ 保留 AE 原本的 decoder 路徑（直接複用）
+            self.fc_enc = ae.fc_enc
+            self.fc_dec = ae.fc_dec
+            self.recon_decoder = ae.decoder
+        else:
+            raise ValueError(f"Unknown mode: {mode}")
     def forward(self, tile, subtiles):
         tile = tile.contiguous()
         subtiles = subtiles.contiguous()
         f_c = self.enc_center(subtiles[:, 4])
         f_n = self.enc_neigh(subtiles)
         f_t = self.enc_tile(tile)
-        x = torch.cat([f_c, f_n, f_t], dim=1).contiguous()
-        return self.decoder(x)
+        fused = torch.cat([f_c, f_n, f_t], dim=1).contiguous()
+
+        if self.mode == "regression":
+            return self.decoder(fused)
+        elif self.mode == "reconstruction":
+            h = self.fc_enc(fused)
+            x = self.fc_dec(h)
+            full_output = (self.ae_type != "center")
+            return self.recon_decoder(x, full_output=full_output)
 
     def unfreeze_encoder(self, lr: float = None, optimizer: torch.optim.Optimizer = None):
         for name, p in self.named_parameters():

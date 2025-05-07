@@ -129,91 +129,53 @@ def convert_item(item, is_image=False):
 
 class importDataset(Dataset):
     def __init__(self, data_dict, model, image_keys=None, transform=None, print_sig=False):
-        """
-        參數:
-          data_dict: dict，每個 key 對應一個 list，其中 list[i] 表示第 i 筆資料的該欄位內容。
-                     資料欄位必須包含模型 forward 所需的參數名稱，另外還必須有 "label" 欄位。
-          model: 模型物件，將根據 model.forward 的參數順序決定輸入組合順序。
-          image_keys: list 或 set，標記哪些欄位需要視為圖片資料，處理時會轉換為 channel-last 格式。
-          transform: 每筆資料的轉換函數，若未指定則為 identity function。
-          print_sig: 是否印出模型 forward 函式的簽名。
-        """
         self.data = data_dict
         self.image_keys = set(image_keys) if image_keys is not None else set()
         self.transform = transform if transform is not None else lambda x: x
-
         self.forward_keys = list(get_model_inputs(model, print_sig=print_sig).parameters.keys())
 
-        # 資料長度檢查：所有欄位的 list 長度必須一致
         expected_length = None
         for key, value in self.data.items():
             if expected_length is None:
                 expected_length = len(value)
             if len(value) != expected_length:
                 raise ValueError(f"資料欄位 '{key}' 的長度 ({len(value)}) 與預期 ({expected_length}) 不一致。")
-        
-        # 檢查必要欄位：必須包含模型 forward 所需欄位與 'label'
+
         for key in self.forward_keys:
             if key not in self.data:
                 raise ValueError(f"data_dict 缺少模型 forward 所需欄位: '{key}'。目前可用的欄位: {list(self.data.keys())}")
         if "label" not in self.data:
             raise ValueError(f"data_dict 必須包含 'label' 欄位。可用的欄位: {list(self.data.keys())}")
+        if "source_idx" not in self.data:
+            raise ValueError("data_dict 必須包含 'source_idx' 欄位，用於 trace 原始順序對應。")
 
     def __len__(self):
         return len(next(iter(self.data.values())))
 
     def __getitem__(self, idx):
         sample = {}
-        # 依照模型 forward 的順序依次取出資料並處理（保持 key 名稱不變）
         for key in self.forward_keys:
-            try:
-                value = self.data[key][idx]
-            except IndexError as e:
-                raise IndexError(f"索引 {idx} 超出欄位 '{key}' 的資料範圍，共有 {len(self.data[key])} 筆資料。") from e
-            try:
-                value = self.transform(value)
-            except Exception as e:
-                raise ValueError(f"轉換欄位 '{key}' 的資料時出錯，資料: {value}") from e
-            try:
-                if key in self.image_keys:
-                    value = convert_item(value, is_image=True)
-                else:
-                    value = convert_item(value, is_image=False)
-            except Exception as e:
-                raise ValueError(f"轉換欄位 '{key}' 的資料為 tensor 時出錯，資料內容: {value}") from e
-            # 轉換成 float32
+            value = self.data[key][idx]
+            value = self.transform(value)
+            value = convert_item(value, is_image=(key in self.image_keys))
             if isinstance(value, torch.Tensor):
                 value = value.float()
             sample[key] = value
-        
-        # 處理 label
-        try:
-            label = self.data["label"][idx]
-        except IndexError as e:
-            raise IndexError(f"索引 {idx} 超出 'label' 欄位的資料範圍，共有 {len(self.data['label'])} 筆資料。") from e
-        try:
-            label = self.transform(label)
-        except Exception as e:
-            raise ValueError(f"轉換 'label' 資料時出錯，資料內容: {label}") from e
-        try:
-            label = convert_item(label, is_image=False)
-        except Exception as e:
-            raise ValueError(f"轉換 'label' 為 tensor 時出錯，資料內容: {label}") from e
+
+        label = self.transform(self.data["label"][idx])
+        label = convert_item(label, is_image=False)
         if isinstance(label, torch.Tensor):
             label = label.float()
         sample["label"] = label
 
+        # 加入 source_idx
+        source_idx = self.data["source_idx"][idx]
+        sample["source_idx"] = torch.tensor(source_idx, dtype=torch.long)
+
         return sample
 
     def check_item(self, idx=0, num_lines=5):
-        """
-        檢查第 idx 筆資料中每個欄位的詳細資訊。
-        對每個欄位（依據 forward_keys 加上 'label'）印出：
-          - shape 與 dtype，
-          - 如果是 tensor，印出 min, max, mean, std（計算時強制轉為 float32），
-          - 對於非圖片資料，印出該 tensor 前 num_lines 列/元素的內容。
-        """
-        expected_keys = self.forward_keys + ['label']
+        expected_keys = self.forward_keys + ['label', 'source_idx']
         sample = self[idx]
         print(f"🔍 Checking dataset sample: {idx}")
         for key in expected_keys:
@@ -230,7 +192,6 @@ class importDataset(Dataset):
                 output_str = f"📏 {key} shape: {shape} | dtype: {dtype}"
                 if tensor.numel() > 0:
                     try:
-                        # 將 tensor 轉成 float32 計算統計數據
                         tensor_float = tensor.float()
                         mn = tensor_float.min().item()
                         mx = tensor_float.max().item()
@@ -240,7 +201,6 @@ class importDataset(Dataset):
                     except Exception:
                         output_str += " | 無法計算統計數據"
                 print(output_str)
-                # 若非圖片資料，印出前 num_lines 列/元素
                 if key not in self.image_keys:
                     if tensor.ndim == 0:
                         print(f"--- {key} 資料為純量:", tensor)

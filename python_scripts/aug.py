@@ -23,11 +23,11 @@ augment_transform = A.Compose([
     # A.ColorJitter(brightness=0.2, contrast=0.2,
     #               saturation=0.2, hue=0.05, p=0.5),
     # —— 模糊 & 噪声 ——  
-    A.GaussianBlur(blur_limit=(3,7), p=0.5),
-    A.GaussNoise(var_limit=(10.0,50.0), p=0.5),
+    # A.GaussianBlur(blur_limit=(3,7), p=0.5),
+    # A.GaussNoise(var_limit=(10.0,50.0), p=0.5),
 
-    # —— 可选的 ElasticTransform ——  
-    A.ElasticTransform(alpha=1, sigma=1, p=0.2),
+    # # —— 可选的 ElasticTransform ——  
+    # A.ElasticTransform(alpha=1, sigma=1, p=0.2),
 ])
 
 SEED = 42
