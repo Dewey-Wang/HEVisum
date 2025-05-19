@@ -148,7 +148,8 @@ class importDataset(Dataset):
             raise ValueError(f"data_dict 必須包含 'label' 欄位。可用的欄位: {list(self.data.keys())}")
         if "source_idx" not in self.data:
             raise ValueError("data_dict 必須包含 'source_idx' 欄位，用於 trace 原始順序對應。")
-
+        if "position" not in self.data:
+            raise ValueError("data_dict 必須包含 'position' 欄位，用於 trace 原始順序對應。")
     def __len__(self):
         return len(next(iter(self.data.values())))
 
@@ -171,11 +172,12 @@ class importDataset(Dataset):
         # 加入 source_idx
         source_idx = self.data["source_idx"][idx]
         sample["source_idx"] = torch.tensor(source_idx, dtype=torch.long)
-
+        # 加入 position （假设 data_dict 中 'position' 是 (x, y) 或 [x, y]）
+        pos = self.data["position"][idx]
+        sample["position"] = torch.tensor(pos, dtype=torch.float)
         return sample
-
     def check_item(self, idx=0, num_lines=5):
-        expected_keys = self.forward_keys + ['label', 'source_idx']
+        expected_keys = self.forward_keys + ['label', 'source_idx', 'position']
         sample = self[idx]
         print(f"🔍 Checking dataset sample: {idx}")
         for key in expected_keys:
@@ -211,8 +213,10 @@ class importDataset(Dataset):
                         print(f"--- {key} head (前 {num_lines} 列):")
                         print(tensor[:num_lines])
             else:
+                # 如果 position 存的是 list/tuple/etc，也会走这里
                 print(f"📏 {key} (非 tensor 資料):", tensor)
         print("✅ All checks passed!")
+
 
 
 import os
@@ -232,7 +236,7 @@ def load_all_tile_data(folder_path,
     """
     sig            = get_model_inputs(model, print_sig=False)
     fwd_keys       = list(sig.parameters.keys())
-    required_keys  = set(fwd_keys + ['label', 'slide_idx'])   # include slide_idx
+    required_keys  = set(fwd_keys + ['label', 'slide_idx', 'position'])   # include slide_idx
     keep_meta_keys = required_keys.union({'source_idx'})
 
     pt_files = sorted(f for f in os.listdir(folder_path) if f.endswith('.pt'))
@@ -278,6 +282,8 @@ def load_node_feature_data(pt_path: str, model, num_cells: int = 35) -> dict:
     # 模型需要哪些參數？
     sig = inspect.signature(model.forward)
     param_names = [p for p in sig.parameters if p != "self"]
+    param_names.append('source_idx')
+    param_names.append('position')
 
     out = {}
     for name in param_names:
