@@ -26,4 +26,11 @@ images/*
 __pycache__/*
 .vscode/*
 **/results/**
-
+**/meta_model.pkl
+**/version3meta_model_single.pkl
+meta_model_single.pkl
+**/version2meta_model_single.pkl
+**/stacking_gbm_meta.pkl
+**/meta_model_fold0.pkl
+**/meta_model_single.pkl
+**/stacking_gbm_meta.pkl
