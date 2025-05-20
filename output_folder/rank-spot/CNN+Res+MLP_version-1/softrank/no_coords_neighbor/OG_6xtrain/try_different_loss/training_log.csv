@@ -1,0 +1,2 @@
+Epoch,Train Loss,Val Loss,Val Spearman,Learning Rate
+1,16.96202897702598,16.12660906172816,0.6864562934113053,0.001

@@ -190,7 +190,24 @@ class EarlyStopping:
             if self.counter >= self.patience:
                 self.early_stop = True
 
+class spear_EarlyStopping:
+    def __init__(self, patience=10, verbose=True):
+        self.patience = patience
+        self.counter = 0
+        self.best_score = None
+        self.early_stop = False
+        self.verbose = verbose
 
+    def __call__(self, val_loss):
+        if self.best_score is None or val_loss > self.best_score:
+            self.best_score = val_loss
+            self.counter = 0
+        else:
+            self.counter += 1
+            if self.verbose:
+                print(f"EarlyStopping counter: {self.counter}/{self.patience}")
+            if self.counter >= self.patience:
+                self.early_stop = True
 
 def plot_losses(train_losses, val_losses, ax=None, title="Training vs Validation Loss"):
     """
@@ -302,129 +319,118 @@ def get_alpha(epoch, initial_alpha=0.3, final_alpha=0.8, target_epoch=50, method
     else:
         raise ValueError(f"Unknown method: {method}")
 
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
-## Try different loss functions
-def spearman_corr_loss(pred, target, eps=1e-8):
+def pairwise_ranking_loss(pred: torch.Tensor,
+                          target: torch.Tensor,
+                          margin: float = 1.0) -> torch.Tensor:
     """
-    計算 batch-wise Spearman correlation 損失。
-    Returns: 1 - mean_corr, corr 越高 → loss 越小
-    pred, target shape: (B, num_cells)
+    Pred/target: (B, C)  B=batch_size, C=cell types
+    对每个样本 i，枚举所有 j<k 对：
+      如果 target_ij > target_ik，那么希望 pred_ij + margin > pred_ik
+      否则 pred_ik + margin > pred_ij
+    loss = mean( max(0, margin - sign(target_j - target_k) * (pred_j - pred_k)) )
     """
-    # 取得各自的 rank，argsort 兩次可把數值變為 rank
-    pred_rank = pred.argsort(dim=1).argsort(dim=1).float()
-    target_rank = target.argsort(dim=1).argsort(dim=1).float()
+    B, C = pred.shape
 
-    # 每一筆資料都去中心化
-    pred_rank = pred_rank - pred_rank.mean(dim=1, keepdim=True)
-    target_rank = target_rank - target_rank.mean(dim=1, keepdim=True)
+    # 1) 构造所有对 (j,k) 的差分
+    #    pred_diff: (B, C, C) where pred_diff[:, j, k] = pred[:, j] - pred[:, k]
+    pred_diff = pred.unsqueeze(2) - pred.unsqueeze(1)      # B×C×C
+    targ_diff = target.unsqueeze(2) - target.unsqueeze(1)  # B×C×C
 
-    # 計算 batch 中每筆的 spearman correlation
-    corr = (pred_rank * target_rank).sum(dim=1) / (
-        pred_rank.norm(dim=1) * target_rank.norm(dim=1) + eps
-    )
-    # 取 1 - 平均 corr 當作 loss
+    # 2) 我们只取上三角 (j<k) 部分，避免重复&自反
+    idxs = torch.triu_indices(C, C, offset=1)
+    pd = pred_diff[:, idxs[0], idxs[1]]   # shape (B, M) M=C*(C-1)/2
+    td = targ_diff[:, idxs[0], idxs[1]]
+
+    # 3) 计算 hinge loss：如果真实 td>0，就希望 pd>0，loss = max(0, margin - pd)
+    #                     如果真实 td<0，就希望 pd<0，loss = max(0, margin + pd)
+    sign = torch.sign(td)  # +1 or -1 or 0
+    # margin - sign * pd
+    raw = margin - sign * pd
+    loss_pairs = torch.clamp(raw, min=0.0)
+
+    # 4) 平均
+    return loss_pairs.mean()
+
+def pearson_corr_loss(pred, target, eps=1e-8):
+    # center
+    p = pred - pred.mean(dim=1, keepdim=True)
+    t = target - target.mean(dim=1, keepdim=True)
+    # covariance / (σₚ·σₜ)
+    num = (p * t).sum(dim=1)
+    den = p.norm(dim=1) * t.norm(dim=1) + eps
+    corr = num / den
     return 1.0 - corr.mean()
 
-
-
-def differentiable_spearman_like_loss(pred, target, alpha=0.5):
-    pred_rank = pred.argsort(dim=1).argsort(dim=1).float()
-    target_rank = target.argsort(dim=1).argsort(dim=1).float()
-
-    pred_centered = pred_rank - pred_rank.mean(dim=1, keepdim=True)
-    target_centered = target_rank - target_rank.mean(dim=1, keepdim=True)
-
-    spearman = (pred_centered * target_centered).sum(dim=1) / (
-        pred_centered.norm(dim=1) * target_centered.norm(dim=1) + 1e-8
-    )
-    spearman_loss = 1.0 - spearman.mean()
-    
-    mse = ((pred - target)**2).mean()
-    return (1 - alpha) * mse + alpha * spearman_loss
-
-# def weighted_mse_loss(pred: torch.Tensor,
-#                       target: torch.Tensor,
-#                       weights: torch.Tensor) -> torch.Tensor:
-#     """
-#     pred, target: [B, 35]
-#     weights:      [35]，每个 cell-type 的权重
-#     """
-#     # 广播到 [B,35]
-#     w = weights.unsqueeze(0)           # [1,35]
-#     diff2 = (pred - target).pow(2)      # [B,35]
-#     loss  = (diff2 * w).mean()         # 平均所有 batch & dim
-#     return loss
-
-def inv_rank_weighted_mse(pred: torch.Tensor,
-                          target: torch.Tensor,
-                          alpha: float = 1.0,
-                          eps: float = 1e-6) -> torch.Tensor:
+def pairwise_logistic_loss(pred: torch.Tensor,
+                           target: torch.Tensor) -> torch.Tensor:
     """
-    pred, target: [B, 35],  target 已经是 1~35 的排名
-    alpha: 幂指数，alpha>0 把低 rank 的那几维进一步抬高
+    RankNet style pairwise logistic loss.
+    pred/target: (B, C)
+    对每个样本 i，枚举所有 j<k 对：
+      如果 target[i,j] > target[i,k]，标签 y_{jk}=1；否则 y_{jk}=0。
+    计算 pd = pred_j - pred_k, 然后用 BCEwithLogits(pd, y).
     """
-    # 1) 计算每个样本的权重矩阵：w[b,i] = (max_rank + 1 – target[b,i])^alpha
-    #    这里 max_rank=35，可以硬编码
-    max_rank = 35.0
-    w = ( (max_rank + 1.0 - target) ** alpha ).clamp(min=eps)  # [B,35]
-
-    # 2) 普通平方误差
-    diff2 = (pred - target).pow(2)                             # [B,35]
-
-    # 3) 按样本归一化：先对每行按 w 加权求和，再除以该行总权重
-    numer = (diff2 * w).sum(dim=1)                             # [B]
-    denom = w.sum(dim=1).clamp(min=eps)                        # [B]
-    loss_per_sample = numer / denom                            # [B]
-
-    # 4) 最后平均 batch
-    return loss_per_sample.mean()
-
-import torch.nn as nn
-
-rank_criterion = nn.MarginRankingLoss(margin=0.0)
-
-def margin_ranking_loss_fast(pred, target, hard_idx):
     B, C = pred.shape
-    device = pred.device
-    j_idx = target.argmax(dim=1)
-    H = len(hard_idx)
-    b_idx = torch.arange(B, device=device).unsqueeze(1).expand(B, H).reshape(-1)
-    i_idx = torch.tensor(hard_idx, device=device).unsqueeze(0).expand(B, H).reshape(-1)
-    j_idx = j_idx.unsqueeze(1).expand(B, H).reshape(-1)
-    x1 = pred[b_idx, j_idx]
-    x2 = pred[b_idx, i_idx]
-    y  = torch.ones_like(x1, device=device)
-    return rank_criterion(x1, x2, y)
+    # 所有 j<k 对的 idx
+    idxs = torch.triu_indices(C, C, offset=1)
+    # pred_j - pred_k, target_j - target_k  -> (B, M)
+    pd = (pred.unsqueeze(2) - pred.unsqueeze(1))[:, idxs[0], idxs[1]]
+    td = (target.unsqueeze(2) - target.unsqueeze(1))[:, idxs[0], idxs[1]]
+    # labels: 1 if td>0 else 0
+    labels = (td > 0).float()
+    # binary cross‐entropy with logits
+    loss = F.binary_cross_entropy_with_logits(pd, labels, reduction='mean')
+    return loss
 
-def hybrid_mse_loss(pred, target, alpha=3.0, lambda_inv=0.5):
+def hybrid_loss(pred: torch.Tensor,
+                target: torch.Tensor,
+                alpha: float = 0.5,
+                loss_type: str = 'pearson',
+                margin: float = 1.0) -> torch.Tensor:
     """
-    Combines plain MSE and inv_rank_weighted_mse:
-      loss = (1-λ) * MSE(pred, target) + λ * inv_rank_weighted_mse(pred, target, alpha)
+    A hybrid between MSE and a ranking-based loss.
+
+    Args:
+        pred, target: (B, C) Tensors.
+        alpha: weight on the ranking loss (0 <= alpha <= 1).
+        loss_type: 'pearson' or 'pairwise'.
+        margin: hinge margin for pairwise ranking loss.
+    Returns:
+        (1-alpha)*MSE + alpha*RankingLoss
     """
-    mse = torch.nn.functional.mse_loss(pred, target)  # 普通 MSE
-    invw = inv_rank_weighted_mse(pred, target, alpha=alpha)
-    return (1 - lambda_inv) * mse + lambda_inv * invw
+
+    mse = F.mse_loss(pred, target)
+    if loss_type == 'pearson':
+        rank_loss = pearson_corr_loss(pred, target)
+        loss = mse * (1 - alpha + alpha * rank_loss)
+    elif loss_type == 'pairwise':
+        rank_loss = pairwise_ranking_loss(pred, target, margin=margin)
+        loss = (1 - alpha) * mse + alpha * rank_loss
+        
+    elif loss_type == 'logistic':
+            rank_loss = pairwise_logistic_loss(pred, target)
+            loss = (1 - alpha) * mse + alpha * rank_loss
+    elif loss_type == 'weighted':
+        weighting = 1.0 + target.abs()
+        weighted_mse = weighting * mse
+        loss = weighted_mse.mean()
+    else:
+        raise ValueError(f"Unsupported loss_type: {loss_type!r}")
+
+    return loss
 
 
-# def weighted_mse_loss(pred, target, weights):
-#     # weights: [35]
-#     w = weights.unsqueeze(0)          # [1,35]
-#     diff2 = (pred - target).pow(2)     # [B,35]
-#     numer = (diff2 * w).sum(dim=1)     # [B]
-#     denom = w.sum()                    # scalar
-#     return (numer / denom).mean()      # 平均 batch
-# # =======================
-# # 改進版 train_one_epoch 與 evaluate
-# # =======================
-from torchmetrics import SpearmanCorrCoef
 
-device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-print(f"✅ Using device: {device}")
+# =======================
+# 改進版 train_one_epoch 與 evaluate
+# =======================
 
-spearman_metric = SpearmanCorrCoef(num_outputs=35).to(device)
-
-def train_one_epoch(model, dataloader, optimizer, device, current_epoch,alpha, hard_idx,
-                    initial_alpha=0.3, final_alpha=0.9, target_epoch=10, method="linear"):
+def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
+                    initial_alpha=0.3, final_alpha=0.9, target_epoch=15, method="linear", loss_type = 'pearson'):
     """
     訓練一個 epoch，使用動態 alpha 計算 hybrid loss。
     僅保留必要參數：
@@ -436,89 +442,100 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,alpha, h
     """
     model.train()
     total_loss = 0.0
-    spearman_metric.reset()   # ★ 每个 epoch 重置
-    n_samples = 0
     all_preds, all_targets = [], []
-
-    pbar = tqdm(dataloader, desc=f"Train Epoch {current_epoch}", leave=False)
+    pbar = tqdm(dataloader, desc="Training", leave=False)
     
     # 根據當前 epoch 計算動態 alpha
-    alpha_2 = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
+    alpha = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
     
     for batch in pbar:
         inputs, label = make_input_to_device(model, batch, device)
         optimizer.zero_grad()
+        
         out = model(**inputs)
-        # ① 混合 MSE
-        loss_hybrid = hybrid_mse_loss(out, label, alpha=alpha, lambda_inv=alpha_2)
-        # ② 也可以再加上 ranking loss
-        loss_rank   = margin_ranking_loss_fast(out, label, hard_idx)
-        loss = loss_hybrid + 0.5 * loss_rank
-        #loss = differentiable_spearman_like_loss(out, label, alpha=alpha)
+        loss = hybrid_loss(out, label, alpha=alpha, loss_type=loss_type)
         loss.backward()
         optimizer.step()
+        
         batch_size = label.size(0)
         total_loss += loss.item() * batch_size
-        n_samples  += batch_size
-
-        # 更新 Spearman 计算
-        spearman_metric.update(out, label)
-
-        # update progress bar
+        
         all_preds.append(out.cpu())
         all_targets.append(label.cpu())
         
         avg_loss = total_loss / ((pbar.n + 1) * dataloader.batch_size)
         pbar.set_postfix(loss=loss.item(), avg=avg_loss)
-        
+    
+    all_preds = torch.cat(all_preds).detach().numpy()
+    all_targets = torch.cat(all_targets).detach().numpy()
+    
+    # 計算每個 cell type 的 Spearman 相關，取平均
+    # 按 spot
+    spot_scores = [
+        spearmanr(all_preds[j], all_targets[j]).correlation
+        for j in range(all_preds.shape[0])
+    ]
+    spot_avg = np.nanmean(spot_scores)
+    
+    avg_epoch_loss = total_loss / len(dataloader.dataset)
+    return avg_epoch_loss, spot_avg
 
+from scipy.stats import rankdata
 
-    avg_loss     = total_loss / n_samples
-    spearman_per_cell = spearman_metric.compute().cpu().numpy()
-    spearman_avg      = spearman_per_cell.mean().item()
-    return avg_loss, spearman_avg
-
-def evaluate(model, dataloader, device, alpha, current_epoch, hard_idx,
-                    initial_alpha=0.3, final_alpha=0.9, target_epoch=10, method="linear"):
+def evaluate(model, dataloader, device, current_epoch,
+             initial_alpha=0.3, final_alpha=0.8, target_epoch=15, method="linear", loss_type = 'pearson'):
+    """
+    評估函數：使用與 train 一致的動態 alpha 計算 hybrid loss。
+    僅保留必要參數：
+    
+    :return: 平均 loss, 平均 Spearman, 每個 cell type 的 MSE 與 Spearman 值
+    """
     model.eval()
-    total_loss   = 0.0
-    total_mse    = torch.zeros(35, device=device)
-    spearman_metric.reset()   # ★
-    n_samples    = 0
+    total_loss = 0.0
+    preds, targets = [], []
+    total_mse = torch.zeros(35).to(device)  # 假設有 35 個 cell types
+    n_samples = 0
+    
+    # 根據當前 epoch 計算動態 alpha
+    alpha = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
+    
     pbar = tqdm(dataloader, desc="Evaluating", leave=False)
-
-    alpha_2 = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
     with torch.no_grad():
         for batch in pbar:
             inputs, label = make_input_to_device(model, batch, device)
             out = model(**inputs)
-
-            # 同样的组合 loss
-            # ① 混合 MSE
-            loss_hybrid = hybrid_mse_loss(out, label, alpha=alpha, lambda_inv=alpha_2)
-            # ② 也可以再加上 ranking loss
-            loss_rank   = margin_ranking_loss_fast(out, label, hard_idx)
-            loss = loss_hybrid + 0.5 * loss_rank
-
+            loss = hybrid_loss(out, label, alpha=alpha, loss_type=loss_type)
             batch_size = label.size(0)
             total_loss += loss.item() * batch_size
-            n_samples  += batch_size
-
-            # 累加每‐cell MSE
-            total_mse += ((out - label)**2).sum(dim=0)
-
-            # 更新 Spearman
-            spearman_metric.update(out, label)
-
+            preds.append(out.cpu())
+            targets.append(label.cpu())
+            loss_per_cell = ((out - label) ** 2).sum(dim=0)  # (35,)
+            total_mse += loss_per_cell
+            n_samples += batch_size
             pbar.set_postfix(loss=loss.item())
+    
+    preds = torch.cat(preds).numpy()
+    targets = torch.cat(targets).numpy()
+    mse_per_cell = (total_mse / n_samples).cpu().numpy()
 
+    spot_scores = [
+            spearmanr(preds[j], targets[j]).correlation
+            for j in range(preds.shape[0])
+        ]
+    spearman_spot_avg = np.nanmean(spot_scores)
+    
+    # 先把矩阵按行（axis=1）做 spot 内 35 维的相对排序
+    preds_ranked   = np.apply_along_axis(lambda r: rankdata(r, method="ordinal"), 1, preds)
+    targets_ranked = np.apply_along_axis(lambda r: rankdata(r, method="ordinal"), 1, targets)
 
-
-    avg_epoch_loss     = total_loss / n_samples
-    mse_per_cell       = (total_mse / n_samples).cpu().numpy()    # ★ shape (35,)
-    spearman_per_cell = spearman_metric.compute().cpu().numpy()
-    spearman_avg      = spearman_per_cell.mean().item()
-    return avg_epoch_loss, spearman_avg, mse_per_cell, spearman_per_cell
+     # Cell-type-level Spearman（直接对每一列算 Spearman）
+    spearman_per_cell = []
+    for j in range(preds.shape[1]):
+        corr = spearmanr(preds[:, j], targets[:, j]).correlation
+        spearman_per_cell.append(corr)
+    
+    avg_epoch_loss = total_loss / n_samples
+    return avg_epoch_loss, spearman_spot_avg, mse_per_cell, spearman_per_cell
 
 
 __all__ = [
