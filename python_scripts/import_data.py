@@ -4,6 +4,7 @@ from .operate_model import get_model_inputs
 from torchvision import transforms
 from PIL import Image
 import torch
+import numpy as np
 
 def preprocess_data(data, image_keys, transform):
     """
@@ -128,91 +129,55 @@ def convert_item(item, is_image=False):
 
 class importDataset(Dataset):
     def __init__(self, data_dict, model, image_keys=None, transform=None, print_sig=False):
-        """
-        參數:
-          data_dict: dict，每個 key 對應一個 list，其中 list[i] 表示第 i 筆資料的該欄位內容。
-                     資料欄位必須包含模型 forward 所需的參數名稱，另外還必須有 "label" 欄位。
-          model: 模型物件，將根據 model.forward 的參數順序決定輸入組合順序。
-          image_keys: list 或 set，標記哪些欄位需要視為圖片資料，處理時會轉換為 channel-last 格式。
-          transform: 每筆資料的轉換函數，若未指定則為 identity function。
-          print_sig: 是否印出模型 forward 函式的簽名。
-        """
         self.data = data_dict
         self.image_keys = set(image_keys) if image_keys is not None else set()
         self.transform = transform if transform is not None else lambda x: x
-
         self.forward_keys = list(get_model_inputs(model, print_sig=print_sig).parameters.keys())
 
-        # 資料長度檢查：所有欄位的 list 長度必須一致
         expected_length = None
         for key, value in self.data.items():
             if expected_length is None:
                 expected_length = len(value)
             if len(value) != expected_length:
                 raise ValueError(f"資料欄位 '{key}' 的長度 ({len(value)}) 與預期 ({expected_length}) 不一致。")
-        
-        # 檢查必要欄位：必須包含模型 forward 所需欄位與 'label'
+
         for key in self.forward_keys:
             if key not in self.data:
                 raise ValueError(f"data_dict 缺少模型 forward 所需欄位: '{key}'。目前可用的欄位: {list(self.data.keys())}")
         if "label" not in self.data:
             raise ValueError(f"data_dict 必須包含 'label' 欄位。可用的欄位: {list(self.data.keys())}")
-
+        if "source_idx" not in self.data:
+            raise ValueError("data_dict 必須包含 'source_idx' 欄位，用於 trace 原始順序對應。")
+        if "position" not in self.data:
+            raise ValueError("data_dict 必須包含 'position' 欄位，用於 trace 原始順序對應。")
     def __len__(self):
         return len(next(iter(self.data.values())))
 
     def __getitem__(self, idx):
         sample = {}
-        # 依照模型 forward 的順序依次取出資料並處理（保持 key 名稱不變）
         for key in self.forward_keys:
-            try:
-                value = self.data[key][idx]
-            except IndexError as e:
-                raise IndexError(f"索引 {idx} 超出欄位 '{key}' 的資料範圍，共有 {len(self.data[key])} 筆資料。") from e
-            try:
-                value = self.transform(value)
-            except Exception as e:
-                raise ValueError(f"轉換欄位 '{key}' 的資料時出錯，資料: {value}") from e
-            try:
-                if key in self.image_keys:
-                    value = convert_item(value, is_image=True)
-                else:
-                    value = convert_item(value, is_image=False)
-            except Exception as e:
-                raise ValueError(f"轉換欄位 '{key}' 的資料為 tensor 時出錯，資料內容: {value}") from e
-            # 轉換成 float32
+            value = self.data[key][idx]
+            value = self.transform(value)
+            value = convert_item(value, is_image=(key in self.image_keys))
             if isinstance(value, torch.Tensor):
                 value = value.float()
             sample[key] = value
-        
-        # 處理 label
-        try:
-            label = self.data["label"][idx]
-        except IndexError as e:
-            raise IndexError(f"索引 {idx} 超出 'label' 欄位的資料範圍，共有 {len(self.data['label'])} 筆資料。") from e
-        try:
-            label = self.transform(label)
-        except Exception as e:
-            raise ValueError(f"轉換 'label' 資料時出錯，資料內容: {label}") from e
-        try:
-            label = convert_item(label, is_image=False)
-        except Exception as e:
-            raise ValueError(f"轉換 'label' 為 tensor 時出錯，資料內容: {label}") from e
+
+        label = self.transform(self.data["label"][idx])
+        label = convert_item(label, is_image=False)
         if isinstance(label, torch.Tensor):
             label = label.float()
         sample["label"] = label
 
+        # 加入 source_idx
+        source_idx = self.data["source_idx"][idx]
+        sample["source_idx"] = torch.tensor(source_idx, dtype=torch.long)
+        # 加入 position （假设 data_dict 中 'position' 是 (x, y) 或 [x, y]）
+        pos = self.data["position"][idx]
+        sample["position"] = torch.tensor(pos, dtype=torch.float)
         return sample
-
     def check_item(self, idx=0, num_lines=5):
-        """
-        檢查第 idx 筆資料中每個欄位的詳細資訊。
-        對每個欄位（依據 forward_keys 加上 'label'）印出：
-          - shape 與 dtype，
-          - 如果是 tensor，印出 min, max, mean, std（計算時強制轉為 float32），
-          - 對於非圖片資料，印出該 tensor 前 num_lines 列/元素的內容。
-        """
-        expected_keys = self.forward_keys + ['label']
+        expected_keys = self.forward_keys + ['label', 'source_idx', 'position']
         sample = self[idx]
         print(f"🔍 Checking dataset sample: {idx}")
         for key in expected_keys:
@@ -229,7 +194,6 @@ class importDataset(Dataset):
                 output_str = f"📏 {key} shape: {shape} | dtype: {dtype}"
                 if tensor.numel() > 0:
                     try:
-                        # 將 tensor 轉成 float32 計算統計數據
                         tensor_float = tensor.float()
                         mn = tensor_float.min().item()
                         mx = tensor_float.max().item()
@@ -239,7 +203,6 @@ class importDataset(Dataset):
                     except Exception:
                         output_str += " | 無法計算統計數據"
                 print(output_str)
-                # 若非圖片資料，印出前 num_lines 列/元素
                 if key not in self.image_keys:
                     if tensor.ndim == 0:
                         print(f"--- {key} 資料為純量:", tensor)
@@ -250,8 +213,10 @@ class importDataset(Dataset):
                         print(f"--- {key} head (前 {num_lines} 列):")
                         print(tensor[:num_lines])
             else:
+                # 如果 position 存的是 list/tuple/etc，也会走这里
                 print(f"📏 {key} (非 tensor 資料):", tensor)
         print("✅ All checks passed!")
+
 
 
 import os
@@ -260,55 +225,102 @@ import random
 
 def load_all_tile_data(folder_path,
                        model,
-                       fraction: float = 0.25,
-                       shuffle: bool = False):
+                       fraction: float = 1.0,
+                       shuffle : bool = False):
     """
-    Load a fraction of .pt files in a folder—but only keep the keys that
-    model.forward() actually needs, plus 'label'.
-
-    Args:
-      folder_path (str): 資料夾路徑
-      model: 要使用的 PyTorch 模型（會根據 forward() signature 自動挑欄位）
-      fraction (float): 要讀取的檔案比例 (0 < fraction <= 1)
-      shuffle (bool): 如果 True，先打亂再抽 sample
-
-    Returns:
-      dict of lists: 只包含 model.forward() 的參數名稱，以及 'label'。
+    回傳 dict，其中包含：
+        - Model forward() 需要的欄位
+        - 'label'
+        - 'slide_idx'    ← for GroupKFold
+        - 'source_idx'   ← 從 .pt 檔案內部讀取
     """
-    # 先抓 signature
-    sig = get_model_inputs(model, print_sig=False)
-    forward_keys = list(sig.parameters.keys())
-    required_keys = set(forward_keys + ['label'])
+    sig            = get_model_inputs(model, print_sig=False)
+    fwd_keys       = list(sig.parameters.keys())
+    required_keys  = set(fwd_keys + ['label', 'slide_idx', 'position'])   # include slide_idx
+    keep_meta_keys = required_keys.union({'source_idx'})
 
-    # 列出所有 .pt
     pt_files = sorted(f for f in os.listdir(folder_path) if f.endswith('.pt'))
-    N = len(pt_files)
-    keep_n = max(1, int(N * fraction))
-    if shuffle:
-        pt_files = random.sample(pt_files, keep_n)
-    else:
-        pt_files = pt_files[N-keep_n:]
+    N        = len(pt_files)
+    keep_n   = max(1, int(N * fraction))
+    pt_files = random.sample(pt_files, keep_n) if shuffle else pt_files[-keep_n:]
 
-    # 先建一個完整的 dict，再只挑必要欄位
-    # 不過為了記憶體節省，也可以直接只初始化 required_keys
-    full_dict = {k: [] for k in required_keys.union({'source_idx'})}
+    data_dict = {k: [] for k in keep_meta_keys}
 
     for fname in pt_files:
-        path = os.path.join(folder_path, fname)
-        try:
-            d = torch.load(path, map_location='cpu')
-        except Exception as e:
-            print(f"❌ 無法讀 {fname}: {e}")
-            continue
+        fpath = os.path.join(folder_path, fname)
+        d = torch.load(fpath, map_location='cpu')
 
-        # source_idx 幫你追原始檔名或 index
-        full_dict['source_idx'].append(fname)
+        # ✅ 優先從檔案內部讀取 source_idx
+        if 'source_idx' in d:
+            data_dict['source_idx'].append(d['source_idx'])
+        else:
+            data_dict['source_idx'].append(fname)  # optional fallback
 
-        # 只收 model 需要的參數 + label
+        # ➋ 補入其他欄位
         for k in required_keys:
-            full_dict.setdefault(k, []).append(d.get(k, None))
+            data_dict[k].append(d.get(k, None))
 
-    return full_dict
+    return data_dict
+
+
+
+
+def load_node_feature_data(pt_path: str, model, num_cells: int = 35) -> dict:
+    """
+    根據 model.forward 的參數，自動載入 .pt 檔案中所需欄位，
+    並自動補 'label'（若不存在）為 0 tensor。
+    支援自動讀取 'position' 和 'source_idx' 欄位（若 forward 有用到）。
+
+    返回：
+      dict: key 對應 forward 的參數名 + label, position, source_idx（如需）
+    """
+    import torch
+    import inspect
+
+    raw = torch.load(pt_path, map_location="cpu")
+
+    # 模型需要哪些參數？
+    sig = inspect.signature(model.forward)
+    param_names = [p for p in sig.parameters if p != "self"]
+    param_names.append('source_idx')
+    param_names.append('position')
+
+    out = {}
+    for name in param_names:
+        # a) 直接同名
+        if name in raw:
+            out[name] = raw[name]
+            continue
+        # b) name + 's'（plural）
+        if name + "s" in raw:
+            out[name] = raw[name + "s"]
+            continue
+        # c) 模糊匹配
+        cands = [k for k in raw if name in k or k in name]
+        if len(cands) == 1:
+            out[name] = raw[cands[0]]
+            continue
+        raise KeyError(f"❌ 無法找到 '{name}'，raw keys: {list(raw.keys())}")
+
+    # 推斷 batch 大小
+    dataset_size = None
+    for v in out.values():
+        if hasattr(v, "__len__"):
+            dataset_size = len(v)
+            print(f"⚠️ 從 '{type(v)}' 推斷樣本數量: {dataset_size}")
+            break
+    if dataset_size is None:
+        raise RuntimeError("❌ 無法推斷樣本數量。")
+
+    # 預設補上 label
+    out["label"] = raw.get("label", torch.zeros((dataset_size, num_cells), dtype=torch.float32))
+
+    # ✅ 額外補上 position 和 source_idx（如有）
+    for meta_key in ["position", "source_idx"]:
+        if meta_key in raw:
+            out[meta_key] = raw[meta_key]
+
+    return out
 
 # ==============================================
 # 範例使用
