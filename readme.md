@@ -128,7 +128,6 @@ make lab                   # Step 3. Launch JupyterLab
 ### Extra Commands
 
 ```bash
-make test      # Run tests using pytest inside the virtual environment
 make clean     # Remove the virtual environment and Jupyter kernel spec
 make reset     # Clean everything and reinitialize from scratch
 ```
