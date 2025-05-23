@@ -9,9 +9,11 @@ This repository contains code and models for predicting spatial gene expression 
 We reviewed the following papers to build background and inspire architectural decisions:
 
 * **[Benchmarking the translational potential of spatial gene expression prediction from histology](https://www.nature.com/articles/s41467-025-56618-y)**
+  
   This paper reviews multiple models and preprocessing approaches for gene expression prediction. It helped us understand the common practices in stain normalization, spot realignment, and also the prevailing network structures.
 
 * **[DeepSpot: Leveraging Spatial Context for Enhanced Spatial Transcriptomics Prediction from H\&E Images](https://www.medrxiv.org/content/10.1101/2025.02.09.25321567v1)**
+  
   DeepSpot introduced the critical concept of combining local and global structural context. This directly motivated our use of multi-scale input branches in our model.
 
 ---
@@ -43,8 +45,6 @@ We reviewed the following papers to build background and inspire architectural d
 
 * **Calculate spot distance** - Compute average distances between spots.
 * **Image tiling** - Extract tiles around each spot for model input.
-
-> Full code for preprocessing steps will be provided in the repo.
 
 ---
 
@@ -80,7 +80,7 @@ I provide both CPU versions of the Docker image. Each image includes all depende
 docker pull deweywang/spatialhackathon:latest
 ```
 
-### 🧪 Run with Jupyter Notebook (Linux/macOS)
+### Run with Jupyter Notebook (Linux/macOS)
 
 ```bash
 docker run -it --rm -p 8888:8888 -v "$PWD":/workspace \
@@ -88,19 +88,11 @@ docker run -it --rm -p 8888:8888 -v "$PWD":/workspace \
   jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
 ```
 
-### 🧪 Run with Jupyter Notebook (Windows CMD)
+### Run with Jupyter Notebook (Windows CMD)
 
 ```cmd
 docker run -it --rm -p 8888:8888 -v %cd%:/workspace \
   deweywang/spatialhackathon:latest \
-  jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
-```
-
-### ⚡ GPU with NVIDIA runtime (Linux/macOS)
-
-```bash
-docker run --gpus all -it --rm -p 8888:8888 -v "$PWD":/workspace \
-  deweywang/spatialhackathon:gpu \
   jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
 ```
 
@@ -115,24 +107,34 @@ docker run --gpus all -it --rm -p 8888:8888 -v "$PWD":/workspace \
 
 ---
 
-## 💻 Run on Host for Native GPU/MPS Acceleration
+## 💻 Run Locally with GPU/MPS Support
 
-If you prefer to use your system's GPU (NVIDIA on Linux/Windows or MPS on Mac) to train the model or use the package, you can set up the env below:
+> ✅ All installations are isolated within the `.venv` virtual environment and will **not affect your global Python environment** or system-wide packages.
 
-### Setup Instructions:
+### Step-by-Step Local Setup (macOS/Linux/Windows)
 
 ```bash
-bash install_host.sh # (Windows need to change install_host.sh, Mac os don't need)
-source venv/bin/activate  # (Windows use venv\Scripts\activate)
-jupyter lab
+make init                  # Step 1. Set up virtual environment and install dependencies
+source .venv/bin/activate  # Step 2 (macOS/Linux)
+# .venv\Scripts\activate   # Step 2 (Windows)
+make lab                   # Step 3. Launch JupyterLab
 ```
 
-This enables:
+### Inside JupyterLab
 
-* ✅ Apple M1/M2/M3 users to use `torch.device("mps")`
-* ✅ Windows/Linux with GPU to use `torch.device("cuda")`
-* ✅ All others fallback to CPU
+* Click the **kernel selector** at the top-right of the notebook interface
+* Choose: `Python (.venv) spatialhackathon`
+
+### Extra Commands
+
+```bash
+make test      # Run tests using pytest inside the virtual environment
+make clean     # Remove the virtual environment and Jupyter kernel spec
+make reset     # Clean everything and reinitialize from scratch
+```
 
 ---
+
+> Tested on: **Apple M1 Pro, macOS Sequoia 15.3.1 (24D70)**
 
 Feel free to contribute or open issues!

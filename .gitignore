@@ -36,4 +36,4 @@ meta_model_single.pkl
 **/meta_model_fold0.pkl
 **/meta_model_single.pkl
 **/stacking_gbm_meta.pkl
-
+.venv/**
