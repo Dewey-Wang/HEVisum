@@ -1,0 +1,34 @@
+name: spatialhackathon
+channels:
+  - https://conda.anaconda.org/conda-forge/
+  - conda-forge
+  - defaults
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - python=3.9
+  - conda-forge::numpy
+  - conda-forge::pytorch
+  - conda-forge::ipykernel
+  - conda-forge::types-tqdm
+  - conda-forge::scipy
+  - conda-forge::tqdm
+  - conda-forge::matplotlib
+  - captum==0.7.0
+  - conda-forge::torchvision
+  - conda-forge::torchaudio
+  - conda-forge::scikit-learn
+  - conda-forge::albumentations
+  - conda-forge::opencv
+  - conda-forge::umap-learn
+  - conda-forge::pandas
+  - conda-forge::h5py
+  - ffmpeg
+  - libvorbis
+  - scikit-image==0.24.0
+  - conda-forge::lightgbm
+  - conda-forge::optuna
+  - anaconda::statsmodels
+  - conda-forge::tsfresh
+  - conda-forge::seaborn
+prefix: /opt/anaconda3/envs/spatialhackathon
