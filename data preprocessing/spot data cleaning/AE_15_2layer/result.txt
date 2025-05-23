@@ -1,3 +1,0 @@
-最終驗證 loss: 0.1668
-平均 Pearson correlation: 0.9032
-Mean off-diagonal abs corr: 0.3106
