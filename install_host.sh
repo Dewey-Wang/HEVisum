@@ -41,14 +41,6 @@ python -m pip install --upgrade pip
 # Install requirements
 python -m pip install --upgrade --no-deps -r requirements.txt
 
-# Add test support
-mkdir -p tests
-cat <<EOF > tests/test_basic.py
-import pytest
-
-def test_example():
-    assert 1 + 1 == 2
-EOF
 
 # Confirm
 echo "✅ Environment setup complete. To activate:"
