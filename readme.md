@@ -23,9 +23,7 @@ We reviewed the following papers to build background and inspire architectural d
 
 * [https://www.kaggle.com/code/dalloliogm/eda-exploring-cell-type-abundance](https://www.kaggle.com/code/dalloliogm/eda-exploring-cell-type-abundance)
   This notebook introduced the idea of smoothing rank values using neighboring spots. Though this approach wasn't successful in our case, it provided useful experimentation.
-
-* [https://www.kaggle.com/code/prajwaldongreonly-eda-you-need-to-understand-this-data](https://www.kaggle.com/code/prajwaldongreonly-eda-you-need-to-understand-this-data)
-
+  
 ---
 
 ## 3. Data Preprocessing
@@ -38,12 +36,12 @@ We reviewed the following papers to build background and inspire architectural d
 ### 3.2 Spot Data
 
 * **Spot realignment** - Adjust spot positions to align with image coordinates.
-* **Remove invalid data** - Exclude NaN values or out-of-bounds spots.
+* **Remove invalid data** - Remove spots that fall outside of tissue regions, identified using a grayscale threshold-based tissue mask.
 * **Expression ranking** - Replace raw expression counts with rank values for each spot.
 
 ### 3.3 Final Preprocessing
 
-* **Calculate spot distance** - Compute distances (e.g., Euclidean) between spots.
+* **Calculate spot distance** - Compute average distances between spots.
 * **Image tiling** - Extract tiles around each spot for model input.
 
 > Full code for preprocessing steps will be provided in the repo.
@@ -114,7 +112,6 @@ docker run --gpus all -it --rm -p 8888:8888 -v "$PWD":/workspace \
 
 * **Port already in use**: Change `-p 8888:8888` to `-p 8889:8888` and open [http://localhost:8889](http://localhost:8889)
 * **Volume mounting fails on Windows**: Use `-v %cd%:/workspace` in CMD, or `$PWD` in bash.
-* **GPU not detected**: Ensure `nvidia-docker2` and correct driver versions are installed.
 
 ---
 
