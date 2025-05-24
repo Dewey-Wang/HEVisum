@@ -70,6 +70,8 @@ After training 6 individual models using Leave-One-Out Cross-Validation on the 6
 * **Model**: MLP with BatchNorm, Dropout, and LeakyReLU
 * **Output**: Final expression value predictions
 
+![Meta-Model training steps](images/ChatGPT Image 2025年5月24日 上午02_57_52.png)
+
 ---
 
 ## 5. Docker Support with JupyterLab
