@@ -146,8 +146,43 @@ Feel free to contribute or open issues!
 
 This project is released for **research and educational purposes only**.
 
-- The **original dataset** is provided by the [EL Hackathon 2025](https://www.kaggle.com/competitions/el-hackathon-2025) and subject to its own license terms and usage restrictions.
-- The **code and models** in this repository are developed by [Dewey Wang](https://github.com/Dewey-Wang) and shared under the **MIT License** unless otherwise noted.
-- Key architectural inspirations are derived from published academic work cited above. Please acknowledge the original authors when appropriate.
+* The **original dataset** is provided by the [EL Hackathon 2025](https://www.kaggle.com/competitions/el-hackathon-2025) and subject to its own license terms and usage restrictions.
+* The **code and models** in this repository are developed by [Ding Yang Wang](https://github.com/Dewey-Wang) and shared under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)** license.
+* Key architectural inspirations are derived from published academic work cited above. Please acknowledge the original authors when appropriate.
 
+For full terms, see: [https://creativecommons.org/licenses/by-nc/4.0/](https://creativecommons.org/licenses/by-nc/4.0/)
 
+---
+
+# Citation & Contribution
+
+If you find this project helpful in your research or work, please consider citing it:
+
+### 📖 Citation
+
+```bibtex
+@misc{wang2025hevisum,
+  author       = {Ding Yang Wang},
+  title        = {HEVisum: Spatial Gene Expression Prediction from H\&E Histology},
+  year         = {2025},
+  publisher    = {GitHub},
+  journal      = {GitHub repository},
+  howpublished = {\url{https://github.com/Dewey-Wang/HEVisum}}
+}
+```
+
+or simply use this format:
+
+> Wang, D. Y. (2025). HEVisum: Spatial Gene Expression Prediction from H\&E Histology. GitHub repository: [https://github.com/Dewey-Wang/HEVisum](https://github.com/Dewey-Wang/HEVisum)
+
+### 🤝 Contribution
+
+Contributions are welcome! Feel free to fork the repository, submit pull requests, or open issues for bugs and suggestions.
+
+To contribute:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a pull request
