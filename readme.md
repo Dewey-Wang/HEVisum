@@ -139,3 +139,15 @@ make reset     # Clean everything and reinitialize from scratch
 > Tested on: **Apple M1 Pro, macOS Sequoia 15.3.1 (24D70)**
 
 Feel free to contribute or open issues!
+
+---
+
+## 📄 License & Credits
+
+This project is released for **research and educational purposes only**.
+
+- The **original dataset** is provided by the [EL Hackathon 2025](https://www.kaggle.com/competitions/el-hackathon-2025) and subject to its own license terms and usage restrictions.
+- The **code and models** in this repository are developed by [Dewey Wang](https://github.com/Dewey-Wang) and shared under the **MIT License** unless otherwise noted.
+- Key architectural inspirations are derived from published academic work cited above. Please acknowledge the original authors when appropriate.
+
+
