@@ -59,8 +59,10 @@ This multi-branch model integrates both global and local features:
 * **Tile Encoder**: Deep encoder with residual blocks and multi-scale pooling.
 * **Subtile Encoder**: Uses several subtile patches and aggregates via mean pooling.
 * **Center Subtile Encoder**: Focuses on the central subtile using the same structure.
+![VisionMLP_MultiTask](images/image.png)
 
 Each branch outputs features, which are concatenated and passed through a decoder MLP for expression prediction.
+![VisionMLP_MultiTask](images/image2.png)
 
 ### Meta-Model: `StackingMLP`
 
@@ -70,7 +72,7 @@ After training 6 individual models using Leave-One-Out Cross-Validation on the 6
 * **Model**: MLP with BatchNorm, Dropout, and LeakyReLU
 * **Output**: Final expression value predictions
 
-![Meta-Model training steps](images/image1.png)
+![Meta-Model training steps](images/image3.png)
 
 ---
 
