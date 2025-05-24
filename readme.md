@@ -2,6 +2,8 @@
 
 This repository contains code and models for predicting spatial gene expression from H\&E histology images. It combines insights from key research, performs robust preprocessing, and trains multi-scale deep learning models with stacking for optimal accuracy.
 
+> 📥 Dataset available here: [Kaggle Competition - EL Hackathon 2025](https://www.kaggle.com/competitions/el-hackathon-2025/data?select=elucidata_ai_challenge_data.h5)
+
 ---
 
 ## 1. Search Studies
