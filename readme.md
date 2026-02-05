@@ -1,33 +1,33 @@
 # Spatial Gene Expression Prediction from H\&E Histology
 
-This repository contains code and models for predicting spatial gene expression from H\&E histology images. It combines insights from key research, performs robust preprocessing, and trains multi-scale deep learning models with stacking for optimal accuracy.
+This repository contains code and models for predicting spatial gene expression from H\&E histology images. I combined insights from key research, performed robust preprocessing, and trained multi-scale deep learning models with stacking for optimal accuracy.
 
-> 📥 Dataset available here: [Kaggle Competition - EL Hackathon 2025](https://www.kaggle.com/competitions/el-hackathon-2025/data?select=elucidata_ai_challenge_data.h5)
+> 📅 Dataset available here: [Kaggle Competition - EL Hackathon 2025](https://www.kaggle.com/competitions/el-hackathon-2025/data?select=elucidata_ai_challenge_data.h5)
 
 ---
 
 ## 1. Search Studies
 
-We reviewed the following papers to build background and inspire architectural decisions:
+I reviewed the following papers to build background and inspire architectural decisions:
 
 * **[Benchmarking the translational potential of spatial gene expression prediction from histology](https://www.nature.com/articles/s41467-025-56618-y)**
-  
-  This paper reviews multiple models and preprocessing approaches for gene expression prediction. It helped us understand the common practices in stain normalization, spot realignment, and also the prevailing network structures.
+
+  This paper reviews multiple models and preprocessing approaches for gene expression prediction. It helped me understand the common practices in stain normalization, spot realignment, and also the prevailing network structures.
 
 * **[DeepSpot: Leveraging Spatial Context for Enhanced Spatial Transcriptomics Prediction from H\&E Images](https://www.medrxiv.org/content/10.1101/2025.02.09.25321567v1)**
-  
-  DeepSpot introduced the critical concept of combining local and global structural context. This directly motivated our use of multi-scale input branches in our model.
+
+  DeepSpot introduced the critical concept of combining local and global structural context. This directly motivated my use of multi-scale input branches in the model.
 
 ---
 
 ## 2. Exploratory Data Analysis (EDA)
 
 * [https://www.kaggle.com/code/tarundirector/histology-eda-spotnet-visual-spatial-dl](https://www.kaggle.com/code/tarundirector/histology-eda-spotnet-visual-spatial-dl)
-  We leveraged the identification of low-activity spatial spots to inform spot realignment.
+  I leveraged the identification of low-activity spatial spots to inform spot realignment.
 
 * [https://www.kaggle.com/code/dalloliogm/eda-exploring-cell-type-abundance](https://www.kaggle.com/code/dalloliogm/eda-exploring-cell-type-abundance)
-  This notebook introduced the idea of smoothing rank values using neighboring spots. Though this approach wasn't successful in our case, it provided useful experimentation.
-  
+  This notebook introduced the idea of smoothing rank values using neighboring spots. Though this approach wasn't successful in my case, it provided useful experimentation.
+
 ---
 
 ## 3. Data Preprocessing
@@ -60,7 +60,7 @@ This multi-branch model integrates both global and local features:
 * **Subtile Encoder**: Uses several subtile patches and aggregates via mean pooling.
 * **Center Subtile Encoder**: Focuses on the central subtile using the same structure.
 
-![VisionMLP_MultiTask](images/image.png)
+![VisionMLP\_MultiTask](images/image.png)
 
 Each branch outputs features, which are concatenated and passed through a decoder MLP for expression prediction.
 
@@ -68,7 +68,7 @@ Each branch outputs features, which are concatenated and passed through a decode
 
 ### Meta-Model: `StackingMLP`
 
-After training 6 individual models using Leave-One-Out Cross-Validation on the 6 training images (S\_1 to S\_6), we ensemble the predictions using a meta model:
+After training 6 individual models using Leave-One-Out Cross-Validation on the 6 training images (S\_1 to S\_6), I ensemble the predictions using a meta model:
 
 * **Input**: Concatenated predictions from base models
 * **Model**: MLP with BatchNorm, Dropout, and LeakyReLU
@@ -82,7 +82,7 @@ After training 6 individual models using Leave-One-Out Cross-Validation on the 6
 
 I provide both CPU versions of the Docker image. Each image includes all dependencies and automatically launches JupyterLab. The Docker image is used for the preprocessing steps. If you want to use GPU to train the model, you need to download the package locally!
 
-### 📥 Pull Image (CPU version)
+### 📅 Pull Image (CPU version)
 
 ```bash
 docker pull deweywang/spatialhackathon:latest
@@ -144,7 +144,7 @@ make reset     # Clean everything and reinitialize from scratch
 
 > Tested on: **Apple M1 Pro, macOS Sequoia 15.3.1 (24D70)**
 
-Feel free to contribute or open issues!
+Feel free to open issues!
 
 ---
 
@@ -181,11 +181,11 @@ or simply use this format:
 
 > Wang, D. Y. (2025). HEVisum: Spatial Gene Expression Prediction from H\&E Histology. GitHub repository: [https://github.com/Dewey-Wang/HEVisum](https://github.com/Dewey-Wang/HEVisum)
 
-### 🤝 Contribution
+### 👍 Contribution
 
-Contributions are welcome! Feel free to fork the repository, submit pull requests, or open issues for bugs and suggestions.
+While this project was completed entirely by myself, I welcome feedback or discussions.
 
-To contribute:
+If you'd like to adapt this work:
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
