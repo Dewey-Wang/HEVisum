@@ -248,7 +248,7 @@ def load_all_tile_data(folder_path,
 
     for fname in pt_files:
         fpath = os.path.join(folder_path, fname)
-        d = torch.load(fpath, map_location='cpu')
+        d = torch.load(fpath, map_location='cpu', weights_only=False)
 
         # ✅ 優先從檔案內部讀取 source_idx
         if 'source_idx' in d:
@@ -277,7 +277,8 @@ def load_node_feature_data(pt_path: str, model, num_cells: int = 35) -> dict:
     import torch
     import inspect
 
-    raw = torch.load(pt_path, map_location="cpu")
+    raw = torch.load(pt_path, map_location='cpu', weights_only=False)
+
 
     # 模型需要哪些參數？
     sig = inspect.signature(model.forward)
