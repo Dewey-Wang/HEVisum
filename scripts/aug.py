@@ -15,20 +15,40 @@ def identity(sample):
 # --------------------------------------------------------------------------------
 # 2) ReplayCompose pipeline for tile augmentation
 
-augment_transform = A.Compose([
-    # —— 空间变换 ——  
+# 全部統一的 Normalize
+my_normalize = A.Normalize(
+    mean=(0.72993416*255, 0.66401669*255, 0.79858416*255),
+    std=(0.13688086*255, 0.16952383*255, 0.10068341*255)
+)
+
+# 強 augmentation (train/val)
+train_val_transform = A.Compose([
     A.HorizontalFlip(p=0.8),
     A.VerticalFlip(p=0.8),
     A.Rotate(limit=90, p=0.8),
-    A.ColorJitter(brightness=0.2, contrast=0.2,
-                  saturation=0.2, hue=0.05, p=0.8),
-    # —— 模糊 & 噪声 ——  
+    A.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.05, p=0.8),
     A.GaussianBlur(blur_limit=(3,7), p=0.5),
     A.GaussNoise(var_limit=(10.0,50.0), p=0.5),
-
-    # # —— 可选的 ElasticTransform ——  
+    # my_normalize,
     # A.ElasticTransform(alpha=1, sigma=1, p=0.2),
+
 ])
+
+# 測試基本 flip/rotate
+test_transform = A.Compose([
+    A.HorizontalFlip(p=0.8),
+    A.VerticalFlip(p=0.8),
+    A.Rotate(limit=90, p=0.8),
+    # A.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.05, p=0.8),
+    # my_normalize
+])
+
+# 如果你還有其他 transform (e.g., val_transform)
+# 可以和train共用:
+val_transform = A.Compose([
+    my_normalize
+])
+
 
 SEED = 42
 
@@ -54,41 +74,37 @@ def split_into_subtiles(tile: np.ndarray, grid_size: int = 3) -> list[np.ndarray
 # --------------------------------------------------------------------------------
 # 3) Pickle-able augmenter: augments only tile (numpy HWC), regenerates subtiles
 class AugmentFn:
-    def __init__(self, repeats: int = 1, grid_size: int = 3):
+    def __init__(self, repeats: int = 1, grid_size: int = 3, transform=None):
         self.repeats = repeats
         self.grid_size = grid_size
+        self.transform = transform
 
     def __call__(self, sample: dict, base_idx: int, aug_idx: int) -> dict:
-        # deterministic seed for reproducibility
         seed = SEED + base_idx * self.repeats + aug_idx
         random.seed(seed)
         np.random.seed(seed)
 
-        # 1) Extract original tile array
         tile = sample['tile']
-        # ensure numpy array HWC
         if isinstance(tile, torch.Tensor):
             arr = tile.detach().cpu().numpy()
         else:
             arr = tile.copy()
 
-        # 2) Convert to uint8 for Albumentations
         arr_uint8 = (arr * 255.0).round().astype(np.uint8)
 
-        # 3) Apply augmentation
-        rec = augment_transform(image=arr_uint8)
-        aug_arr = rec['image'].astype(np.float32) / 255.0  # normalize back [0,1]
+        if self.transform is not None:
+            rec = self.transform(image=arr_uint8)
+            aug_arr = rec['image'].astype(np.float32) / 255.0
+        else:
+            aug_arr = arr  # no transform
 
-        # 4) Assign augmented tile
         sample['tile'] = aug_arr
-
-        # 5) Regenerate subtiles from augmented tile
         sample['subtiles'] = np.stack(
             split_into_subtiles(aug_arr, grid_size=self.grid_size),
             axis=0
         )
-
         return sample
+
 
 # --------------------------------------------------------------------------------
 # 4) Dataset holding pre-augmented list (same as before)
@@ -122,29 +138,42 @@ def build_static_dataset(base_ds: Dataset, repeats: int) -> StaticDataset:
 #           image_keys: list of keys to augment (e.g. ['tile','subtiles'])
 #           repeats: number of augmentations per sample
 #    Returns new dict with same keys, length = original_N * (1 + repeats)
-def augment_grouped_data(grouped_data: dict, image_keys: list[str], repeats: int = 1) -> dict:
+def augment_grouped_data(grouped_data: dict, image_keys: list[str], repeats: int = 1, mode="train") -> dict:
+    """
+    mode: "train", "val", "test"
+    """
     keys = list(grouped_data.keys())
     N = len(grouped_data[keys[0]])
     new_data = {k: [] for k in keys}
-    augmenter = AugmentFn(repeats)
+
+    # 選擇對應transform
+    if mode == "train" or mode == "val":
+        transform = train_val_transform
+    elif mode == "test":
+        transform = test_transform
+    else:
+        raise ValueError(f"Unknown mode: {mode}")
+
+    augmenter = AugmentFn(repeats=repeats, transform=transform)
 
     from copy import deepcopy as _deepcopy
     for i in range(N):
-        # assemble one sample dict from grouped_data
         sample = {k: grouped_data[k][i] for k in keys}
-        # 1) original
+        # original (不做augmentation)
         for k in keys:
             new_data[k].append(sample[k])
-        # 2) augmented
+        # repeats augmentations
         for aug_idx in range(repeats):
             samp = _deepcopy(sample)
             aug_samp = augmenter(samp, base_idx=i, aug_idx=aug_idx)
             for k in keys:
-                if k in ['tile', 'subtiles']:
+                if k in image_keys:
                     new_data[k].append(aug_samp[k])
                 else:
                     new_data[k].append(sample[k])
+
     return new_data
+
 
 
 def subset_grouped_data(data_dict, indices):
