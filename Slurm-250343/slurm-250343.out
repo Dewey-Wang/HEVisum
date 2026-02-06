@@ -1,0 +1,3205 @@
+HOST=node302
+CUDA_VISIBLE_DEVICES=0,1
+Fri Feb  6 04:48:22 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.161.07             Driver Version: 535.161.07   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  | 00000000:17:00.0 Off |                    0 |
+| N/A   29C    P0              35W / 250W |      0MiB / 40960MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+|   1  NVIDIA A100-PCIE-40GB          On  | 00000000:65:00.0 Off |                    0 |
+| N/A   30C    P0              38W / 250W |      0MiB / 40960MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+CUDA_VISIBLE_DEVICES: 0,1
+torch: 2.4.0
+torch.version.cuda: 12.1
+cuda available: True
+gpu count: 2
+Trainable / total params = 4,312,099 / 4,312,099
+Loaded keys: dict_keys(['subtiles', 'label', 'slide_idx', 'source_idx', 'tile', 'position'])
+Samples: 8090
+✅ device: cuda
+Starting fold 0
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=85.9107, val_loss=74.2354
+train spearman: 0.5238 | Val spearman: 0.5292 | best: 0.5292
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=72.7284, val_loss=73.8420
+train spearman: 0.5655 | Val spearman: 0.5342 | best: 0.5342
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 3]  lr=9.76e-04, train_loss=71.7892, val_loss=74.5526
+train spearman: 0.5693 | Val spearman: 0.5247 | best: 0.5342
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 4]  lr=9.57e-04, train_loss=70.9096, val_loss=74.7150
+train spearman: 0.5707 | Val spearman: 0.5293 | best: 0.5342
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 5]  lr=9.33e-04, train_loss=70.6367, val_loss=73.7153
+train spearman: 0.5717 | Val spearman: 0.5281 | best: 0.5342
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 6]  lr=9.05e-04, train_loss=70.1403, val_loss=73.0889
+train spearman: 0.5723 | Val spearman: 0.5294 | best: 0.5342
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=70.0110, val_loss=72.7950
+train spearman: 0.5727 | Val spearman: 0.5342 | best: 0.5342
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 8]  lr=8.35e-04, train_loss=64.8843, val_loss=67.7311
+train spearman: 0.6132 | Val spearman: 0.5723 | best: 0.5723
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 9]  lr=7.94e-04, train_loss=58.1931, val_loss=59.9471
+train spearman: 0.6641 | Val spearman: 0.6331 | best: 0.6331
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 10]  lr=7.50e-04, train_loss=54.5791, val_loss=63.7659
+train spearman: 0.6903 | Val spearman: 0.6019 | best: 0.6331
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 11]  lr=7.04e-04, train_loss=52.6137, val_loss=51.0998
+train spearman: 0.7035 | Val spearman: 0.6947 | best: 0.6947
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=51.0802, val_loss=50.3806
+train spearman: 0.7127 | Val spearman: 0.7059 | best: 0.7059
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 13]  lr=6.04e-04, train_loss=50.1980, val_loss=50.1448
+train spearman: 0.7193 | Val spearman: 0.7041 | best: 0.7059
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 14]  lr=5.53e-04, train_loss=49.3046, val_loss=48.9510
+train spearman: 0.7241 | Val spearman: 0.7177 | best: 0.7177
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 15]  lr=5.00e-04, train_loss=48.7068, val_loss=48.7653
+train spearman: 0.7285 | Val spearman: 0.7166 | best: 0.7177
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 16]  lr=4.48e-04, train_loss=47.8836, val_loss=48.3980
+train spearman: 0.7335 | Val spearman: 0.7140 | best: 0.7177
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=47.1268, val_loss=47.8088
+train spearman: 0.7379 | Val spearman: 0.7199 | best: 0.7199
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 18]  lr=3.46e-04, train_loss=46.4041, val_loss=47.1131
+train spearman: 0.7421 | Val spearman: 0.7236 | best: 0.7236
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 19]  lr=2.97e-04, train_loss=45.8137, val_loss=47.8029
+train spearman: 0.7460 | Val spearman: 0.7184 | best: 0.7236
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 20]  lr=2.51e-04, train_loss=45.2089, val_loss=46.9807
+train spearman: 0.7493 | Val spearman: 0.7255 | best: 0.7255
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 21]  lr=2.07e-04, train_loss=44.4756, val_loss=48.0698
+train spearman: 0.7539 | Val spearman: 0.7203 | best: 0.7255
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 22]  lr=1.66e-04, train_loss=44.1917, val_loss=47.0325
+train spearman: 0.7560 | Val spearman: 0.7252 | best: 0.7255
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 23]  lr=1.29e-04, train_loss=43.4016, val_loss=47.1858
+train spearman: 0.7606 | Val spearman: 0.7233 | best: 0.7255
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 24]  lr=9.64e-05, train_loss=43.2388, val_loss=46.1420
+train spearman: 0.7618 | Val spearman: 0.7301 | best: 0.7301
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 25]  lr=6.79e-05, train_loss=42.6972, val_loss=45.8796
+train spearman: 0.7647 | Val spearman: 0.7310 | best: 0.7310
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 26]  lr=4.42e-05, train_loss=42.2473, val_loss=45.8992
+train spearman: 0.7681 | Val spearman: 0.7309 | best: 0.7310
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 27]  lr=2.54e-05, train_loss=42.0929, val_loss=45.9836
+train spearman: 0.7689 | Val spearman: 0.7302 | best: 0.7310
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 28]  lr=1.19e-05, train_loss=41.9254, val_loss=45.8054
+train spearman: 0.7701 | Val spearman: 0.7316 | best: 0.7316
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 29]  lr=3.74e-06, train_loss=41.6667, val_loss=45.6886
+train spearman: 0.7714 | Val spearman: 0.7324 | best: 0.7324
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 30]  lr=1.00e-06, train_loss=41.6646, val_loss=45.7457
+train spearman: 0.7715 | Val spearman: 0.7322 | best: 0.7324
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 31]  lr=3.74e-06, train_loss=41.5671, val_loss=46.1448
+train spearman: 0.7723 | Val spearman: 0.7295 | best: 0.7324
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 32]  lr=1.19e-05, train_loss=41.7072, val_loss=45.8991
+train spearman: 0.7714 | Val spearman: 0.7309 | best: 0.7324
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 33]  lr=2.54e-05, train_loss=41.6136, val_loss=45.2794
+train spearman: 0.7718 | Val spearman: 0.7355 | best: 0.7355
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 34]  lr=4.42e-05, train_loss=41.8451, val_loss=45.9150
+train spearman: 0.7702 | Val spearman: 0.7310 | best: 0.7355
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 35]  lr=6.79e-05, train_loss=41.6451, val_loss=45.4135
+train spearman: 0.7719 | Val spearman: 0.7355 | best: 0.7355
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 36]  lr=9.64e-05, train_loss=41.8175, val_loss=46.1502
+train spearman: 0.7710 | Val spearman: 0.7314 | best: 0.7355
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 37]  lr=1.29e-04, train_loss=41.8304, val_loss=46.2235
+train spearman: 0.7709 | Val spearman: 0.7297 | best: 0.7355
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold0/best_model.pt!
+[Epoch 38]  lr=1.66e-04, train_loss=41.8445, val_loss=44.8502
+train spearman: 0.7706 | Val spearman: 0.7398 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 39]  lr=2.07e-04, train_loss=41.7709, val_loss=46.0922
+train spearman: 0.7714 | Val spearman: 0.7311 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 40]  lr=2.51e-04, train_loss=42.0241, val_loss=44.6984
+train spearman: 0.7699 | Val spearman: 0.7385 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 41]  lr=2.97e-04, train_loss=41.9580, val_loss=46.5464
+train spearman: 0.7705 | Val spearman: 0.7328 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 42]  lr=3.46e-04, train_loss=41.9211, val_loss=49.1436
+train spearman: 0.7709 | Val spearman: 0.7100 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 43]  lr=3.97e-04, train_loss=41.9998, val_loss=46.6485
+train spearman: 0.7709 | Val spearman: 0.7262 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 44]  lr=4.48e-04, train_loss=41.9953, val_loss=47.6542
+train spearman: 0.7713 | Val spearman: 0.7218 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 45]  lr=5.00e-04, train_loss=42.1073, val_loss=46.9863
+train spearman: 0.7709 | Val spearman: 0.7252 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 46]  lr=5.53e-04, train_loss=41.9963, val_loss=45.9795
+train spearman: 0.7711 | Val spearman: 0.7320 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 47]  lr=6.04e-04, train_loss=42.0068, val_loss=47.5105
+train spearman: 0.7712 | Val spearman: 0.7241 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 48]  lr=6.55e-04, train_loss=41.8790, val_loss=46.4570
+train spearman: 0.7721 | Val spearman: 0.7279 | best: 0.7398
+Figure(1400x800)
+save plots in output_folder/only_tile/fold0/loss_curve.png
+⛔ early stop
+📈 Fold 0 best ρ = 0.7398
+Starting fold 1
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=88.2064, val_loss=77.2940
+train spearman: 0.5177 | Val spearman: 0.5391 | best: 0.5391
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=74.0965, val_loss=71.9888
+train spearman: 0.5610 | Val spearman: 0.5447 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 3]  lr=9.76e-04, train_loss=72.4320, val_loss=73.2087
+train spearman: 0.5643 | Val spearman: 0.5376 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 4]  lr=9.57e-04, train_loss=71.9200, val_loss=73.0022
+train spearman: 0.5657 | Val spearman: 0.5302 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 5]  lr=9.33e-04, train_loss=71.3048, val_loss=71.7625
+train spearman: 0.5663 | Val spearman: 0.5435 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 6]  lr=9.05e-04, train_loss=71.0359, val_loss=72.5512
+train spearman: 0.5668 | Val spearman: 0.5437 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 7]  lr=8.72e-04, train_loss=70.8681, val_loss=72.2015
+train spearman: 0.5672 | Val spearman: 0.5357 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 8]  lr=8.35e-04, train_loss=70.7205, val_loss=72.9102
+train spearman: 0.5673 | Val spearman: 0.5290 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 9]  lr=7.94e-04, train_loss=70.5447, val_loss=72.9354
+train spearman: 0.5677 | Val spearman: 0.5316 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 10]  lr=7.50e-04, train_loss=70.4175, val_loss=73.5176
+train spearman: 0.5678 | Val spearman: 0.5274 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 11]  lr=7.04e-04, train_loss=70.3539, val_loss=72.2596
+train spearman: 0.5677 | Val spearman: 0.5364 | best: 0.5447
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=69.7488, val_loss=69.0918
+train spearman: 0.5723 | Val spearman: 0.5710 | best: 0.5710
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 13]  lr=6.04e-04, train_loss=62.9584, val_loss=57.7138
+train spearman: 0.6238 | Val spearman: 0.6565 | best: 0.6565
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 14]  lr=5.53e-04, train_loss=60.2332, val_loss=58.0623
+train spearman: 0.6437 | Val spearman: 0.6425 | best: 0.6565
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 15]  lr=5.00e-04, train_loss=56.8395, val_loss=51.6813
+train spearman: 0.6695 | Val spearman: 0.6979 | best: 0.6979
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 16]  lr=4.48e-04, train_loss=53.7608, val_loss=61.6478
+train spearman: 0.6917 | Val spearman: 0.6157 | best: 0.6979
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=52.0873, val_loss=48.8390
+train spearman: 0.7029 | Val spearman: 0.7154 | best: 0.7154
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 18]  lr=3.46e-04, train_loss=51.0404, val_loss=47.5628
+train spearman: 0.7097 | Val spearman: 0.7230 | best: 0.7230
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 19]  lr=2.97e-04, train_loss=50.4041, val_loss=49.0270
+train spearman: 0.7141 | Val spearman: 0.7144 | best: 0.7230
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 20]  lr=2.51e-04, train_loss=49.8374, val_loss=48.6229
+train spearman: 0.7175 | Val spearman: 0.7154 | best: 0.7230
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 21]  lr=2.07e-04, train_loss=49.0590, val_loss=47.5976
+train spearman: 0.7226 | Val spearman: 0.7204 | best: 0.7230
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 22]  lr=1.66e-04, train_loss=48.4825, val_loss=46.5004
+train spearman: 0.7262 | Val spearman: 0.7303 | best: 0.7303
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 23]  lr=1.29e-04, train_loss=48.2338, val_loss=47.2782
+train spearman: 0.7284 | Val spearman: 0.7250 | best: 0.7303
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 24]  lr=9.64e-05, train_loss=47.7055, val_loss=46.0035
+train spearman: 0.7315 | Val spearman: 0.7354 | best: 0.7354
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 25]  lr=6.79e-05, train_loss=47.3776, val_loss=46.4380
+train spearman: 0.7337 | Val spearman: 0.7307 | best: 0.7354
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 26]  lr=4.42e-05, train_loss=46.9196, val_loss=45.8511
+train spearman: 0.7365 | Val spearman: 0.7356 | best: 0.7356
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 27]  lr=2.54e-05, train_loss=46.5226, val_loss=45.0630
+train spearman: 0.7390 | Val spearman: 0.7393 | best: 0.7393
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 28]  lr=1.19e-05, train_loss=46.4498, val_loss=45.3792
+train spearman: 0.7395 | Val spearman: 0.7365 | best: 0.7393
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 29]  lr=3.74e-06, train_loss=46.3510, val_loss=45.6026
+train spearman: 0.7403 | Val spearman: 0.7363 | best: 0.7393
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 30]  lr=1.00e-06, train_loss=46.3815, val_loss=45.5233
+train spearman: 0.7401 | Val spearman: 0.7367 | best: 0.7393
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 31]  lr=3.74e-06, train_loss=46.2390, val_loss=44.4782
+train spearman: 0.7408 | Val spearman: 0.7427 | best: 0.7427
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 32]  lr=1.19e-05, train_loss=46.2221, val_loss=45.8585
+train spearman: 0.7410 | Val spearman: 0.7339 | best: 0.7427
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 33]  lr=2.54e-05, train_loss=46.3320, val_loss=45.6569
+train spearman: 0.7402 | Val spearman: 0.7356 | best: 0.7427
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 34]  lr=4.42e-05, train_loss=46.3569, val_loss=45.8038
+train spearman: 0.7400 | Val spearman: 0.7341 | best: 0.7427
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 35]  lr=6.79e-05, train_loss=46.3691, val_loss=44.7639
+train spearman: 0.7403 | Val spearman: 0.7408 | best: 0.7427
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 36]  lr=9.64e-05, train_loss=46.3290, val_loss=44.8889
+train spearman: 0.7405 | Val spearman: 0.7406 | best: 0.7427
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 37]  lr=1.29e-04, train_loss=46.5589, val_loss=46.4147
+train spearman: 0.7388 | Val spearman: 0.7303 | best: 0.7427
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 38]  lr=1.66e-04, train_loss=46.4673, val_loss=43.9527
+train spearman: 0.7397 | Val spearman: 0.7472 | best: 0.7472
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 39]  lr=2.07e-04, train_loss=46.4978, val_loss=45.9621
+train spearman: 0.7400 | Val spearman: 0.7344 | best: 0.7472
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 40]  lr=2.51e-04, train_loss=46.4837, val_loss=48.3953
+train spearman: 0.7400 | Val spearman: 0.7187 | best: 0.7472
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 41]  lr=2.97e-04, train_loss=46.6964, val_loss=45.1752
+train spearman: 0.7390 | Val spearman: 0.7415 | best: 0.7472
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 42]  lr=3.46e-04, train_loss=46.7401, val_loss=45.6155
+train spearman: 0.7387 | Val spearman: 0.7382 | best: 0.7472
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 43]  lr=3.97e-04, train_loss=46.5126, val_loss=44.9711
+train spearman: 0.7402 | Val spearman: 0.7399 | best: 0.7472
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 44]  lr=4.48e-04, train_loss=46.6018, val_loss=45.1343
+train spearman: 0.7400 | Val spearman: 0.7435 | best: 0.7472
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 45]  lr=5.00e-04, train_loss=46.7240, val_loss=44.3685
+train spearman: 0.7393 | Val spearman: 0.7474 | best: 0.7474
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 46]  lr=5.53e-04, train_loss=46.6318, val_loss=45.4899
+train spearman: 0.7404 | Val spearman: 0.7370 | best: 0.7474
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 47]  lr=6.04e-04, train_loss=46.5522, val_loss=47.8402
+train spearman: 0.7412 | Val spearman: 0.7235 | best: 0.7474
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 48]  lr=6.55e-04, train_loss=46.6201, val_loss=45.1967
+train spearman: 0.7402 | Val spearman: 0.7386 | best: 0.7474
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 49]  lr=7.04e-04, train_loss=46.3286, val_loss=46.5946
+train spearman: 0.7424 | Val spearman: 0.7316 | best: 0.7474
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 50]  lr=7.50e-04, train_loss=46.1549, val_loss=44.0225
+train spearman: 0.7442 | Val spearman: 0.7489 | best: 0.7489
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 51]  lr=7.94e-04, train_loss=46.5895, val_loss=46.8016
+train spearman: 0.7414 | Val spearman: 0.7281 | best: 0.7489
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 52]  lr=8.35e-04, train_loss=45.7634, val_loss=46.8457
+train spearman: 0.7468 | Val spearman: 0.7391 | best: 0.7489
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 53]  lr=8.72e-04, train_loss=45.7250, val_loss=43.6072
+train spearman: 0.7469 | Val spearman: 0.7493 | best: 0.7493
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 54]  lr=9.05e-04, train_loss=45.3760, val_loss=44.2218
+train spearman: 0.7489 | Val spearman: 0.7478 | best: 0.7493
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 55]  lr=9.33e-04, train_loss=45.1993, val_loss=43.4145
+train spearman: 0.7499 | Val spearman: 0.7613 | best: 0.7613
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 56]  lr=9.57e-04, train_loss=44.8779, val_loss=46.1092
+train spearman: 0.7524 | Val spearman: 0.7399 | best: 0.7613
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 57]  lr=9.76e-04, train_loss=44.5308, val_loss=48.7354
+train spearman: 0.7541 | Val spearman: 0.7170 | best: 0.7613
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 58]  lr=9.89e-04, train_loss=44.2983, val_loss=44.1340
+train spearman: 0.7556 | Val spearman: 0.7458 | best: 0.7613
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 59]  lr=9.97e-04, train_loss=43.6566, val_loss=41.6235
+train spearman: 0.7596 | Val spearman: 0.7628 | best: 0.7628
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 60]  lr=1.00e-03, train_loss=43.3209, val_loss=44.1299
+train spearman: 0.7612 | Val spearman: 0.7471 | best: 0.7628
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 61]  lr=9.97e-04, train_loss=42.9018, val_loss=44.3687
+train spearman: 0.7642 | Val spearman: 0.7459 | best: 0.7628
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 62]  lr=9.89e-04, train_loss=42.7803, val_loss=46.0694
+train spearman: 0.7642 | Val spearman: 0.7328 | best: 0.7628
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 63]  lr=9.76e-04, train_loss=41.6896, val_loss=50.4421
+train spearman: 0.7709 | Val spearman: 0.7034 | best: 0.7628
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 64]  lr=9.57e-04, train_loss=41.3973, val_loss=52.8043
+train spearman: 0.7724 | Val spearman: 0.6836 | best: 0.7628
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold1/best_model.pt!
+[Epoch 65]  lr=9.33e-04, train_loss=40.8115, val_loss=41.3188
+train spearman: 0.7762 | Val spearman: 0.7678 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 66]  lr=9.05e-04, train_loss=694.4918, val_loss=53.8822
+train spearman: 0.7478 | Val spearman: 0.6823 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 67]  lr=8.72e-04, train_loss=54.0381, val_loss=52.2516
+train spearman: 0.6867 | Val spearman: 0.6935 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 68]  lr=8.35e-04, train_loss=5898.6079, val_loss=94.6677
+train spearman: 0.6967 | Val spearman: 0.5542 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 69]  lr=7.94e-04, train_loss=64.4205, val_loss=58.1487
+train spearman: 0.6164 | Val spearman: 0.6468 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 70]  lr=7.50e-04, train_loss=61.4390, val_loss=56.0853
+train spearman: 0.6309 | Val spearman: 0.6598 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 71]  lr=7.04e-04, train_loss=59.9577, val_loss=54.6436
+train spearman: 0.6399 | Val spearman: 0.6708 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 72]  lr=6.55e-04, train_loss=59.1898, val_loss=54.1727
+train spearman: 0.6449 | Val spearman: 0.6755 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 73]  lr=6.04e-04, train_loss=58.8218, val_loss=53.6433
+train spearman: 0.6469 | Val spearman: 0.6794 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 74]  lr=5.53e-04, train_loss=58.3355, val_loss=52.9507
+train spearman: 0.6505 | Val spearman: 0.6824 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 75]  lr=5.01e-04, train_loss=58.1298, val_loss=52.8106
+train spearman: 0.6521 | Val spearman: 0.6833 | best: 0.7678
+Figure(1400x800)
+save plots in output_folder/only_tile/fold1/loss_curve.png
+⛔ early stop
+📈 Fold 1 best ρ = 0.7678
+Starting fold 2
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=87.4861, val_loss=67.9811
+train spearman: 0.5162 | Val spearman: 0.5799 | best: 0.5799
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 2]  lr=9.89e-04, train_loss=74.6872, val_loss=72.9065
+train spearman: 0.5486 | Val spearman: 0.5780 | best: 0.5799
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 3]  lr=9.76e-04, train_loss=74.0701, val_loss=67.8343
+train spearman: 0.5522 | Val spearman: 0.5780 | best: 0.5799
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 4]  lr=9.57e-04, train_loss=73.0715, val_loss=68.9210
+train spearman: 0.5539 | Val spearman: 0.5787 | best: 0.5799
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 5]  lr=9.33e-04, train_loss=72.6830, val_loss=67.5894
+train spearman: 0.5547 | Val spearman: 0.5802 | best: 0.5802
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 6]  lr=9.05e-04, train_loss=72.2071, val_loss=67.6840
+train spearman: 0.5551 | Val spearman: 0.5782 | best: 0.5802
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 7]  lr=8.72e-04, train_loss=72.0025, val_loss=69.9675
+train spearman: 0.5553 | Val spearman: 0.5773 | best: 0.5802
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 8]  lr=8.35e-04, train_loss=71.8493, val_loss=63.8636
+train spearman: 0.5565 | Val spearman: 0.6046 | best: 0.6046
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 9]  lr=7.94e-04, train_loss=65.5258, val_loss=54.9023
+train spearman: 0.6078 | Val spearman: 0.6657 | best: 0.6657
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 10]  lr=7.50e-04, train_loss=61.8584, val_loss=49.5393
+train spearman: 0.6350 | Val spearman: 0.7021 | best: 0.7021
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 11]  lr=7.04e-04, train_loss=58.1734, val_loss=43.8415
+train spearman: 0.6638 | Val spearman: 0.7467 | best: 0.7467
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 12]  lr=6.55e-04, train_loss=54.4212, val_loss=47.3555
+train spearman: 0.6910 | Val spearman: 0.7285 | best: 0.7467
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 13]  lr=6.04e-04, train_loss=53.0400, val_loss=44.9833
+train spearman: 0.7008 | Val spearman: 0.7373 | best: 0.7467
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 14]  lr=5.53e-04, train_loss=51.6217, val_loss=45.8310
+train spearman: 0.7090 | Val spearman: 0.7305 | best: 0.7467
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 15]  lr=5.00e-04, train_loss=50.7485, val_loss=49.3603
+train spearman: 0.7145 | Val spearman: 0.7135 | best: 0.7467
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 16]  lr=4.48e-04, train_loss=50.1282, val_loss=43.9777
+train spearman: 0.7192 | Val spearman: 0.7434 | best: 0.7467
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=49.3887, val_loss=41.9755
+train spearman: 0.7239 | Val spearman: 0.7563 | best: 0.7563
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 18]  lr=3.46e-04, train_loss=48.4734, val_loss=42.7983
+train spearman: 0.7298 | Val spearman: 0.7522 | best: 0.7563
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 19]  lr=2.97e-04, train_loss=47.4346, val_loss=41.2363
+train spearman: 0.7363 | Val spearman: 0.7613 | best: 0.7613
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 20]  lr=2.51e-04, train_loss=46.5402, val_loss=42.2609
+train spearman: 0.7419 | Val spearman: 0.7552 | best: 0.7613
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 21]  lr=2.07e-04, train_loss=45.8400, val_loss=44.4853
+train spearman: 0.7467 | Val spearman: 0.7398 | best: 0.7613
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 22]  lr=1.66e-04, train_loss=44.9138, val_loss=41.8672
+train spearman: 0.7521 | Val spearman: 0.7580 | best: 0.7613
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 23]  lr=1.29e-04, train_loss=44.4823, val_loss=40.8884
+train spearman: 0.7550 | Val spearman: 0.7636 | best: 0.7636
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold2/best_model.pt!
+[Epoch 24]  lr=9.64e-05, train_loss=43.7594, val_loss=40.6958
+train spearman: 0.7594 | Val spearman: 0.7654 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 25]  lr=6.79e-05, train_loss=43.4182, val_loss=40.8574
+train spearman: 0.7612 | Val spearman: 0.7636 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 26]  lr=4.42e-05, train_loss=42.9687, val_loss=41.1044
+train spearman: 0.7646 | Val spearman: 0.7619 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 27]  lr=2.54e-05, train_loss=42.7805, val_loss=41.0766
+train spearman: 0.7656 | Val spearman: 0.7629 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 28]  lr=1.19e-05, train_loss=42.3820, val_loss=41.4764
+train spearman: 0.7680 | Val spearman: 0.7594 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 29]  lr=3.74e-06, train_loss=42.2742, val_loss=41.7180
+train spearman: 0.7688 | Val spearman: 0.7575 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 30]  lr=1.00e-06, train_loss=42.2454, val_loss=41.2080
+train spearman: 0.7685 | Val spearman: 0.7613 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 31]  lr=3.74e-06, train_loss=42.1890, val_loss=41.1265
+train spearman: 0.7693 | Val spearman: 0.7617 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 32]  lr=1.19e-05, train_loss=42.2460, val_loss=41.1388
+train spearman: 0.7688 | Val spearman: 0.7616 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 33]  lr=2.54e-05, train_loss=42.2323, val_loss=41.1539
+train spearman: 0.7690 | Val spearman: 0.7615 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 34]  lr=4.42e-05, train_loss=42.2148, val_loss=41.0935
+train spearman: 0.7688 | Val spearman: 0.7620 | best: 0.7654
+Figure(1400x800)
+save plots in output_folder/only_tile/fold2/loss_curve.png
+⛔ early stop
+📈 Fold 2 best ρ = 0.7654
+Starting fold 3
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=86.5222, val_loss=102.1768
+train spearman: 0.5156 | Val spearman: 0.5825 | best: 0.5825
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 2]  lr=9.89e-04, train_loss=75.3221, val_loss=75.2804
+train spearman: 0.5478 | Val spearman: 0.5797 | best: 0.5825
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 3]  lr=9.76e-04, train_loss=73.9963, val_loss=70.2219
+train spearman: 0.5516 | Val spearman: 0.5734 | best: 0.5825
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 4]  lr=9.57e-04, train_loss=73.0410, val_loss=77.1646
+train spearman: 0.5529 | Val spearman: 0.5781 | best: 0.5825
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 5]  lr=9.33e-04, train_loss=72.6590, val_loss=70.9390
+train spearman: 0.5538 | Val spearman: 0.5813 | best: 0.5825
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 6]  lr=9.05e-04, train_loss=70.5804, val_loss=63.2152
+train spearman: 0.5687 | Val spearman: 0.6161 | best: 0.6161
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=62.3432, val_loss=65.2064
+train spearman: 0.6328 | Val spearman: 0.6319 | best: 0.6319
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 8]  lr=8.35e-04, train_loss=56.6719, val_loss=58.1597
+train spearman: 0.6754 | Val spearman: 0.6471 | best: 0.6471
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 9]  lr=7.94e-04, train_loss=53.0765, val_loss=60.2177
+train spearman: 0.7014 | Val spearman: 0.6538 | best: 0.6538
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 10]  lr=7.50e-04, train_loss=51.3310, val_loss=55.6989
+train spearman: 0.7128 | Val spearman: 0.6741 | best: 0.6741
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 11]  lr=7.04e-04, train_loss=49.9219, val_loss=58.1974
+train spearman: 0.7220 | Val spearman: 0.6612 | best: 0.6741
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 12]  lr=6.55e-04, train_loss=48.8733, val_loss=55.7481
+train spearman: 0.7290 | Val spearman: 0.6735 | best: 0.6741
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 13]  lr=6.04e-04, train_loss=47.9488, val_loss=62.9583
+train spearman: 0.7345 | Val spearman: 0.6488 | best: 0.6741
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 14]  lr=5.53e-04, train_loss=47.2040, val_loss=55.7252
+train spearman: 0.7391 | Val spearman: 0.6754 | best: 0.6754
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 15]  lr=5.00e-04, train_loss=46.2026, val_loss=57.1856
+train spearman: 0.7454 | Val spearman: 0.6721 | best: 0.6754
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 16]  lr=4.48e-04, train_loss=45.8022, val_loss=55.9847
+train spearman: 0.7481 | Val spearman: 0.6678 | best: 0.6754
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=44.9553, val_loss=54.9735
+train spearman: 0.7530 | Val spearman: 0.6762 | best: 0.6762
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 18]  lr=3.46e-04, train_loss=44.5117, val_loss=52.4375
+train spearman: 0.7563 | Val spearman: 0.6906 | best: 0.6906
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 19]  lr=2.97e-04, train_loss=43.3261, val_loss=55.9967
+train spearman: 0.7636 | Val spearman: 0.6715 | best: 0.6906
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 20]  lr=2.51e-04, train_loss=42.8910, val_loss=54.3235
+train spearman: 0.7658 | Val spearman: 0.6817 | best: 0.6906
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 21]  lr=2.07e-04, train_loss=42.0247, val_loss=53.4244
+train spearman: 0.7713 | Val spearman: 0.6858 | best: 0.6906
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 22]  lr=1.66e-04, train_loss=41.4709, val_loss=54.4166
+train spearman: 0.7749 | Val spearman: 0.6813 | best: 0.6906
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 23]  lr=1.29e-04, train_loss=40.9582, val_loss=54.0974
+train spearman: 0.7775 | Val spearman: 0.6834 | best: 0.6906
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 24]  lr=9.64e-05, train_loss=40.5198, val_loss=54.6741
+train spearman: 0.7804 | Val spearman: 0.6813 | best: 0.6906
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 25]  lr=6.79e-05, train_loss=40.0934, val_loss=52.3502
+train spearman: 0.7833 | Val spearman: 0.6932 | best: 0.6932
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 26]  lr=4.42e-05, train_loss=39.6038, val_loss=52.0788
+train spearman: 0.7860 | Val spearman: 0.6930 | best: 0.6932
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 27]  lr=2.54e-05, train_loss=39.4074, val_loss=53.2565
+train spearman: 0.7875 | Val spearman: 0.6872 | best: 0.6932
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 28]  lr=1.19e-05, train_loss=39.0987, val_loss=52.2384
+train spearman: 0.7891 | Val spearman: 0.6935 | best: 0.6935
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 29]  lr=3.74e-06, train_loss=39.0382, val_loss=51.4897
+train spearman: 0.7896 | Val spearman: 0.6971 | best: 0.6971
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 30]  lr=1.00e-06, train_loss=38.9891, val_loss=52.1350
+train spearman: 0.7899 | Val spearman: 0.6940 | best: 0.6971
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 31]  lr=3.74e-06, train_loss=38.9026, val_loss=52.1510
+train spearman: 0.7902 | Val spearman: 0.6936 | best: 0.6971
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 32]  lr=1.19e-05, train_loss=39.0318, val_loss=52.3120
+train spearman: 0.7895 | Val spearman: 0.6926 | best: 0.6971
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 33]  lr=2.54e-05, train_loss=38.9754, val_loss=53.6794
+train spearman: 0.7899 | Val spearman: 0.6872 | best: 0.6971
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 34]  lr=4.42e-05, train_loss=38.9695, val_loss=51.6419
+train spearman: 0.7899 | Val spearman: 0.6973 | best: 0.6973
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 35]  lr=6.79e-05, train_loss=39.0940, val_loss=51.4488
+train spearman: 0.7893 | Val spearman: 0.6979 | best: 0.6979
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 36]  lr=9.64e-05, train_loss=39.0763, val_loss=52.0581
+train spearman: 0.7895 | Val spearman: 0.6946 | best: 0.6979
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 37]  lr=1.29e-04, train_loss=39.1296, val_loss=51.1183
+train spearman: 0.7891 | Val spearman: 0.7002 | best: 0.7002
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 38]  lr=1.66e-04, train_loss=39.2299, val_loss=53.2678
+train spearman: 0.7886 | Val spearman: 0.6899 | best: 0.7002
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 39]  lr=2.07e-04, train_loss=39.3574, val_loss=53.0530
+train spearman: 0.7880 | Val spearman: 0.6898 | best: 0.7002
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 40]  lr=2.51e-04, train_loss=39.2284, val_loss=51.4567
+train spearman: 0.7891 | Val spearman: 0.6985 | best: 0.7002
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 41]  lr=2.97e-04, train_loss=39.4772, val_loss=51.5144
+train spearman: 0.7872 | Val spearman: 0.6972 | best: 0.7002
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 42]  lr=3.46e-04, train_loss=39.3732, val_loss=51.8613
+train spearman: 0.7889 | Val spearman: 0.6995 | best: 0.7002
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 43]  lr=3.97e-04, train_loss=39.7588, val_loss=55.9636
+train spearman: 0.7863 | Val spearman: 0.6780 | best: 0.7002
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 44]  lr=4.48e-04, train_loss=39.3746, val_loss=52.2010
+train spearman: 0.7884 | Val spearman: 0.6934 | best: 0.7002
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/only_tile/fold3/best_model.pt!
+[Epoch 45]  lr=5.00e-04, train_loss=39.6973, val_loss=48.4582
+train spearman: 0.7868 | Val spearman: 0.7155 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 46]  lr=5.53e-04, train_loss=39.8990, val_loss=59.5198
+train spearman: 0.7853 | Val spearman: 0.6614 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 47]  lr=6.04e-04, train_loss=39.7070, val_loss=51.5185
+train spearman: 0.7875 | Val spearman: 0.6988 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 48]  lr=6.55e-04, train_loss=39.7002, val_loss=52.9415
+train spearman: 0.7870 | Val spearman: 0.6943 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 49]  lr=7.04e-04, train_loss=39.4512, val_loss=59.6966
+train spearman: 0.7886 | Val spearman: 0.6617 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 50]  lr=7.50e-04, train_loss=40.2556, val_loss=61.6693
+train spearman: 0.7836 | Val spearman: 0.6424 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 51]  lr=7.94e-04, train_loss=39.4068, val_loss=52.4175
+train spearman: 0.7885 | Val spearman: 0.6950 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 52]  lr=8.35e-04, train_loss=38.9899, val_loss=54.6068
+train spearman: 0.7912 | Val spearman: 0.6837 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 53]  lr=8.72e-04, train_loss=39.1480, val_loss=50.8968
+train spearman: 0.7904 | Val spearman: 0.7026 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 54]  lr=9.05e-04, train_loss=38.5988, val_loss=55.9135
+train spearman: 0.7933 | Val spearman: 0.6756 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 55]  lr=9.33e-04, train_loss=38.8636, val_loss=49.6608
+train spearman: 0.7917 | Val spearman: 0.7065 | best: 0.7155
+Figure(1400x800)
+save plots in output_folder/only_tile/fold3/loss_curve.png
+⛔ early stop
+📈 Fold 3 best ρ = 0.7155
+
+=========== CV summary ===========
+fold 0: best ρ = 0.7398
+fold 1: best ρ = 0.7678
+fold 2: best ρ = 0.7654
+fold 3: best ρ = 0.7155
+overall best (mean) ρ = 0.7471 ± 0.0213
+⚠️ 從 '<class 'list'>' 推斷樣本數量: 2088
+Model forward signature: (tile, subtiles)
+✅ Saved fold 0 predictions to output_folder/only_tile/submission_fold0.csv
+✅ Saved fold 1 predictions to output_folder/only_tile/submission_fold1.csv
+✅ Saved fold 2 predictions to output_folder/only_tile/submission_fold2.csv
+✅ Saved fold 3 predictions to output_folder/only_tile/submission_fold3.csv
+✅ Saved rank‐ensemble submission to output_folder/only_tile/submission_rank_ensemble.csv
+Trainable / total params = 2,411,427 / 2,411,427
+Loaded keys: dict_keys(['subtiles', 'slide_idx', 'position', 'label', 'source_idx', 'tile'])
+Samples: 8090
+✅ device: cuda
+Starting fold 0
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=81.9026, val_loss=68.9476
+train spearman: 0.5430 | Val spearman: 0.5637 | best: 0.5637
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=62.6040, val_loss=57.0773
+train spearman: 0.6386 | Val spearman: 0.6550 | best: 0.6550
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=57.1979, val_loss=53.2879
+train spearman: 0.6752 | Val spearman: 0.6853 | best: 0.6853
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=54.3395, val_loss=48.8846
+train spearman: 0.6939 | Val spearman: 0.7098 | best: 0.7098
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 5]  lr=9.33e-04, train_loss=52.5321, val_loss=49.7321
+train spearman: 0.7031 | Val spearman: 0.7108 | best: 0.7108
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 6]  lr=9.05e-04, train_loss=51.5920, val_loss=47.7364
+train spearman: 0.7108 | Val spearman: 0.7232 | best: 0.7232
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 7]  lr=8.72e-04, train_loss=50.6721, val_loss=49.3490
+train spearman: 0.7151 | Val spearman: 0.7146 | best: 0.7232
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 8]  lr=8.35e-04, train_loss=49.5972, val_loss=47.1776
+train spearman: 0.7224 | Val spearman: 0.7244 | best: 0.7244
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 9]  lr=7.94e-04, train_loss=48.5802, val_loss=50.0243
+train spearman: 0.7289 | Val spearman: 0.7133 | best: 0.7244
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 10]  lr=7.50e-04, train_loss=47.8437, val_loss=48.3539
+train spearman: 0.7337 | Val spearman: 0.7148 | best: 0.7244
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 11]  lr=7.04e-04, train_loss=47.1024, val_loss=46.8569
+train spearman: 0.7387 | Val spearman: 0.7265 | best: 0.7265
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 12]  lr=6.55e-04, train_loss=46.2755, val_loss=47.1692
+train spearman: 0.7433 | Val spearman: 0.7249 | best: 0.7265
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 13]  lr=6.04e-04, train_loss=45.5948, val_loss=45.6275
+train spearman: 0.7475 | Val spearman: 0.7370 | best: 0.7370
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 14]  lr=5.53e-04, train_loss=44.9974, val_loss=47.0939
+train spearman: 0.7513 | Val spearman: 0.7221 | best: 0.7370
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 15]  lr=5.00e-04, train_loss=44.4819, val_loss=46.4407
+train spearman: 0.7548 | Val spearman: 0.7266 | best: 0.7370
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 16]  lr=4.48e-04, train_loss=43.7622, val_loss=44.7065
+train spearman: 0.7590 | Val spearman: 0.7391 | best: 0.7391
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=43.2648, val_loss=44.8618
+train spearman: 0.7622 | Val spearman: 0.7395 | best: 0.7395
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 18]  lr=3.46e-04, train_loss=42.4904, val_loss=47.0125
+train spearman: 0.7666 | Val spearman: 0.7249 | best: 0.7395
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 19]  lr=2.97e-04, train_loss=41.9034, val_loss=44.9717
+train spearman: 0.7707 | Val spearman: 0.7375 | best: 0.7395
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 20]  lr=2.51e-04, train_loss=41.5290, val_loss=44.8920
+train spearman: 0.7731 | Val spearman: 0.7388 | best: 0.7395
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 21]  lr=2.07e-04, train_loss=41.0149, val_loss=44.7599
+train spearman: 0.7758 | Val spearman: 0.7391 | best: 0.7395
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 22]  lr=1.66e-04, train_loss=40.4442, val_loss=45.0337
+train spearman: 0.7794 | Val spearman: 0.7367 | best: 0.7395
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 23]  lr=1.29e-04, train_loss=40.0347, val_loss=45.2469
+train spearman: 0.7821 | Val spearman: 0.7356 | best: 0.7395
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold0/best_model.pt!
+[Epoch 24]  lr=9.64e-05, train_loss=39.7873, val_loss=44.4664
+train spearman: 0.7835 | Val spearman: 0.7403 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 25]  lr=6.79e-05, train_loss=39.5660, val_loss=45.1692
+train spearman: 0.7848 | Val spearman: 0.7355 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 26]  lr=4.42e-05, train_loss=39.2066, val_loss=45.0604
+train spearman: 0.7869 | Val spearman: 0.7360 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 27]  lr=2.54e-05, train_loss=39.0925, val_loss=45.0986
+train spearman: 0.7876 | Val spearman: 0.7356 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 28]  lr=1.19e-05, train_loss=38.7838, val_loss=44.9191
+train spearman: 0.7898 | Val spearman: 0.7378 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 29]  lr=3.74e-06, train_loss=38.7076, val_loss=45.0590
+train spearman: 0.7901 | Val spearman: 0.7363 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 30]  lr=1.00e-06, train_loss=38.6165, val_loss=44.6217
+train spearman: 0.7908 | Val spearman: 0.7393 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 31]  lr=3.74e-06, train_loss=38.6894, val_loss=44.9153
+train spearman: 0.7904 | Val spearman: 0.7369 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 32]  lr=1.19e-05, train_loss=38.5637, val_loss=44.7409
+train spearman: 0.7911 | Val spearman: 0.7387 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 33]  lr=2.54e-05, train_loss=38.5948, val_loss=44.7175
+train spearman: 0.7908 | Val spearman: 0.7385 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 34]  lr=4.42e-05, train_loss=38.5877, val_loss=44.9425
+train spearman: 0.7906 | Val spearman: 0.7376 | best: 0.7403
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold0/loss_curve.png
+⛔ early stop
+📈 Fold 0 best ρ = 0.7403
+Starting fold 1
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=80.6043, val_loss=66.6097
+train spearman: 0.5479 | Val spearman: 0.5884 | best: 0.5884
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=65.5544, val_loss=62.8161
+train spearman: 0.6140 | Val spearman: 0.6143 | best: 0.6143
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=62.2980, val_loss=54.6566
+train spearman: 0.6359 | Val spearman: 0.6745 | best: 0.6745
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=58.7878, val_loss=53.6158
+train spearman: 0.6610 | Val spearman: 0.6820 | best: 0.6820
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 5]  lr=9.33e-04, train_loss=55.5148, val_loss=51.6427
+train spearman: 0.6836 | Val spearman: 0.6934 | best: 0.6934
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 6]  lr=9.05e-04, train_loss=53.7231, val_loss=48.9679
+train spearman: 0.6947 | Val spearman: 0.7130 | best: 0.7130
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 7]  lr=8.72e-04, train_loss=52.6791, val_loss=63.7258
+train spearman: 0.7023 | Val spearman: 0.6089 | best: 0.7130
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 8]  lr=8.35e-04, train_loss=51.9073, val_loss=50.0020
+train spearman: 0.7069 | Val spearman: 0.7184 | best: 0.7184
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 9]  lr=7.94e-04, train_loss=51.1284, val_loss=53.2646
+train spearman: 0.7115 | Val spearman: 0.6935 | best: 0.7184
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 10]  lr=7.50e-04, train_loss=50.3959, val_loss=46.8355
+train spearman: 0.7165 | Val spearman: 0.7284 | best: 0.7284
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 11]  lr=7.04e-04, train_loss=49.6153, val_loss=53.6332
+train spearman: 0.7218 | Val spearman: 0.6848 | best: 0.7284
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=49.1642, val_loss=46.5681
+train spearman: 0.7240 | Val spearman: 0.7313 | best: 0.7313
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 13]  lr=6.04e-04, train_loss=48.1837, val_loss=47.1668
+train spearman: 0.7301 | Val spearman: 0.7290 | best: 0.7313
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 14]  lr=5.53e-04, train_loss=47.7925, val_loss=45.2299
+train spearman: 0.7330 | Val spearman: 0.7402 | best: 0.7402
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 15]  lr=5.00e-04, train_loss=47.2522, val_loss=50.0355
+train spearman: 0.7364 | Val spearman: 0.7089 | best: 0.7402
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 16]  lr=4.48e-04, train_loss=46.2902, val_loss=47.5881
+train spearman: 0.7426 | Val spearman: 0.7226 | best: 0.7402
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 17]  lr=3.97e-04, train_loss=45.5800, val_loss=45.4569
+train spearman: 0.7471 | Val spearman: 0.7388 | best: 0.7402
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 18]  lr=3.46e-04, train_loss=44.8178, val_loss=43.0640
+train spearman: 0.7514 | Val spearman: 0.7549 | best: 0.7549
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 19]  lr=2.97e-04, train_loss=44.0474, val_loss=45.1132
+train spearman: 0.7567 | Val spearman: 0.7412 | best: 0.7549
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 20]  lr=2.51e-04, train_loss=43.3456, val_loss=42.5793
+train spearman: 0.7613 | Val spearman: 0.7548 | best: 0.7549
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 21]  lr=2.07e-04, train_loss=42.6507, val_loss=42.7206
+train spearman: 0.7654 | Val spearman: 0.7565 | best: 0.7565
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 22]  lr=1.66e-04, train_loss=41.9998, val_loss=42.7921
+train spearman: 0.7697 | Val spearman: 0.7553 | best: 0.7565
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 23]  lr=1.29e-04, train_loss=41.5896, val_loss=41.3912
+train spearman: 0.7721 | Val spearman: 0.7631 | best: 0.7631
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 24]  lr=9.64e-05, train_loss=40.6790, val_loss=43.8044
+train spearman: 0.7782 | Val spearman: 0.7472 | best: 0.7631
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 25]  lr=6.79e-05, train_loss=40.3950, val_loss=42.5569
+train spearman: 0.7800 | Val spearman: 0.7551 | best: 0.7631
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 26]  lr=4.42e-05, train_loss=39.8800, val_loss=41.2567
+train spearman: 0.7830 | Val spearman: 0.7637 | best: 0.7637
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 27]  lr=2.54e-05, train_loss=39.5749, val_loss=42.2504
+train spearman: 0.7854 | Val spearman: 0.7574 | best: 0.7637
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 28]  lr=1.19e-05, train_loss=39.5158, val_loss=42.6425
+train spearman: 0.7855 | Val spearman: 0.7543 | best: 0.7637
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 29]  lr=3.74e-06, train_loss=39.3134, val_loss=42.3345
+train spearman: 0.7869 | Val spearman: 0.7565 | best: 0.7637
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 30]  lr=1.00e-06, train_loss=39.1681, val_loss=42.7614
+train spearman: 0.7875 | Val spearman: 0.7535 | best: 0.7637
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 31]  lr=3.74e-06, train_loss=39.2512, val_loss=42.3657
+train spearman: 0.7871 | Val spearman: 0.7562 | best: 0.7637
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold1/best_model.pt!
+[Epoch 32]  lr=1.19e-05, train_loss=39.0418, val_loss=41.0998
+train spearman: 0.7884 | Val spearman: 0.7645 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 33]  lr=2.54e-05, train_loss=39.2358, val_loss=41.8488
+train spearman: 0.7869 | Val spearman: 0.7592 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 34]  lr=4.42e-05, train_loss=39.2363, val_loss=42.8577
+train spearman: 0.7871 | Val spearman: 0.7533 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 35]  lr=6.79e-05, train_loss=39.3614, val_loss=43.0792
+train spearman: 0.7865 | Val spearman: 0.7521 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 36]  lr=9.64e-05, train_loss=39.4499, val_loss=42.2392
+train spearman: 0.7863 | Val spearman: 0.7576 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 37]  lr=1.29e-04, train_loss=39.4289, val_loss=43.7820
+train spearman: 0.7861 | Val spearman: 0.7474 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 38]  lr=1.66e-04, train_loss=39.4993, val_loss=42.1121
+train spearman: 0.7860 | Val spearman: 0.7589 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 39]  lr=2.07e-04, train_loss=39.4621, val_loss=42.6618
+train spearman: 0.7865 | Val spearman: 0.7558 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 40]  lr=2.51e-04, train_loss=39.3391, val_loss=41.8846
+train spearman: 0.7871 | Val spearman: 0.7603 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 41]  lr=2.97e-04, train_loss=39.3804, val_loss=41.5130
+train spearman: 0.7873 | Val spearman: 0.7623 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 42]  lr=3.46e-04, train_loss=39.5850, val_loss=50.1637
+train spearman: 0.7858 | Val spearman: 0.7074 | best: 0.7645
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold1/loss_curve.png
+⛔ early stop
+📈 Fold 1 best ρ = 0.7645
+Starting fold 2
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=82.5186, val_loss=59.0997
+train spearman: 0.5319 | Val spearman: 0.6415 | best: 0.6415
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=63.3791, val_loss=51.7618
+train spearman: 0.6328 | Val spearman: 0.6898 | best: 0.6898
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=57.4767, val_loss=49.8626
+train spearman: 0.6733 | Val spearman: 0.7061 | best: 0.7061
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=54.5882, val_loss=47.5620
+train spearman: 0.6910 | Val spearman: 0.7230 | best: 0.7230
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 5]  lr=9.33e-04, train_loss=53.1133, val_loss=48.3263
+train spearman: 0.6998 | Val spearman: 0.7185 | best: 0.7230
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 6]  lr=9.05e-04, train_loss=51.8194, val_loss=47.8691
+train spearman: 0.7075 | Val spearman: 0.7159 | best: 0.7230
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=50.7324, val_loss=47.5816
+train spearman: 0.7154 | Val spearman: 0.7260 | best: 0.7260
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 8]  lr=8.35e-04, train_loss=49.5784, val_loss=47.4165
+train spearman: 0.7222 | Val spearman: 0.7193 | best: 0.7260
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 9]  lr=7.94e-04, train_loss=48.8527, val_loss=47.4072
+train spearman: 0.7273 | Val spearman: 0.7218 | best: 0.7260
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 10]  lr=7.50e-04, train_loss=48.0348, val_loss=46.2614
+train spearman: 0.7321 | Val spearman: 0.7437 | best: 0.7437
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 11]  lr=7.04e-04, train_loss=47.1397, val_loss=44.7144
+train spearman: 0.7377 | Val spearman: 0.7421 | best: 0.7437
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 12]  lr=6.55e-04, train_loss=46.5974, val_loss=46.4415
+train spearman: 0.7415 | Val spearman: 0.7298 | best: 0.7437
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 13]  lr=6.04e-04, train_loss=45.7921, val_loss=43.3938
+train spearman: 0.7462 | Val spearman: 0.7516 | best: 0.7516
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 14]  lr=5.53e-04, train_loss=45.1493, val_loss=46.9156
+train spearman: 0.7500 | Val spearman: 0.7240 | best: 0.7516
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 15]  lr=5.00e-04, train_loss=44.3422, val_loss=44.7854
+train spearman: 0.7549 | Val spearman: 0.7371 | best: 0.7516
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 16]  lr=4.48e-04, train_loss=43.6524, val_loss=43.0817
+train spearman: 0.7597 | Val spearman: 0.7528 | best: 0.7528
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 17]  lr=3.97e-04, train_loss=43.2543, val_loss=42.9476
+train spearman: 0.7620 | Val spearman: 0.7522 | best: 0.7528
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 18]  lr=3.46e-04, train_loss=42.8386, val_loss=44.2080
+train spearman: 0.7644 | Val spearman: 0.7433 | best: 0.7528
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 19]  lr=2.97e-04, train_loss=42.1471, val_loss=42.6417
+train spearman: 0.7690 | Val spearman: 0.7558 | best: 0.7558
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 20]  lr=2.51e-04, train_loss=41.6076, val_loss=44.0842
+train spearman: 0.7722 | Val spearman: 0.7443 | best: 0.7558
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 21]  lr=2.07e-04, train_loss=41.2397, val_loss=44.0401
+train spearman: 0.7744 | Val spearman: 0.7441 | best: 0.7558
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold2/best_model.pt!
+[Epoch 22]  lr=1.66e-04, train_loss=40.6984, val_loss=42.2782
+train spearman: 0.7777 | Val spearman: 0.7560 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 23]  lr=1.29e-04, train_loss=40.3485, val_loss=43.5636
+train spearman: 0.7798 | Val spearman: 0.7476 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 24]  lr=9.64e-05, train_loss=39.8397, val_loss=42.2862
+train spearman: 0.7827 | Val spearman: 0.7554 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 25]  lr=6.79e-05, train_loss=39.4721, val_loss=43.1855
+train spearman: 0.7854 | Val spearman: 0.7500 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 26]  lr=4.42e-05, train_loss=39.1318, val_loss=43.1889
+train spearman: 0.7872 | Val spearman: 0.7500 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 27]  lr=2.54e-05, train_loss=39.0920, val_loss=42.8149
+train spearman: 0.7878 | Val spearman: 0.7523 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 28]  lr=1.19e-05, train_loss=38.8019, val_loss=43.0106
+train spearman: 0.7897 | Val spearman: 0.7514 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 29]  lr=3.74e-06, train_loss=38.9526, val_loss=42.7922
+train spearman: 0.7887 | Val spearman: 0.7526 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 30]  lr=1.00e-06, train_loss=38.7978, val_loss=42.7441
+train spearman: 0.7896 | Val spearman: 0.7530 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 31]  lr=3.74e-06, train_loss=38.6299, val_loss=42.3663
+train spearman: 0.7908 | Val spearman: 0.7554 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 32]  lr=1.19e-05, train_loss=38.6798, val_loss=42.9123
+train spearman: 0.7903 | Val spearman: 0.7518 | best: 0.7560
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold2/loss_curve.png
+⛔ early stop
+📈 Fold 2 best ρ = 0.7560
+Starting fold 3
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=79.6023, val_loss=79.8397
+train spearman: 0.5521 | Val spearman: 0.5583 | best: 0.5583
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=61.5268, val_loss=64.1685
+train spearman: 0.6461 | Val spearman: 0.6288 | best: 0.6288
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=55.7212, val_loss=60.1992
+train spearman: 0.6853 | Val spearman: 0.6419 | best: 0.6419
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=53.1210, val_loss=64.0416
+train spearman: 0.7018 | Val spearman: 0.6602 | best: 0.6602
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 5]  lr=9.33e-04, train_loss=51.4229, val_loss=56.2308
+train spearman: 0.7128 | Val spearman: 0.6738 | best: 0.6738
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 6]  lr=9.05e-04, train_loss=49.5019, val_loss=58.6314
+train spearman: 0.7240 | Val spearman: 0.6515 | best: 0.6738
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 7]  lr=8.72e-04, train_loss=48.3933, val_loss=63.0637
+train spearman: 0.7315 | Val spearman: 0.6578 | best: 0.6738
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 8]  lr=8.35e-04, train_loss=47.5909, val_loss=59.9617
+train spearman: 0.7354 | Val spearman: 0.6475 | best: 0.6738
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 9]  lr=7.94e-04, train_loss=46.6623, val_loss=63.9496
+train spearman: 0.7422 | Val spearman: 0.6412 | best: 0.6738
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 10]  lr=7.50e-04, train_loss=45.8307, val_loss=60.3772
+train spearman: 0.7476 | Val spearman: 0.6663 | best: 0.6738
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 11]  lr=7.04e-04, train_loss=44.6829, val_loss=51.8180
+train spearman: 0.7545 | Val spearman: 0.6928 | best: 0.6928
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=44.0460, val_loss=51.8595
+train spearman: 0.7576 | Val spearman: 0.6949 | best: 0.6949
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 13]  lr=6.04e-04, train_loss=43.2996, val_loss=54.5679
+train spearman: 0.7632 | Val spearman: 0.6820 | best: 0.6949
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 14]  lr=5.53e-04, train_loss=42.5830, val_loss=57.7337
+train spearman: 0.7666 | Val spearman: 0.6680 | best: 0.6949
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 15]  lr=5.00e-04, train_loss=41.8232, val_loss=51.3540
+train spearman: 0.7717 | Val spearman: 0.6992 | best: 0.6992
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 16]  lr=4.48e-04, train_loss=41.1118, val_loss=51.8545
+train spearman: 0.7761 | Val spearman: 0.6976 | best: 0.6992
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=40.7545, val_loss=49.1021
+train spearman: 0.7782 | Val spearman: 0.7116 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 18]  lr=3.46e-04, train_loss=40.0955, val_loss=50.7023
+train spearman: 0.7821 | Val spearman: 0.7012 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 19]  lr=2.97e-04, train_loss=39.6387, val_loss=50.8524
+train spearman: 0.7853 | Val spearman: 0.7038 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 20]  lr=2.51e-04, train_loss=38.8196, val_loss=49.8791
+train spearman: 0.7899 | Val spearman: 0.7075 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 21]  lr=2.07e-04, train_loss=38.4489, val_loss=52.4635
+train spearman: 0.7925 | Val spearman: 0.6930 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 22]  lr=1.66e-04, train_loss=37.9715, val_loss=50.2496
+train spearman: 0.7952 | Val spearman: 0.7071 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 23]  lr=1.29e-04, train_loss=37.7275, val_loss=50.9144
+train spearman: 0.7973 | Val spearman: 0.7021 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 24]  lr=9.64e-05, train_loss=37.1209, val_loss=51.8996
+train spearman: 0.8005 | Val spearman: 0.6978 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 25]  lr=6.79e-05, train_loss=36.8379, val_loss=49.8532
+train spearman: 0.8023 | Val spearman: 0.7099 | best: 0.7116
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_sub_center/fold3/best_model.pt!
+[Epoch 26]  lr=4.42e-05, train_loss=36.3993, val_loss=48.1475
+train spearman: 0.8048 | Val spearman: 0.7193 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 27]  lr=2.54e-05, train_loss=36.2576, val_loss=49.0938
+train spearman: 0.8056 | Val spearman: 0.7143 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 28]  lr=1.19e-05, train_loss=36.0826, val_loss=49.9098
+train spearman: 0.8068 | Val spearman: 0.7097 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 29]  lr=3.74e-06, train_loss=35.9604, val_loss=48.9741
+train spearman: 0.8076 | Val spearman: 0.7150 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 30]  lr=1.00e-06, train_loss=35.9010, val_loss=50.0677
+train spearman: 0.8078 | Val spearman: 0.7080 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 31]  lr=3.74e-06, train_loss=35.8940, val_loss=51.5334
+train spearman: 0.8079 | Val spearman: 0.7006 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 32]  lr=1.19e-05, train_loss=35.9526, val_loss=49.2672
+train spearman: 0.8077 | Val spearman: 0.7133 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 33]  lr=2.54e-05, train_loss=35.9428, val_loss=48.9570
+train spearman: 0.8076 | Val spearman: 0.7145 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 34]  lr=4.42e-05, train_loss=35.9309, val_loss=50.9282
+train spearman: 0.8077 | Val spearman: 0.7045 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 35]  lr=6.79e-05, train_loss=36.0868, val_loss=49.0938
+train spearman: 0.8066 | Val spearman: 0.7144 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 36]  lr=9.64e-05, train_loss=35.9694, val_loss=48.7560
+train spearman: 0.8078 | Val spearman: 0.7161 | best: 0.7193
+Figure(1400x800)
+save plots in output_folder/2_scale_sub_center/fold3/loss_curve.png
+⛔ early stop
+📈 Fold 3 best ρ = 0.7193
+
+=========== CV summary ===========
+fold 0: best ρ = 0.7403
+fold 1: best ρ = 0.7645
+fold 2: best ρ = 0.7560
+fold 3: best ρ = 0.7193
+overall best (mean) ρ = 0.7450 ± 0.0172
+⚠️ 從 '<class 'list'>' 推斷樣本數量: 2088
+Model forward signature: (tile, subtiles)
+✅ Saved fold 0 predictions to output_folder/2_scale_sub_center/submission_fold0.csv
+✅ Saved fold 1 predictions to output_folder/2_scale_sub_center/submission_fold1.csv
+✅ Saved fold 2 predictions to output_folder/2_scale_sub_center/submission_fold2.csv
+✅ Saved fold 3 predictions to output_folder/2_scale_sub_center/submission_fold3.csv
+✅ Saved rank‐ensemble submission to output_folder/2_scale_sub_center/submission_rank_ensemble.csv
+Trainable / total params = 5,495,971 / 5,495,971
+Loaded keys: dict_keys(['position', 'label', 'tile', 'subtiles', 'slide_idx', 'source_idx'])
+Samples: 8090
+✅ device: cuda
+Starting fold 0
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=82.6187, val_loss=69.4762
+train spearman: 0.5387 | Val spearman: 0.5586 | best: 0.5586
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=64.6755, val_loss=63.2243
+train spearman: 0.6277 | Val spearman: 0.6165 | best: 0.6165
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=59.8754, val_loss=59.7934
+train spearman: 0.6565 | Val spearman: 0.6314 | best: 0.6314
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=56.9756, val_loss=54.3030
+train spearman: 0.6747 | Val spearman: 0.6701 | best: 0.6701
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 5]  lr=9.33e-04, train_loss=54.6883, val_loss=62.3666
+train spearman: 0.6912 | Val spearman: 0.6351 | best: 0.6701
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 6]  lr=9.05e-04, train_loss=52.9462, val_loss=61.2724
+train spearman: 0.7016 | Val spearman: 0.6156 | best: 0.6701
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=51.7830, val_loss=50.4091
+train spearman: 0.7087 | Val spearman: 0.7062 | best: 0.7062
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 8]  lr=8.35e-04, train_loss=50.6270, val_loss=51.5597
+train spearman: 0.7160 | Val spearman: 0.6981 | best: 0.7062
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 9]  lr=7.94e-04, train_loss=49.9183, val_loss=48.0400
+train spearman: 0.7205 | Val spearman: 0.7171 | best: 0.7171
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 10]  lr=7.50e-04, train_loss=48.6910, val_loss=47.7316
+train spearman: 0.7283 | Val spearman: 0.7185 | best: 0.7185
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 11]  lr=7.04e-04, train_loss=47.7957, val_loss=50.4649
+train spearman: 0.7335 | Val spearman: 0.7084 | best: 0.7185
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=47.4074, val_loss=46.8329
+train spearman: 0.7362 | Val spearman: 0.7291 | best: 0.7291
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 13]  lr=6.04e-04, train_loss=46.4823, val_loss=49.0269
+train spearman: 0.7419 | Val spearman: 0.7115 | best: 0.7291
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 14]  lr=5.53e-04, train_loss=45.7424, val_loss=49.3003
+train spearman: 0.7466 | Val spearman: 0.7113 | best: 0.7291
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 15]  lr=5.00e-04, train_loss=45.0078, val_loss=47.3736
+train spearman: 0.7514 | Val spearman: 0.7234 | best: 0.7291
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 16]  lr=4.48e-04, train_loss=44.1068, val_loss=48.5450
+train spearman: 0.7571 | Val spearman: 0.7157 | best: 0.7291
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=43.2629, val_loss=46.8499
+train spearman: 0.7627 | Val spearman: 0.7294 | best: 0.7294
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 18]  lr=3.46e-04, train_loss=42.8363, val_loss=47.4844
+train spearman: 0.7652 | Val spearman: 0.7232 | best: 0.7294
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 19]  lr=2.97e-04, train_loss=42.0279, val_loss=47.7237
+train spearman: 0.7703 | Val spearman: 0.7227 | best: 0.7294
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 20]  lr=2.51e-04, train_loss=41.2582, val_loss=47.7314
+train spearman: 0.7752 | Val spearman: 0.7209 | best: 0.7294
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 21]  lr=2.07e-04, train_loss=40.4661, val_loss=46.5063
+train spearman: 0.7800 | Val spearman: 0.7296 | best: 0.7296
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 22]  lr=1.66e-04, train_loss=39.7879, val_loss=47.3675
+train spearman: 0.7846 | Val spearman: 0.7238 | best: 0.7296
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 23]  lr=1.29e-04, train_loss=39.2710, val_loss=47.1875
+train spearman: 0.7880 | Val spearman: 0.7259 | best: 0.7296
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold0/best_model.pt!
+[Epoch 24]  lr=9.64e-05, train_loss=38.5885, val_loss=46.4290
+train spearman: 0.7919 | Val spearman: 0.7297 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 25]  lr=6.79e-05, train_loss=38.3780, val_loss=46.7446
+train spearman: 0.7934 | Val spearman: 0.7280 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 26]  lr=4.42e-05, train_loss=37.6439, val_loss=46.9980
+train spearman: 0.7980 | Val spearman: 0.7258 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 27]  lr=2.54e-05, train_loss=37.5054, val_loss=46.8851
+train spearman: 0.7986 | Val spearman: 0.7267 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 28]  lr=1.19e-05, train_loss=37.2069, val_loss=46.4300
+train spearman: 0.8002 | Val spearman: 0.7291 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 29]  lr=3.74e-06, train_loss=37.0546, val_loss=46.9179
+train spearman: 0.8014 | Val spearman: 0.7265 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 30]  lr=1.00e-06, train_loss=37.0376, val_loss=46.8254
+train spearman: 0.8018 | Val spearman: 0.7270 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 31]  lr=3.74e-06, train_loss=37.1453, val_loss=47.0279
+train spearman: 0.8008 | Val spearman: 0.7258 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 32]  lr=1.19e-05, train_loss=37.1164, val_loss=46.7328
+train spearman: 0.8010 | Val spearman: 0.7272 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 33]  lr=2.54e-05, train_loss=37.1866, val_loss=46.9821
+train spearman: 0.8008 | Val spearman: 0.7259 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 34]  lr=4.42e-05, train_loss=37.1434, val_loss=46.6401
+train spearman: 0.8012 | Val spearman: 0.7278 | best: 0.7297
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold0/loss_curve.png
+⛔ early stop
+📈 Fold 0 best ρ = 0.7297
+Starting fold 1
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=80.7360, val_loss=59.4617
+train spearman: 0.5616 | Val spearman: 0.6391 | best: 0.6391
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 2]  lr=9.89e-04, train_loss=63.9016, val_loss=75.9996
+train spearman: 0.6284 | Val spearman: 0.5051 | best: 0.6391
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=59.8222, val_loss=57.7412
+train spearman: 0.6559 | Val spearman: 0.6705 | best: 0.6705
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=56.0180, val_loss=49.0401
+train spearman: 0.6827 | Val spearman: 0.7143 | best: 0.7143
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 5]  lr=9.33e-04, train_loss=54.2281, val_loss=59.7861
+train spearman: 0.6927 | Val spearman: 0.6412 | best: 0.7143
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 6]  lr=9.05e-04, train_loss=52.9327, val_loss=49.0963
+train spearman: 0.7014 | Val spearman: 0.7138 | best: 0.7143
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=51.9716, val_loss=48.3340
+train spearman: 0.7072 | Val spearman: 0.7288 | best: 0.7288
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 8]  lr=8.35e-04, train_loss=50.9327, val_loss=53.0314
+train spearman: 0.7141 | Val spearman: 0.6897 | best: 0.7288
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 9]  lr=7.94e-04, train_loss=50.1816, val_loss=47.9042
+train spearman: 0.7178 | Val spearman: 0.7270 | best: 0.7288
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 10]  lr=7.50e-04, train_loss=49.6940, val_loss=48.2456
+train spearman: 0.7216 | Val spearman: 0.7213 | best: 0.7288
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 11]  lr=7.04e-04, train_loss=49.0738, val_loss=47.6862
+train spearman: 0.7250 | Val spearman: 0.7270 | best: 0.7288
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=48.3423, val_loss=46.2079
+train spearman: 0.7295 | Val spearman: 0.7359 | best: 0.7359
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 13]  lr=6.04e-04, train_loss=47.5520, val_loss=44.4711
+train spearman: 0.7341 | Val spearman: 0.7445 | best: 0.7445
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 14]  lr=5.53e-04, train_loss=46.9109, val_loss=45.4137
+train spearman: 0.7382 | Val spearman: 0.7431 | best: 0.7445
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 15]  lr=5.00e-04, train_loss=46.3873, val_loss=43.4725
+train spearman: 0.7411 | Val spearman: 0.7547 | best: 0.7547
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 16]  lr=4.48e-04, train_loss=45.5401, val_loss=42.0107
+train spearman: 0.7467 | Val spearman: 0.7586 | best: 0.7586
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 17]  lr=3.97e-04, train_loss=45.1375, val_loss=44.7862
+train spearman: 0.7498 | Val spearman: 0.7420 | best: 0.7586
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 18]  lr=3.46e-04, train_loss=44.4481, val_loss=42.0489
+train spearman: 0.7533 | Val spearman: 0.7600 | best: 0.7600
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 19]  lr=2.97e-04, train_loss=43.8014, val_loss=41.5857
+train spearman: 0.7575 | Val spearman: 0.7624 | best: 0.7624
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 20]  lr=2.51e-04, train_loss=43.3106, val_loss=41.5888
+train spearman: 0.7609 | Val spearman: 0.7610 | best: 0.7624
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 21]  lr=2.07e-04, train_loss=42.6347, val_loss=42.6351
+train spearman: 0.7649 | Val spearman: 0.7560 | best: 0.7624
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold1/best_model.pt!
+[Epoch 22]  lr=1.66e-04, train_loss=42.4042, val_loss=39.9820
+train spearman: 0.7662 | Val spearman: 0.7735 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 23]  lr=1.29e-04, train_loss=41.7367, val_loss=42.3539
+train spearman: 0.7702 | Val spearman: 0.7576 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 24]  lr=9.64e-05, train_loss=41.5587, val_loss=43.2794
+train spearman: 0.7713 | Val spearman: 0.7500 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 25]  lr=6.79e-05, train_loss=41.1825, val_loss=41.2893
+train spearman: 0.7736 | Val spearman: 0.7638 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 26]  lr=4.42e-05, train_loss=40.8180, val_loss=44.3898
+train spearman: 0.7761 | Val spearman: 0.7418 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 27]  lr=2.54e-05, train_loss=40.6003, val_loss=41.3905
+train spearman: 0.7776 | Val spearman: 0.7628 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 28]  lr=1.19e-05, train_loss=40.3244, val_loss=41.4047
+train spearman: 0.7792 | Val spearman: 0.7639 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 29]  lr=3.74e-06, train_loss=40.2816, val_loss=40.8459
+train spearman: 0.7796 | Val spearman: 0.7669 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 30]  lr=1.00e-06, train_loss=40.1625, val_loss=43.5644
+train spearman: 0.7804 | Val spearman: 0.7482 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 31]  lr=3.74e-06, train_loss=40.2373, val_loss=40.7269
+train spearman: 0.7798 | Val spearman: 0.7675 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 32]  lr=1.19e-05, train_loss=40.1570, val_loss=41.0191
+train spearman: 0.7802 | Val spearman: 0.7657 | best: 0.7735
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold1/loss_curve.png
+⛔ early stop
+📈 Fold 1 best ρ = 0.7735
+Starting fold 2
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=79.7215, val_loss=55.3403
+train spearman: 0.5620 | Val spearman: 0.6824 | best: 0.6824
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=64.5423, val_loss=53.3893
+train spearman: 0.6274 | Val spearman: 0.6847 | best: 0.6847
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=61.1587, val_loss=48.9023
+train spearman: 0.6488 | Val spearman: 0.7150 | best: 0.7150
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=56.4178, val_loss=45.7290
+train spearman: 0.6810 | Val spearman: 0.7324 | best: 0.7324
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 5]  lr=9.33e-04, train_loss=54.2150, val_loss=53.7854
+train spearman: 0.6943 | Val spearman: 0.6796 | best: 0.7324
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 6]  lr=9.05e-04, train_loss=53.3785, val_loss=52.2376
+train spearman: 0.6990 | Val spearman: 0.6853 | best: 0.7324
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 7]  lr=8.72e-04, train_loss=52.1911, val_loss=54.7737
+train spearman: 0.7063 | Val spearman: 0.6782 | best: 0.7324
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 8]  lr=8.35e-04, train_loss=51.4064, val_loss=45.0668
+train spearman: 0.7112 | Val spearman: 0.7394 | best: 0.7394
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 9]  lr=7.94e-04, train_loss=50.6033, val_loss=44.2492
+train spearman: 0.7163 | Val spearman: 0.7468 | best: 0.7468
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 10]  lr=7.50e-04, train_loss=49.9947, val_loss=45.1658
+train spearman: 0.7198 | Val spearman: 0.7458 | best: 0.7468
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 11]  lr=7.04e-04, train_loss=49.0003, val_loss=46.3437
+train spearman: 0.7262 | Val spearman: 0.7369 | best: 0.7468
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=48.0074, val_loss=44.1239
+train spearman: 0.7327 | Val spearman: 0.7491 | best: 0.7491
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 13]  lr=6.04e-04, train_loss=47.3270, val_loss=43.3561
+train spearman: 0.7372 | Val spearman: 0.7494 | best: 0.7494
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 14]  lr=5.53e-04, train_loss=46.3089, val_loss=45.1480
+train spearman: 0.7437 | Val spearman: 0.7389 | best: 0.7494
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 15]  lr=5.00e-04, train_loss=45.7386, val_loss=43.7760
+train spearman: 0.7468 | Val spearman: 0.7448 | best: 0.7494
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 16]  lr=4.48e-04, train_loss=44.9911, val_loss=43.6847
+train spearman: 0.7520 | Val spearman: 0.7514 | best: 0.7514
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 17]  lr=3.97e-04, train_loss=43.9810, val_loss=43.1869
+train spearman: 0.7583 | Val spearman: 0.7503 | best: 0.7514
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold2/best_model.pt!
+[Epoch 18]  lr=3.46e-04, train_loss=43.4867, val_loss=41.9047
+train spearman: 0.7618 | Val spearman: 0.7634 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 19]  lr=2.97e-04, train_loss=42.7753, val_loss=44.2944
+train spearman: 0.7661 | Val spearman: 0.7433 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 20]  lr=2.51e-04, train_loss=42.1014, val_loss=45.9141
+train spearman: 0.7703 | Val spearman: 0.7326 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 21]  lr=2.07e-04, train_loss=41.4927, val_loss=44.3618
+train spearman: 0.7738 | Val spearman: 0.7412 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 22]  lr=1.66e-04, train_loss=40.8819, val_loss=43.2033
+train spearman: 0.7779 | Val spearman: 0.7506 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 23]  lr=1.29e-04, train_loss=40.2276, val_loss=41.1630
+train spearman: 0.7819 | Val spearman: 0.7626 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 24]  lr=9.64e-05, train_loss=39.8582, val_loss=41.2632
+train spearman: 0.7839 | Val spearman: 0.7616 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 25]  lr=6.79e-05, train_loss=39.4846, val_loss=41.4078
+train spearman: 0.7863 | Val spearman: 0.7611 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 26]  lr=4.42e-05, train_loss=39.2661, val_loss=41.4528
+train spearman: 0.7879 | Val spearman: 0.7604 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 27]  lr=2.54e-05, train_loss=38.7575, val_loss=42.3814
+train spearman: 0.7909 | Val spearman: 0.7548 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 28]  lr=1.19e-05, train_loss=38.6530, val_loss=42.5462
+train spearman: 0.7917 | Val spearman: 0.7542 | best: 0.7634
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold2/loss_curve.png
+⛔ early stop
+📈 Fold 2 best ρ = 0.7634
+Starting fold 3
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=85.6508, val_loss=68.3398
+train spearman: 0.5152 | Val spearman: 0.5834 | best: 0.5834
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 2]  lr=9.89e-04, train_loss=74.3520, val_loss=75.3156
+train spearman: 0.5483 | Val spearman: 0.5822 | best: 0.5834
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=67.9292, val_loss=66.0934
+train spearman: 0.5950 | Val spearman: 0.6071 | best: 0.6071
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=61.0478, val_loss=59.7276
+train spearman: 0.6452 | Val spearman: 0.6391 | best: 0.6391
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 5]  lr=9.33e-04, train_loss=56.5208, val_loss=58.3220
+train spearman: 0.6782 | Val spearman: 0.6539 | best: 0.6539
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 6]  lr=9.05e-04, train_loss=53.7576, val_loss=60.4707
+train spearman: 0.6970 | Val spearman: 0.6445 | best: 0.6539
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 7]  lr=8.72e-04, train_loss=52.1004, val_loss=62.4195
+train spearman: 0.7066 | Val spearman: 0.6362 | best: 0.6539
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 8]  lr=8.35e-04, train_loss=51.5786, val_loss=58.3753
+train spearman: 0.7099 | Val spearman: 0.6520 | best: 0.6539
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 9]  lr=7.94e-04, train_loss=50.6564, val_loss=59.3624
+train spearman: 0.7153 | Val spearman: 0.6489 | best: 0.6539
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 10]  lr=7.50e-04, train_loss=49.5514, val_loss=57.5723
+train spearman: 0.7231 | Val spearman: 0.6566 | best: 0.6566
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 11]  lr=7.04e-04, train_loss=48.6898, val_loss=58.3309
+train spearman: 0.7286 | Val spearman: 0.6623 | best: 0.6623
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=47.7335, val_loss=57.4916
+train spearman: 0.7349 | Val spearman: 0.6655 | best: 0.6655
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 13]  lr=6.04e-04, train_loss=47.0681, val_loss=53.8267
+train spearman: 0.7387 | Val spearman: 0.6832 | best: 0.6832
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 14]  lr=5.53e-04, train_loss=46.3812, val_loss=52.7992
+train spearman: 0.7427 | Val spearman: 0.6866 | best: 0.6866
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 15]  lr=5.00e-04, train_loss=45.7480, val_loss=58.7052
+train spearman: 0.7465 | Val spearman: 0.6538 | best: 0.6866
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 16]  lr=4.48e-04, train_loss=45.0098, val_loss=52.1696
+train spearman: 0.7518 | Val spearman: 0.6916 | best: 0.6916
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 17]  lr=3.97e-04, train_loss=44.1607, val_loss=53.1106
+train spearman: 0.7568 | Val spearman: 0.6868 | best: 0.6916
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 18]  lr=3.46e-04, train_loss=43.5743, val_loss=55.8496
+train spearman: 0.7602 | Val spearman: 0.6717 | best: 0.6916
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 19]  lr=2.97e-04, train_loss=42.9367, val_loss=55.5600
+train spearman: 0.7641 | Val spearman: 0.6778 | best: 0.6916
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_sub/fold3/best_model.pt!
+[Epoch 20]  lr=2.51e-04, train_loss=42.1521, val_loss=51.3557
+train spearman: 0.7693 | Val spearman: 0.6991 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 21]  lr=2.07e-04, train_loss=41.4017, val_loss=52.8506
+train spearman: 0.7740 | Val spearman: 0.6875 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 22]  lr=1.66e-04, train_loss=40.9242, val_loss=53.0349
+train spearman: 0.7766 | Val spearman: 0.6876 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 23]  lr=1.29e-04, train_loss=40.3458, val_loss=53.2862
+train spearman: 0.7805 | Val spearman: 0.6866 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 24]  lr=9.64e-05, train_loss=39.7536, val_loss=55.2474
+train spearman: 0.7844 | Val spearman: 0.6758 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 25]  lr=6.79e-05, train_loss=39.2414, val_loss=51.6782
+train spearman: 0.7873 | Val spearman: 0.6942 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 26]  lr=4.42e-05, train_loss=38.9190, val_loss=52.0436
+train spearman: 0.7894 | Val spearman: 0.6931 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 27]  lr=2.54e-05, train_loss=38.6434, val_loss=51.9113
+train spearman: 0.7910 | Val spearman: 0.6931 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 28]  lr=1.19e-05, train_loss=38.3329, val_loss=53.1319
+train spearman: 0.7930 | Val spearman: 0.6873 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 29]  lr=3.74e-06, train_loss=38.1983, val_loss=53.0195
+train spearman: 0.7938 | Val spearman: 0.6881 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 30]  lr=1.00e-06, train_loss=38.3405, val_loss=52.1852
+train spearman: 0.7930 | Val spearman: 0.6922 | best: 0.6991
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_sub/fold3/loss_curve.png
+⛔ early stop
+📈 Fold 3 best ρ = 0.6991
+
+=========== CV summary ===========
+fold 0: best ρ = 0.7297
+fold 1: best ρ = 0.7735
+fold 2: best ρ = 0.7634
+fold 3: best ρ = 0.6991
+overall best (mean) ρ = 0.7414 ± 0.0293
+⚠️ 從 '<class 'list'>' 推斷樣本數量: 2088
+Model forward signature: (tile, subtiles)
+✅ Saved fold 0 predictions to output_folder/2_scale_tile_sub/submission_fold0.csv
+✅ Saved fold 1 predictions to output_folder/2_scale_tile_sub/submission_fold1.csv
+✅ Saved fold 2 predictions to output_folder/2_scale_tile_sub/submission_fold2.csv
+✅ Saved fold 3 predictions to output_folder/2_scale_tile_sub/submission_fold3.csv
+✅ Saved rank‐ensemble submission to output_folder/2_scale_tile_sub/submission_rank_ensemble.csv
+Trainable / total params = 5,495,971 / 5,495,971
+Loaded keys: dict_keys(['slide_idx', 'source_idx', 'subtiles', 'label', 'tile', 'position'])
+Samples: 8090
+✅ device: cuda
+Starting fold 0
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=79.9769, val_loss=72.9234
+train spearman: 0.5584 | Val spearman: 0.5595 | best: 0.5595
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=64.8101, val_loss=62.5288
+train spearman: 0.6253 | Val spearman: 0.6201 | best: 0.6201
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=59.4910, val_loss=53.1408
+train spearman: 0.6593 | Val spearman: 0.6908 | best: 0.6908
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 4]  lr=9.57e-04, train_loss=55.7144, val_loss=61.3784
+train spearman: 0.6850 | Val spearman: 0.6201 | best: 0.6908
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 5]  lr=9.33e-04, train_loss=53.5769, val_loss=52.8384
+train spearman: 0.6978 | Val spearman: 0.6911 | best: 0.6911
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 6]  lr=9.05e-04, train_loss=52.0259, val_loss=50.1294
+train spearman: 0.7080 | Val spearman: 0.7092 | best: 0.7092
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=50.9310, val_loss=47.7569
+train spearman: 0.7141 | Val spearman: 0.7218 | best: 0.7218
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 8]  lr=8.35e-04, train_loss=50.0360, val_loss=56.7872
+train spearman: 0.7203 | Val spearman: 0.6611 | best: 0.7218
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 9]  lr=7.94e-04, train_loss=49.0628, val_loss=48.0644
+train spearman: 0.7265 | Val spearman: 0.7173 | best: 0.7218
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 10]  lr=7.50e-04, train_loss=48.3103, val_loss=50.0849
+train spearman: 0.7306 | Val spearman: 0.7124 | best: 0.7218
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 11]  lr=7.04e-04, train_loss=47.0291, val_loss=46.1495
+train spearman: 0.7389 | Val spearman: 0.7330 | best: 0.7330
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 12]  lr=6.55e-04, train_loss=45.8193, val_loss=47.8626
+train spearman: 0.7474 | Val spearman: 0.7193 | best: 0.7330
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 13]  lr=6.04e-04, train_loss=44.7456, val_loss=48.1407
+train spearman: 0.7537 | Val spearman: 0.7195 | best: 0.7330
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 14]  lr=5.53e-04, train_loss=44.0297, val_loss=48.0048
+train spearman: 0.7589 | Val spearman: 0.7175 | best: 0.7330
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 15]  lr=5.00e-04, train_loss=43.0580, val_loss=47.8031
+train spearman: 0.7641 | Val spearman: 0.7207 | best: 0.7330
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 16]  lr=4.48e-04, train_loss=42.0835, val_loss=47.8336
+train spearman: 0.7708 | Val spearman: 0.7198 | best: 0.7330
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=41.2820, val_loss=45.6925
+train spearman: 0.7757 | Val spearman: 0.7331 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold0/best_model.pt!
+[Epoch 18]  lr=3.46e-04, train_loss=40.3582, val_loss=46.2347
+train spearman: 0.7811 | Val spearman: 0.7331 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 19]  lr=2.97e-04, train_loss=39.3231, val_loss=46.9142
+train spearman: 0.7879 | Val spearman: 0.7265 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 20]  lr=2.51e-04, train_loss=38.6657, val_loss=46.6589
+train spearman: 0.7921 | Val spearman: 0.7280 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 21]  lr=2.07e-04, train_loss=37.8429, val_loss=47.5280
+train spearman: 0.7970 | Val spearman: 0.7229 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 22]  lr=1.66e-04, train_loss=37.0054, val_loss=46.0768
+train spearman: 0.8019 | Val spearman: 0.7320 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 23]  lr=1.29e-04, train_loss=36.5428, val_loss=46.1736
+train spearman: 0.8048 | Val spearman: 0.7315 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 24]  lr=9.64e-05, train_loss=35.8351, val_loss=47.5984
+train spearman: 0.8091 | Val spearman: 0.7229 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 25]  lr=6.79e-05, train_loss=35.5491, val_loss=46.6855
+train spearman: 0.8110 | Val spearman: 0.7289 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 26]  lr=4.42e-05, train_loss=35.0262, val_loss=47.7255
+train spearman: 0.8138 | Val spearman: 0.7233 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 27]  lr=2.54e-05, train_loss=34.8435, val_loss=47.1322
+train spearman: 0.8154 | Val spearman: 0.7265 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 28]  lr=1.19e-05, train_loss=34.5222, val_loss=47.0198
+train spearman: 0.8172 | Val spearman: 0.7271 | best: 0.7331
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold0/loss_curve.png
+⛔ early stop
+📈 Fold 0 best ρ = 0.7331
+Starting fold 1
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=82.5436, val_loss=66.1103
+train spearman: 0.5344 | Val spearman: 0.5924 | best: 0.5924
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=64.9728, val_loss=54.1519
+train spearman: 0.6191 | Val spearman: 0.6804 | best: 0.6804
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=57.5975, val_loss=51.3938
+train spearman: 0.6714 | Val spearman: 0.6966 | best: 0.6966
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 4]  lr=9.57e-04, train_loss=54.0501, val_loss=55.0297
+train spearman: 0.6940 | Val spearman: 0.6691 | best: 0.6966
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 5]  lr=9.33e-04, train_loss=52.9809, val_loss=51.5855
+train spearman: 0.7009 | Val spearman: 0.6994 | best: 0.6994
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 6]  lr=9.05e-04, train_loss=51.4283, val_loss=51.1278
+train spearman: 0.7104 | Val spearman: 0.6970 | best: 0.6994
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=50.4388, val_loss=45.5983
+train spearman: 0.7161 | Val spearman: 0.7358 | best: 0.7358
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 8]  lr=8.35e-04, train_loss=49.3103, val_loss=49.6651
+train spearman: 0.7247 | Val spearman: 0.7132 | best: 0.7358
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 9]  lr=7.94e-04, train_loss=48.3178, val_loss=43.5314
+train spearman: 0.7301 | Val spearman: 0.7478 | best: 0.7478
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 10]  lr=7.50e-04, train_loss=47.1764, val_loss=45.8108
+train spearman: 0.7373 | Val spearman: 0.7379 | best: 0.7478
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 11]  lr=7.04e-04, train_loss=46.2797, val_loss=44.5205
+train spearman: 0.7433 | Val spearman: 0.7436 | best: 0.7478
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=45.4876, val_loss=44.3601
+train spearman: 0.7482 | Val spearman: 0.7481 | best: 0.7481
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 13]  lr=6.04e-04, train_loss=44.5123, val_loss=43.0082
+train spearman: 0.7543 | Val spearman: 0.7543 | best: 0.7543
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 14]  lr=5.53e-04, train_loss=43.6155, val_loss=46.9389
+train spearman: 0.7597 | Val spearman: 0.7266 | best: 0.7543
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 15]  lr=5.00e-04, train_loss=42.6611, val_loss=47.4901
+train spearman: 0.7661 | Val spearman: 0.7246 | best: 0.7543
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 16]  lr=4.48e-04, train_loss=41.9669, val_loss=43.4603
+train spearman: 0.7704 | Val spearman: 0.7503 | best: 0.7543
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold1/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=41.1620, val_loss=39.6322
+train spearman: 0.7752 | Val spearman: 0.7748 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 18]  lr=3.46e-04, train_loss=40.2223, val_loss=41.9872
+train spearman: 0.7813 | Val spearman: 0.7599 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 19]  lr=2.97e-04, train_loss=39.3736, val_loss=41.0991
+train spearman: 0.7870 | Val spearman: 0.7670 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 20]  lr=2.51e-04, train_loss=38.5497, val_loss=41.1032
+train spearman: 0.7919 | Val spearman: 0.7650 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 21]  lr=2.07e-04, train_loss=37.9775, val_loss=41.5849
+train spearman: 0.7953 | Val spearman: 0.7631 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 22]  lr=1.66e-04, train_loss=37.0657, val_loss=40.8937
+train spearman: 0.8014 | Val spearman: 0.7673 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 23]  lr=1.29e-04, train_loss=36.5917, val_loss=39.9846
+train spearman: 0.8040 | Val spearman: 0.7729 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 24]  lr=9.64e-05, train_loss=36.0473, val_loss=44.6718
+train spearman: 0.8073 | Val spearman: 0.7429 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 25]  lr=6.79e-05, train_loss=35.6895, val_loss=42.0826
+train spearman: 0.8096 | Val spearman: 0.7586 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 26]  lr=4.42e-05, train_loss=35.2370, val_loss=42.8096
+train spearman: 0.8126 | Val spearman: 0.7553 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 27]  lr=2.54e-05, train_loss=35.0021, val_loss=41.1897
+train spearman: 0.8140 | Val spearman: 0.7647 | best: 0.7748
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold1/loss_curve.png
+⛔ early stop
+📈 Fold 1 best ρ = 0.7748
+Starting fold 2
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=84.7728, val_loss=67.8367
+train spearman: 0.5189 | Val spearman: 0.5785 | best: 0.5785
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 2]  lr=9.89e-04, train_loss=71.7919, val_loss=65.8784
+train spearman: 0.5678 | Val spearman: 0.5928 | best: 0.5928
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=63.1213, val_loss=48.8898
+train spearman: 0.6324 | Val spearman: 0.7117 | best: 0.7117
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=57.4037, val_loss=47.5814
+train spearman: 0.6722 | Val spearman: 0.7244 | best: 0.7244
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 5]  lr=9.33e-04, train_loss=54.7681, val_loss=49.1627
+train spearman: 0.6894 | Val spearman: 0.7165 | best: 0.7244
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 6]  lr=9.05e-04, train_loss=53.1183, val_loss=47.2038
+train spearman: 0.6994 | Val spearman: 0.7263 | best: 0.7263
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=52.1752, val_loss=45.3533
+train spearman: 0.7055 | Val spearman: 0.7344 | best: 0.7344
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 8]  lr=8.35e-04, train_loss=50.5902, val_loss=47.6803
+train spearman: 0.7161 | Val spearman: 0.7206 | best: 0.7344
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 9]  lr=7.94e-04, train_loss=49.3565, val_loss=46.4464
+train spearman: 0.7237 | Val spearman: 0.7288 | best: 0.7344
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 10]  lr=7.50e-04, train_loss=48.2844, val_loss=47.7693
+train spearman: 0.7305 | Val spearman: 0.7176 | best: 0.7344
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 11]  lr=7.04e-04, train_loss=47.3432, val_loss=43.8595
+train spearman: 0.7369 | Val spearman: 0.7455 | best: 0.7455
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=46.6514, val_loss=42.8596
+train spearman: 0.7419 | Val spearman: 0.7511 | best: 0.7511
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 13]  lr=6.04e-04, train_loss=45.3968, val_loss=44.1748
+train spearman: 0.7496 | Val spearman: 0.7428 | best: 0.7511
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold2/best_model.pt!
+[Epoch 14]  lr=5.53e-04, train_loss=44.6584, val_loss=42.7601
+train spearman: 0.7543 | Val spearman: 0.7542 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 15]  lr=5.00e-04, train_loss=43.9258, val_loss=44.8143
+train spearman: 0.7587 | Val spearman: 0.7394 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 16]  lr=4.48e-04, train_loss=42.9550, val_loss=44.4051
+train spearman: 0.7652 | Val spearman: 0.7430 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 17]  lr=3.97e-04, train_loss=42.1310, val_loss=43.7280
+train spearman: 0.7697 | Val spearman: 0.7460 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 18]  lr=3.46e-04, train_loss=41.2177, val_loss=43.5586
+train spearman: 0.7759 | Val spearman: 0.7460 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 19]  lr=2.97e-04, train_loss=40.4133, val_loss=45.3121
+train spearman: 0.7802 | Val spearman: 0.7369 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 20]  lr=2.51e-04, train_loss=39.4569, val_loss=44.5880
+train spearman: 0.7866 | Val spearman: 0.7419 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 21]  lr=2.07e-04, train_loss=38.8584, val_loss=43.6261
+train spearman: 0.7903 | Val spearman: 0.7485 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 22]  lr=1.66e-04, train_loss=38.1436, val_loss=44.2220
+train spearman: 0.7951 | Val spearman: 0.7447 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 23]  lr=1.29e-04, train_loss=37.6224, val_loss=44.1888
+train spearman: 0.7981 | Val spearman: 0.7457 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 24]  lr=9.64e-05, train_loss=37.3138, val_loss=43.3399
+train spearman: 0.7999 | Val spearman: 0.7499 | best: 0.7542
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold2/loss_curve.png
+⛔ early stop
+📈 Fold 2 best ρ = 0.7542
+Starting fold 3
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 1]  lr=9.97e-04, train_loss=86.5318, val_loss=88.5947
+train spearman: 0.5126 | Val spearman: 0.5985 | best: 0.5985
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 2]  lr=9.89e-04, train_loss=67.6557, val_loss=79.4125
+train spearman: 0.6039 | Val spearman: 0.5881 | best: 0.5985
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 3]  lr=9.76e-04, train_loss=61.1019, val_loss=58.6415
+train spearman: 0.6458 | Val spearman: 0.6446 | best: 0.6446
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 4]  lr=9.57e-04, train_loss=55.8612, val_loss=59.0325
+train spearman: 0.6820 | Val spearman: 0.6491 | best: 0.6491
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 5]  lr=9.33e-04, train_loss=53.0419, val_loss=56.3075
+train spearman: 0.7004 | Val spearman: 0.6655 | best: 0.6655
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 6]  lr=9.05e-04, train_loss=51.4023, val_loss=59.7559
+train spearman: 0.7112 | Val spearman: 0.6540 | best: 0.6655
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 7]  lr=8.72e-04, train_loss=50.1303, val_loss=56.8347
+train spearman: 0.7200 | Val spearman: 0.6690 | best: 0.6690
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 8]  lr=8.35e-04, train_loss=48.8280, val_loss=53.8597
+train spearman: 0.7277 | Val spearman: 0.6793 | best: 0.6793
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 9]  lr=7.94e-04, train_loss=47.5373, val_loss=55.3128
+train spearman: 0.7355 | Val spearman: 0.6756 | best: 0.6793
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 10]  lr=7.50e-04, train_loss=46.5287, val_loss=60.4297
+train spearman: 0.7426 | Val spearman: 0.6519 | best: 0.6793
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 11]  lr=7.04e-04, train_loss=46.0929, val_loss=55.6090
+train spearman: 0.7460 | Val spearman: 0.6718 | best: 0.6793
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 12]  lr=6.55e-04, train_loss=44.7387, val_loss=54.6026
+train spearman: 0.7538 | Val spearman: 0.6805 | best: 0.6805
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 13]  lr=6.04e-04, train_loss=43.9685, val_loss=58.5646
+train spearman: 0.7589 | Val spearman: 0.6610 | best: 0.6805
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 14]  lr=5.53e-04, train_loss=42.9307, val_loss=54.2269
+train spearman: 0.7650 | Val spearman: 0.6865 | best: 0.6865
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 15]  lr=5.00e-04, train_loss=42.1632, val_loss=52.0730
+train spearman: 0.7703 | Val spearman: 0.6925 | best: 0.6925
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 16]  lr=4.48e-04, train_loss=41.4339, val_loss=54.7525
+train spearman: 0.7748 | Val spearman: 0.6851 | best: 0.6925
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2K✅ Saved best model in output_folder/2_scale_tile_center/fold3/best_model.pt!
+[Epoch 17]  lr=3.97e-04, train_loss=40.4786, val_loss=51.1183
+train spearman: 0.7812 | Val spearman: 0.7035 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 1/10
+[Epoch 18]  lr=3.46e-04, train_loss=39.7666, val_loss=51.7087
+train spearman: 0.7853 | Val spearman: 0.6939 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 2/10
+[Epoch 19]  lr=2.97e-04, train_loss=38.9003, val_loss=53.9592
+train spearman: 0.7908 | Val spearman: 0.6861 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 3/10
+[Epoch 20]  lr=2.51e-04, train_loss=38.2700, val_loss=52.1455
+train spearman: 0.7943 | Val spearman: 0.6959 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 4/10
+[Epoch 21]  lr=2.07e-04, train_loss=37.1993, val_loss=53.4618
+train spearman: 0.8010 | Val spearman: 0.6889 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 5/10
+[Epoch 22]  lr=1.66e-04, train_loss=36.7240, val_loss=52.2641
+train spearman: 0.8040 | Val spearman: 0.6945 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 6/10
+[Epoch 23]  lr=1.29e-04, train_loss=36.0148, val_loss=55.5783
+train spearman: 0.8083 | Val spearman: 0.6789 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 7/10
+[Epoch 24]  lr=9.64e-05, train_loss=35.5579, val_loss=53.1224
+train spearman: 0.8111 | Val spearman: 0.6919 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 8/10
+[Epoch 25]  lr=6.79e-05, train_loss=35.1407, val_loss=53.2386
+train spearman: 0.8136 | Val spearman: 0.6908 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 9/10
+[Epoch 26]  lr=4.42e-05, train_loss=34.8225, val_loss=51.3710
+train spearman: 0.8155 | Val spearman: 0.7009 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+[2K[2KEarlyStopping counter: 10/10
+[Epoch 27]  lr=2.54e-05, train_loss=34.6655, val_loss=55.1995
+train spearman: 0.8163 | Val spearman: 0.6797 | best: 0.7035
+Figure(1400x800)
+save plots in output_folder/2_scale_tile_center/fold3/loss_curve.png
+⛔ early stop
+📈 Fold 3 best ρ = 0.7035
+
+=========== CV summary ===========
+fold 0: best ρ = 0.7331
+fold 1: best ρ = 0.7748
+fold 2: best ρ = 0.7542
+fold 3: best ρ = 0.7035
+overall best (mean) ρ = 0.7414 ± 0.0264
+⚠️ 從 '<class 'list'>' 推斷樣本數量: 2088
+Model forward signature: (tile, subtiles)
+✅ Saved fold 0 predictions to output_folder/2_scale_tile_center/submission_fold0.csv
+✅ Saved fold 1 predictions to output_folder/2_scale_tile_center/submission_fold1.csv
+✅ Saved fold 2 predictions to output_folder/2_scale_tile_center/submission_fold2.csv
+✅ Saved fold 3 predictions to output_folder/2_scale_tile_center/submission_fold3.csv
+✅ Saved rank‐ensemble submission to output_folder/2_scale_tile_center/submission_rank_ensemble.csv
+Trainable / total params = 6,679,843 / 6,679,843
+Loaded keys: dict_keys(['slide_idx', 'label', 'position', 'subtiles', 'tile', 'source_idx'])
+Samples: 8090
+✅ device: cuda
+Starting fold 0
+Starting subseting...
+Starting augmenting...
+Starting importDataset...
+Starting DataLoader...
+Starting model...
+Figure(1400x800)
+Starting training...

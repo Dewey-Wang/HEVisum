@@ -385,25 +385,7 @@ def pairwise_logistic_loss(pred: torch.Tensor,
     # binary cross‐entropy with logits
     loss = F.binary_cross_entropy_with_logits(pd, labels, reduction='mean')
     return loss
-from torchsort import soft_rank
 
-def spearman_loss(pred, target):
-    pred = pred.cpu()
-    target = target.cpu()
-    
-    pred_ranks = soft_rank(pred, regularization_strength=1.0, regularization="l2")
-    target_ranks = soft_rank(target, regularization_strength=1.0, regularization="l2")
-
-
-    pred_centered = pred_ranks - pred_ranks.mean(dim=1, keepdim=True)
-    target_centered = target_ranks - target_ranks.mean(dim=1, keepdim=True)
-
-    covariance = (pred_centered * target_centered).sum(dim=1)
-    pred_std = torch.sqrt((pred_centered ** 2).sum(dim=1))
-    target_std = torch.sqrt((target_centered ** 2).sum(dim=1))
-    corr = covariance / (pred_std * target_std + 1e-8)
-
-    return 1 - corr.mean()
 
 def hybrid_loss(pred: torch.Tensor,
                 target: torch.Tensor,
@@ -437,9 +419,7 @@ def hybrid_loss(pred: torch.Tensor,
         weighting = 1.0 + target.abs()
         weighted_mse = weighting * mse
         loss = weighted_mse.mean()
-    elif loss_type == 'soft_rank':
-        rank_loss = spearman_loss(pred, target)
-        loss = (1 - alpha) * mse * 10 + alpha * rank_loss
+
     else:
         raise ValueError(f"Unsupported loss_type: {loss_type!r}")
 
