@@ -1,3 +1,4 @@
+import numpy as np
 def split_into_subtiles(tile, grid_size=3):
     """
     將 tile 切成 grid_size x grid_size 的 subtiles

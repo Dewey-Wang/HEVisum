@@ -472,9 +472,10 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
     
     for batch in pbar:
         inputs, label = make_input_to_device(model, batch, device)
+        out = model(**inputs)
+
         optimizer.zero_grad()
         
-        out = model(**inputs)
         loss = hybrid_loss(out, label, alpha=alpha, loss_type=loss_type)
         loss.backward()
         optimizer.step()
@@ -502,7 +503,6 @@ def train_one_epoch(model, dataloader, optimizer, device, current_epoch,
     avg_epoch_loss = total_loss / len(dataloader.dataset)
     return avg_epoch_loss, spot_avg
 
-from scipy.stats import rankdata
 
 def evaluate(model, dataloader, device, current_epoch,
              initial_alpha=0.3, final_alpha=0.8, target_epoch=15, method="linear", loss_type = 'pearson'):
@@ -526,6 +526,7 @@ def evaluate(model, dataloader, device, current_epoch,
         for batch in pbar:
             inputs, label = make_input_to_device(model, batch, device)
             out = model(**inputs)
+
             loss = hybrid_loss(out, label, alpha=alpha, loss_type=loss_type)
             batch_size = label.size(0)
             total_loss += loss.item() * batch_size
@@ -564,7 +565,137 @@ __all__ = [
     "get_model_inputs",
     "train_one_epoch",
     "evaluate",
+    "train_one_epoch_PFM",
+    "evaluate_PFM",
     "predict",
     "EarlyStopping",
     "plot_losses"
 ]
+
+# =======================
+# 改進版 train_one_epoch 與 evaluate
+# =======================
+
+def train_one_epoch_PFM(model, dataloader, optimizer, device, current_epoch,
+                    initial_alpha=0.3, final_alpha=0.9, target_epoch=15, method="linear", loss_type = 'pearson'):
+    """
+    訓練一個 epoch，使用動態 alpha 計算 hybrid loss。
+    僅保留必要參數：
+      - model, dataloader, optimizer, device, current_epoch, total_epochs
+    另外，使用預設: initial_alpha=0.3, final_alpha=0.8, 當 epoch >= target_epoch (預設50) 後 alpha 固定為 final_alpha，
+      且 beta 固定為 1.0，調度方法由 method 決定。
+    
+    :return: 平均 loss 與平均 Spearman 相關性
+    """
+    model.train()
+    total_loss = 0.0
+    all_preds, all_targets = [], []
+    pbar = tqdm(dataloader, desc="Training", leave=False)
+    
+    # 根據當前 epoch 計算動態 alpha
+    alpha = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
+    
+    for batch in pbar:
+        # inputs, label = make_input_to_device(model, batch, device)
+        # out = model(**inputs)
+        tile_emb, subtiles_emb, label = batch
+
+        tile_emb     = tile_emb.to(device)
+        subtiles_emb = subtiles_emb.to(device)
+        label        = label.to(device)
+
+        out = model(tile_emb, subtiles_emb)
+
+        optimizer.zero_grad()
+        
+        loss = hybrid_loss(out, label, alpha=alpha, loss_type=loss_type)
+        loss.backward()
+        optimizer.step()
+        
+        batch_size = label.size(0)
+        total_loss += loss.item() * batch_size
+        
+        all_preds.append(out.cpu())
+        all_targets.append(label.cpu())
+        
+        avg_loss = total_loss / ((pbar.n + 1) * dataloader.batch_size)
+        pbar.set_postfix(loss=loss.item(), avg=avg_loss)
+    
+    all_preds = torch.cat(all_preds).detach().numpy()
+    all_targets = torch.cat(all_targets).detach().numpy()
+    
+    # 計算每個 cell type 的 Spearman 相關，取平均
+    # 按 spot
+    spot_scores = [
+        spearmanr(all_preds[j], all_targets[j]).correlation
+        for j in range(all_preds.shape[0])
+    ]
+    spot_avg = np.nanmean(spot_scores)
+    
+    avg_epoch_loss = total_loss / len(dataloader.dataset)
+    return avg_epoch_loss, spot_avg
+
+from scipy.stats import rankdata
+
+def evaluate_PFM(model, dataloader, device, current_epoch,
+             initial_alpha=0.3, final_alpha=0.8, target_epoch=15, method="linear", loss_type = 'pearson'):
+    """
+    評估函數：使用與 train 一致的動態 alpha 計算 hybrid loss。
+    僅保留必要參數：
+    
+    :return: 平均 loss, 平均 Spearman, 每個 cell type 的 MSE 與 Spearman 值
+    """
+    model.eval()
+    total_loss = 0.0
+    preds, targets = [], []
+    total_mse = torch.zeros(35).to(device)  # 假設有 35 個 cell types
+    n_samples = 0
+    
+    # 根據當前 epoch 計算動態 alpha
+    alpha = get_alpha(current_epoch, initial_alpha, final_alpha, target_epoch, method)
+    
+    pbar = tqdm(dataloader, desc="Evaluating", leave=False)
+    with torch.no_grad():
+        for batch in pbar:
+            # inputs, label = make_input_to_device(model, batch, device)
+            # out = model(**inputs)
+            tile_emb, subtiles_emb, label = batch
+
+            tile_emb     = tile_emb.to(device)
+            subtiles_emb = subtiles_emb.to(device)
+            label        = label.to(device)
+
+            out = model(tile_emb, subtiles_emb)
+
+            loss = hybrid_loss(out, label, alpha=alpha, loss_type=loss_type)
+            batch_size = label.size(0)
+            total_loss += loss.item() * batch_size
+            preds.append(out.cpu())
+            targets.append(label.cpu())
+            loss_per_cell = ((out - label) ** 2).sum(dim=0)  # (35,)
+            total_mse += loss_per_cell
+            n_samples += batch_size
+            pbar.set_postfix(loss=loss.item())
+    
+    preds = torch.cat(preds).numpy()
+    targets = torch.cat(targets).numpy()
+    mse_per_cell = (total_mse / n_samples).cpu().numpy()
+
+    spot_scores = [
+            spearmanr(preds[j], targets[j]).correlation
+            for j in range(preds.shape[0])
+        ]
+    spearman_spot_avg = np.nanmean(spot_scores)
+    
+    # 先把矩阵按行（axis=1）做 spot 内 35 维的相对排序
+    preds_ranked   = np.apply_along_axis(lambda r: rankdata(r, method="ordinal"), 1, preds)
+    targets_ranked = np.apply_along_axis(lambda r: rankdata(r, method="ordinal"), 1, targets)
+
+     # Cell-type-level Spearman（直接对每一列算 Spearman）
+    spearman_per_cell = []
+    for j in range(preds.shape[1]):
+        corr = spearmanr(preds[:, j], targets[:, j]).correlation
+        spearman_per_cell.append(corr)
+    
+    avg_epoch_loss = total_loss / n_samples
+    return avg_epoch_loss, spearman_spot_avg, mse_per_cell, spearman_per_cell
